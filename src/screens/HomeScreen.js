@@ -9,7 +9,7 @@ const HomeScreen = () => {
     <View style={styles.container}>
       {/* <Spinner */}
       <View style={styles.wrapper}>
-        <Text>Hola usuario: , {userInfo.usuario}!</Text>
+        <Text>Hola de nuevo , {userInfo.usuario}!</Text>
       </View>
     </View>
   )
