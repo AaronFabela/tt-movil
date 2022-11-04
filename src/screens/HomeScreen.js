@@ -1,15 +1,27 @@
-import React, { useContext } from 'react'
-import { Text, View, StyleSheet } from 'react-native'
+import React, { useContext, useEffect } from 'react'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
+import { getCurrentLocation } from '../utils/helpers'
 
-const HomeScreen = () => {
-  const { userInfo } = useContext(AuthContext)
+const HomeScreen = ({ navigation }) => {
+  const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
 
+  useEffect(() => {
+    getCurrentLocation().then((response) => {
+      console.log(response)
+      setUbicacion(response.coords)
+    })
+  }, [])
   return (
     <View style={styles.container}>
       {/* <Spinner */}
       <View style={styles.wrapper}>
-        <Text>Hola de nuevo , {userInfo.usuario}!</Text>
+        <Text>Hola , {userInfo.usuario}!</Text>
+        <Text>Latitud, {ubicacion?.latitude}!</Text>
+        <Text>¿No tienes una cuenta?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Mapa')}>
+          <Text style={styles.link}>Ir al mapa</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )

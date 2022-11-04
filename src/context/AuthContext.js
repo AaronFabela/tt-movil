@@ -2,12 +2,14 @@ import axios from 'axios'
 import React, { createContext, useState } from 'react'
 import { API_URL } from '../api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getCurrentLocation } from '../utils/helpers'
 
 export const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [userInfo, setUserInfo] = useState({})
+  const [ubicacion, setUbicacion] = useState(null)
 
   const login = (usuario, password) => {
     console.log(usuario, password)
@@ -28,7 +30,9 @@ export const AuthProvider = ({ children }) => {
       })
   }
   return (
-    <AuthContext.Provider value={{ isLoading, userInfo, login }}>
+    <AuthContext.Provider
+      value={{ isLoading, userInfo, login, ubicacion, setUbicacion }}
+    >
       {children}
     </AuthContext.Provider>
   )

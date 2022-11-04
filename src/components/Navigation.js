@@ -6,6 +6,8 @@ import HomeScreen from '../screens/HomeScreen'
 import LoginScreen from '../screens/LoginScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 import { AuthContext } from '../context/AuthContext'
+import Perfil from '../screens/Perfil'
+import Map from '../screens/Map'
 
 const Stack = createNativeStackNavigator()
 
@@ -31,6 +33,16 @@ const Navigation = () => {
             />
           </>
         )}
+        <Stack.Screen
+          name='Perfil'
+          component={Perfil}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Mapa'
+          component={Map}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )
