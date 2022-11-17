@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Text, View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import HomeScreen from '../screens/HomeScreen'
+import Home from '../screens/Home'
 import LoginScreen from '../screens/auth/LoginScreen'
 import RegisterScreen from '../screens/auth/Register'
 import { AuthContext } from '../context/AuthContext'
@@ -18,7 +18,7 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {userInfo.login ? (
-          <Stack.Screen name='Home' component={HomeScreen} />
+          <Stack.Screen name='Home' component={Home} />
         ) : (
           <>
             <Stack.Screen

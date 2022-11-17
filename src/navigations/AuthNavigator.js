@@ -6,6 +6,7 @@ import routes from '../utils/routes'
 import Register from '../screens/auth/Register'
 import BottomTabNavigator from './BottomTabNavigator'
 import colors from '../utils/colors'
+import DrawerNavigator from './DrawerNavigator'
 
 const Stack = createStackNavigator()
 
@@ -22,7 +23,7 @@ const AuthNavigator = () => {
       <Stack.Screen name={routes.REGISTER} component={Register} />
       <Stack.Screen
         name={routes.HOME}
-        component={BottomTabNavigator}
+        component={DrawerNavigator}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

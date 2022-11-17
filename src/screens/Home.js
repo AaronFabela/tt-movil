@@ -4,7 +4,7 @@ import { AuthContext } from '../context/AuthContext'
 import { getCurrentLocation } from '../utils/helpers'
 import routes from '../utils/routes'
 
-const HomeScreen = ({ navigation }) => {
+const Home = ({ navigation }) => {
   const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
 
   useEffect(() => {
@@ -54,4 +54,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default HomeScreen
+export default Home
