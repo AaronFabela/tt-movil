@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import { getCurrentLocation } from '../utils/helpers'
+import routes from '../utils/routes'
 
 const HomeScreen = ({ navigation }) => {
   const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
@@ -19,7 +20,7 @@ const HomeScreen = ({ navigation }) => {
         <Text>Hola , {userInfo.usuario}!</Text>
         <Text>Latitud, {ubicacion?.latitude}!</Text>
         <Text>¿No tienes una cuenta?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Mapa')}>
+        <TouchableOpacity onPress={() => navigation.navigate(routes.MAP)}>
           <Text style={styles.link}>Ir al mapa</Text>
         </TouchableOpacity>
       </View>

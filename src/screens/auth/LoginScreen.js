@@ -7,7 +7,8 @@ import {
   View,
   StyleSheet,
 } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
+import { AuthContext } from '../../context/AuthContext'
+import routes from '../../utils/routes'
 
 const LoginScreen = ({ navigation }) => {
   const [usuario, setUsuario] = useState(null)
@@ -35,14 +36,15 @@ const LoginScreen = ({ navigation }) => {
 
         <Button
           title='Iniciar Sesión'
-          onPress={() => {
-            login(usuario, password)
-          }}
+          // onPress={() => {login(usuario, password)}}
+          onPress={() => navigation.navigate(routes.HOME)}
         />
 
         <View style={styles.noAccount}>
           <Text>¿No tienes una cuenta?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(routes.REGISTER)}
+          >
             <Text style={styles.link}>Register</Text>
           </TouchableOpacity>
         </View>
