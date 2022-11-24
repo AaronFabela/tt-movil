@@ -39,7 +39,7 @@ const Navigation = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name='Mapa'
+          name='Map'
           component={Map}
           options={{ headerShown: false }}
         />

@@ -1,30 +1,55 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import LoginScreen from '../screens/auth/LoginScreen'
-import routes from '../utils/routes'
-import Register from '../screens/auth/Register'
-import BottomTabNavigator from './BottomTabNavigator'
-import colors from '../utils/colors'
+import { Login, ForgotPassword, Register } from '../screens'
+import { COLORS, ROUTES } from '../constants'
 import DrawerNavigator from './DrawerNavigator'
+import ChatID from '../screens/home/ChatID'
 
 const Stack = createStackNavigator()
+// Navigator, Screen, Group
 
-const AuthNavigator = () => {
+function AuthNavigator() {
+  console.log(Stack)
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: { backgroundColor: colors.TURQUESA },
-        headerTintColor: 'white',
-        // headerShown: false,
-      }}
-    >
-      <Stack.Screen name={routes.LOGIN} component={LoginScreen} />
-      <Stack.Screen name={routes.REGISTER} component={Register} />
+    <Stack.Navigator screenOptions={{}} initialRouteName={ROUTES.LOGIN}>
       <Stack.Screen
-        name={routes.HOME}
+        name={ROUTES.FORGOT_PASSWORD}
+        component={ForgotPassword}
+        options={({ route }) => ({
+          headerTintColor: COLORS.white,
+          // headerBackTitle: 'Back',
+          headerBackTitleVisible: false,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+          },
+          title: route.params.userId,
+        })}
+      />
+      <Stack.Screen
+        name={ROUTES.LOGIN}
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name={ROUTES.REGISTER} component={Register} />
+      <Stack.Screen
+        name={ROUTES.HOME}
         component={DrawerNavigator}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name={ROUTES.CHAT_ID}
+        component={ChatID}
+        options={{
+          headerShown: true,
+          headerTitle: 'Chat ',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+            height: 100,
+            elevation: 25,
+            shadowColor: '#000',
+          },
+        }}
       />
     </Stack.Navigator>
   )

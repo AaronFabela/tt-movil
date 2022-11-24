@@ -7,7 +7,7 @@ const Tab = createBottomTabNavigator()
 export const BottomRab = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name='Home Scrren' component={Home} />
+      <Tab.Screen name='Home Screen' component={Home} />
     </Tab.Navigator>
   )
 }

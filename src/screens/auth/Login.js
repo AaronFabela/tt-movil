@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import {
+  Button,
   Text,
   TextInput,
   TouchableOpacity,
@@ -9,31 +10,21 @@ import {
 import { AuthContext } from '../../context/AuthContext'
 import routes from '../../utils/routes'
 import { COLORS } from '../../constants'
-import { useEffect } from 'react'
-import SelectDropdown from 'react-native-select-dropdown'
 import authService from '../../services/auth.service.'
 
-const Register = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [usuario, setUsuario] = useState(null)
   const [password, setPassword] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [rol, setRol] = useState(null)
-
-  const { isLoading, login } = useContext(AuthContext)
-  const roles = ['empleador', 'prestador']
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false })
-  }, [])
+  const { setUserInfo } = useContext(AuthContext)
 
   const handleLogin = async (e) => {
     try {
-      console.log('Hola')
-      const response = await authService.signup(usuario, email, password, rol)
+      const response = await authService.login(usuario, password)
       console.log(response)
-      // setUserInfo(response)
-      navigation.navigate(routes.LOGIN)
+      setUserInfo(response)
+      navigation.navigate(routes.HOME)
     } catch (error) {
-      console.log(error)
+      console.log(err)
     }
   }
 
@@ -45,16 +36,10 @@ const Register = ({ navigation }) => {
       </View>
       <View style={styles.bottom}>
         <View style={styles.wrapper}>
-          <Text style={styles.titulo}>Registar Usuario</Text>
+          <Text style={styles.titulo}>Iniciar Sesion</Text>
           <TextInput
             style={styles.input}
-            placeholder='Correo Electronico'
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Nuevo Usuario'
+            placeholder='Ingresar Usuario'
             value={usuario}
             onChangeText={(text) => setUsuario(text)}
           />
@@ -66,42 +51,20 @@ const Register = ({ navigation }) => {
             onChangeText={(text) => setPassword(text)}
             secureTextEntry
           />
-          <SelectDropdown
-            data={roles}
-            // defaultValueByIndex={1}
-            // defaultValue={'Egypt'}
-            onSelect={(selectedItem) => {
-              setRol(selectedItem)
-            }}
-            defaultButtonText={'Seleccion un Rol'}
-            buttonStyle={styles.dropdown1BtnStyle}
-            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-            // renderDropdownIcon={(isOpened) => {
-            //   return (
-            //     <FontAwesome
-            //       name={isOpened ? 'chevron-up' : 'chevron-down'}
-            //       color={'#444'}
-            //       size={18}
-            //     />
-            //   )
-            // }}
-            dropdownIconPosition={'right'}
-            dropdownStyle={styles.dropdown1DropdownStyle}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
           <TouchableOpacity
             onPress={(e) => handleLogin(e)}
             style={styles.boton}
           >
             <Text style={{ color: 'white', textAlign: 'center' }}>
-              Registrar
+              Iniciar Sesion
             </Text>
           </TouchableOpacity>
           <View style={styles.noAccount}>
-            <Text>Ya tengo cuenta</Text>
-            <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN)}>
-              <Text style={styles.link}> Iniciar Sesion</Text>
+            <Text>¿No tienes una cuenta?</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate(routes.REGISTER)}
+            >
+              <Text style={styles.link}> Registrar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -118,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   top: {
-    height: '20%',
+    height: '35%',
     width: '100%',
     backgroundColor: COLORS.primary,
     alignItems: 'center',
@@ -126,7 +89,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     paddingTop: 50,
-    height: '80%',
+    height: '65%',
     width: '100%',
     backgroundColor: 'white',
     alignItems: 'center',
@@ -158,28 +121,12 @@ const styles = StyleSheet.create({
     color: COLORS.turques,
   },
   boton: {
-    marginTop: 15,
     borderRadius: 15,
     paddingHorizontal: 14,
     paddingVertical: 10,
     backgroundColor: COLORS.primary,
     color: 'white',
   },
-  dropdown1BtnStyle: {
-    width: '100%',
-    height: 50,
-    backgroundColor: '#FFF',
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: '#bbb',
-  },
-  dropdown1BtnTxtStyle: { color: '#444', textAlign: 'left', fontSize: 15 },
-  dropdown1DropdownStyle: { backgroundColor: '#EFEFEF' },
-  dropdown1RowStyle: {
-    backgroundColor: '#EFEFEF',
-    borderBottomColor: '#C5C5C5',
-  },
-  dropdown1RowTxtStyle: { color: '#444', textAlign: 'left' },
 })
 
-export default Register
+export default LoginScreen
