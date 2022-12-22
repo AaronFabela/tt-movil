@@ -5,32 +5,54 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
   StyleSheet,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
 import routes from '../../utils/routes'
 import { COLORS } from '../../constants'
 import authService from '../../services/auth.service.'
+import { set } from 'react-native-reanimated'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const LoginScreen = ({ navigation }) => {
   const [usuario, setUsuario] = useState(null)
   const [password, setPassword] = useState(null)
   const { setUserInfo } = useContext(AuthContext)
 
+  const validate = () => {
+    if (usuario != null && password != null) {
+      handleLogin()
+    } else {
+      Toast.error('Ingresa un usuario y contraseña', 'top')
+    }
+  }
+
   const handleLogin = async (e) => {
     try {
       const response = await authService.login(usuario, password)
       console.log(response)
-      setUserInfo(response)
-      navigation.navigate(routes.HOME)
+      if (response != undefined) {
+        setUserInfo(response)
+        navigation.navigate(routes.HOME)
+      } else {
+        // console.log(response)
+        Toast.error(error.response.data.message, 'top')
+        setUsuario(null)
+        setPassword(null)
+      }
     } catch (error) {
-      console.log(err)
+      console.log(error.response.data)
+      Toast.error(error.response.data.message, 'top')
+      setUsuario(null)
+      setPassword(null)
     }
   }
 
   return (
     <View style={styles.container}>
       {/* <Spinner */}
+      <ToastManager />
       <View style={styles.top}>
         <Text>Chambitas</Text>
       </View>
@@ -51,10 +73,7 @@ const LoginScreen = ({ navigation }) => {
             onChangeText={(text) => setPassword(text)}
             secureTextEntry
           />
-          <TouchableOpacity
-            onPress={(e) => handleLogin(e)}
-            style={styles.boton}
-          >
+          <TouchableOpacity onPress={validate} style={styles.boton}>
             <Text style={{ color: 'white', textAlign: 'center' }}>
               Iniciar Sesion
             </Text>

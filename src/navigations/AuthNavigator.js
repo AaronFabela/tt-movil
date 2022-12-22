@@ -4,6 +4,7 @@ import { Login, ForgotPassword, Register } from '../screens'
 import { COLORS, ROUTES } from '../constants'
 import DrawerNavigator from './DrawerNavigator'
 import ChatID from '../screens/home/ChatID'
+import FirstDirection from '../screens/auth/FirstDirection'
 
 const Stack = createStackNavigator()
 // Navigator, Screen, Group
@@ -42,6 +43,21 @@ function AuthNavigator() {
         options={{
           headerShown: true,
           headerTitle: 'Chat ',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+            height: 100,
+            elevation: 25,
+            shadowColor: '#000',
+          },
+        }}
+      />
+      <Stack.Screen
+        name={ROUTES.FirstDirection}
+        component={FirstDirection}
+        options={{
+          headerShown: true,
+          headerTitle: 'Direccion Inicial ',
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: COLORS.primary,

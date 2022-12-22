@@ -8,6 +8,7 @@ import RegisterScreen from '../screens/auth/Register'
 import { AuthContext } from '../context/AuthContext'
 import Perfil from '../screens/Perfil'
 import Map from '../screens/Map'
+import FirstDirection from '../screens/auth/FirstDirection'
 
 const Stack = createNativeStackNavigator()
 
@@ -41,6 +42,11 @@ const Navigation = () => {
         <Stack.Screen
           name='Map'
           component={Map}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='FirstDirection'
+          component={FirstDirection}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

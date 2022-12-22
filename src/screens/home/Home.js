@@ -24,7 +24,7 @@ const Home = () => {
       }}
     >
       <Text>
-        Home! {userInfo?.id} {ubicacion?.latitude}
+        Home! {userInfo?.usuario} {ubicacion?.latitude}
       </Text>
       <HomeModal />
     </View>

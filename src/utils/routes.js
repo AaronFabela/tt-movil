@@ -10,6 +10,7 @@ export default {
   PERFIL: 'Perfil',
 
   MAP: 'Map',
+  FirstDirection: 'FirstDirection',
 
   CHAT_ID: 'Chat ID',
 }

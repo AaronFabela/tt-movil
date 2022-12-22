@@ -6,7 +6,7 @@ import chatService from '../../services/chat.service'
 import { AuthContext } from '../../context/AuthContext'
 import Conversacion from '../../components/Chat/Conversacion'
 
-const Notifications = ({ navigation }) => {
+const Chats = ({ navigation }) => {
   const [chats, setChats] = useState([])
   const { userInfo } = useContext(AuthContext)
 
@@ -45,7 +45,7 @@ const Notifications = ({ navigation }) => {
   )
 }
 
-export default Notifications
+export default Chats
 
 const styles = StyleSheet.create({
   chat: {

@@ -2,7 +2,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { COLORS, ROUTES } from '../constants'
-import { Home, Map, Notifications, Settings } from '../screens'
+import { Home, Map, Chats, Settings } from '../screens'
 import Icon from 'react-native-vector-icons/Ionicons'
 import SettingsNavigator from './SettingsNavigator'
 import CustomTabBarButton from '../components/CustomTabBarButton'
@@ -37,7 +37,7 @@ function BottomTabNavigator() {
             case ROUTES.MAP:
               iconName = focused ? 'wallet' : 'wallet-outline'
               break
-            case ROUTES.NOTIFICATIONS:
+            case ROUTES.CHATS:
               iconName = focused
                 ? 'md-notifications-sharp'
                 : 'md-notifications-outline'
@@ -77,8 +77,8 @@ function BottomTabNavigator() {
         }}
       />
       <Tab.Screen
-        name={ROUTES.NOTIFICATIONS}
-        component={Notifications}
+        name={ROUTES.CHATS}
+        component={Chats}
         options={{
           headerShown: true,
           headerTitle: 'Chats Aaron',

@@ -4,6 +4,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
   StyleSheet,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
@@ -12,6 +13,7 @@ import { COLORS } from '../../constants'
 import { useEffect } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'
 import authService from '../../services/auth.service.'
+import ToastManager, { Toast } from 'toastify-react-native'
 
 const Register = ({ navigation }) => {
   const [usuario, setUsuario] = useState(null)
@@ -20,26 +22,55 @@ const Register = ({ navigation }) => {
   const [rol, setRol] = useState(null)
 
   const { isLoading, login } = useContext(AuthContext)
-  const roles = ['empleador', 'prestador']
+  const roles = ['------', 'empleador', 'prestador']
+
+  // useEffect(() => {
+  //   getCurrentLocation().then((response) => {
+  //     console.log(response)
+  //     setUbicacion(response.coords)
+  //   })
+  // }, [])
   useEffect(() => {
     navigation.setOptions({ headerShown: false })
   }, [])
 
+  const validate = () => {
+    console.log(rol)
+    if (
+      usuario != null &&
+      password != null &&
+      email != null &&
+      (rol != null || rol != '------')
+    ) {
+      handleLogin()
+    } else {
+      Toast.error('Ingresa todos los campos correctamente', 'top')
+    }
+  }
+
   const handleLogin = async (e) => {
     try {
-      console.log('Hola')
       const response = await authService.signup(usuario, email, password, rol)
-      console.log(response)
-      // setUserInfo(response)
-      navigation.navigate(routes.LOGIN)
+      if (response.code === 400) {
+        const key = response.key.toUpperCase()
+        Toast.error(`${response.data.message}`, 'top')
+        setUsuario(null)
+        setEmail(null)
+        setPassword(null)
+        setRol(null)
+      } else {
+        Alert.alert('Registro exitoso')
+        navigation.navigate(routes.FirstDirection)
+      }
     } catch (error) {
-      console.log(error)
+      Toast.error(`${error.response.data.message}`, 'top')
     }
   }
 
   return (
     <View style={styles.container}>
       {/* <Spinner */}
+      <ToastManager />
       <View style={styles.top}>
         <Text>Chambitas</Text>
       </View>
@@ -90,10 +121,7 @@ const Register = ({ navigation }) => {
             rowStyle={styles.dropdown1RowStyle}
             rowTextStyle={styles.dropdown1RowTxtStyle}
           />
-          <TouchableOpacity
-            onPress={(e) => handleLogin(e)}
-            style={styles.boton}
-          >
+          <TouchableOpacity onPress={validate} style={styles.boton}>
             <Text style={{ color: 'white', textAlign: 'center' }}>
               Registrar
             </Text>

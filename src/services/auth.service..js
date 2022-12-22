@@ -11,18 +11,23 @@ const getUsuarioById = async (id) => {
 const login = async (usuario, password) => {
   console.log('Hice un login')
   return axios
-    .post(API_URL + 'auth/login', {
-      usuario,
-      password,
-    })
+    .post(
+      API_URL + 'auth/login',
+      {
+        usuario,
+        password,
+      },
+      { headers: { 'Content-Type': 'application/json' } }
+    )
     .then((res) => {
       let userInfo = res.data
       AsyncStorage.setItem('userInfo', JSON.stringify(userInfo))
       return userInfo
     })
-    .catch((e) => {
-      console.log(e)
-    })
+  // .catch((e) => {
+  //   console.log('2asdsa')
+  //   console.log(e)
+  // })
 }
 
 const signup = async (usuario, email, password, rol) => {
@@ -33,6 +38,7 @@ const signup = async (usuario, email, password, rol) => {
     password,
     rol: [rol],
   })
+  console.log(response.data)
 
   return response.data
 }

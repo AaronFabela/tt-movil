@@ -1,7 +1,7 @@
 import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { COLORS, ROUTES } from '../constants'
-import { Map, Notifications } from '../screens'
+import { Chats, Map, Notifications } from '../screens'
 import BottomTabNavigator from './BottomTabNavigator'
 import Icon from 'react-native-vector-icons/Ionicons'
 import CustomDrawer from '../components/CustomDrawer'
@@ -44,8 +44,8 @@ function DrawerNavigator() {
       />
 
       <Drawer.Screen
-        name={ROUTES.NOTIFICATIONS_DRAWER}
-        component={Notifications}
+        name={ROUTES.CHATS_DRAWER}
+        component={Chats}
         options={{
           title: 'Notifications',
           drawerIcon: ({ focused, color, size }) => (

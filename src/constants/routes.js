@@ -10,8 +10,10 @@ export default {
   MAP: 'Map',
   MAP_DRAWER: 'Map Drawer',
 
-  NOTIFICATIONS: 'Notifications',
-  NOTIFICATIONS_DRAWER: 'Notifications Drawer',
+  FirstDirection: 'FirstDirection',
+
+  CHATS: 'Chats',
+  CHATS_DRAWER: 'Chats Drawer',
 
   SETTINGS: 'Settings',
   ACCOUNT_SETTINGS: 'Account Settings',
