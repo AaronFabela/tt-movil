@@ -6,6 +6,7 @@ import {
   View,
   Alert,
   StyleSheet,
+  Image,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
 import routes from '../../utils/routes'
@@ -76,62 +77,19 @@ const Register = ({ navigation }) => {
       </View>
       <View style={styles.bottom}>
         <View style={styles.wrapper}>
-          <Text style={styles.titulo}>Registar Usuario</Text>
-          <TextInput
-            style={styles.input}
-            placeholder='Correo Electronico'
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder='Nuevo Usuario'
-            value={usuario}
-            onChangeText={(text) => setUsuario(text)}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder='Ingresar Contraseña'
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry
-          />
-          <SelectDropdown
-            data={roles}
-            // defaultValueByIndex={1}
-            // defaultValue={'Egypt'}
-            onSelect={(selectedItem) => {
-              setRol(selectedItem)
-            }}
-            defaultButtonText={'Seleccion un Rol'}
-            buttonStyle={styles.dropdown1BtnStyle}
-            buttonTextStyle={styles.dropdown1BtnTxtStyle}
-            // renderDropdownIcon={(isOpened) => {
-            //   return (
-            //     <FontAwesome
-            //       name={isOpened ? 'chevron-up' : 'chevron-down'}
-            //       color={'#444'}
-            //       size={18}
-            //     />
-            //   )
-            // }}
-            dropdownIconPosition={'right'}
-            dropdownStyle={styles.dropdown1DropdownStyle}
-            rowStyle={styles.dropdown1RowStyle}
-            rowTextStyle={styles.dropdown1RowTxtStyle}
-          />
-          <TouchableOpacity onPress={validate} style={styles.boton}>
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              Registrar
-            </Text>
+          <Text style={styles.titulo}>Selecciona el Tipo de Usuario</Text>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(routes.REGISTER_EMPLEADOR)}
+          >
+            <Image
+              source={require('../../assets/user.png')}
+              style={{ width: 200, height: 200 }}
+            />
           </TouchableOpacity>
-          <View style={styles.noAccount}>
-            <Text>Ya tengo cuenta</Text>
-            <TouchableOpacity onPress={() => navigation.navigate(routes.LOGIN)}>
-              <Text style={styles.link}> Iniciar Sesion</Text>
-            </TouchableOpacity>
-          </View>
+          <Image
+            source={require('../../assets/repair.png')}
+            style={{ width: 200, height: 200 }}
+          />
         </View>
       </View>
     </View>

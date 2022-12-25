@@ -5,6 +5,7 @@ import { COLORS, ROUTES } from '../constants'
 import DrawerNavigator from './DrawerNavigator'
 import ChatID from '../screens/home/ChatID'
 import FirstDirection from '../screens/auth/FirstDirection'
+import RegisterEmpleador from '../screens/auth/RegisterEmpleador/RegisterEmpleador'
 
 const Stack = createStackNavigator()
 // Navigator, Screen, Group
@@ -58,6 +59,21 @@ function AuthNavigator() {
         options={{
           headerShown: true,
           headerTitle: 'Direccion Inicial ',
+          headerTintColor: 'white',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+            height: 100,
+            elevation: 25,
+            shadowColor: '#000',
+          },
+        }}
+      />
+      <Stack.Screen
+        name={ROUTES.REGISTER_EMPLEADOR}
+        component={RegisterEmpleador}
+        options={{
+          headerShown: true,
+          headerTitle: 'Registro Empleador',
           headerTintColor: 'white',
           headerStyle: {
             backgroundColor: COLORS.primary,

@@ -34,17 +34,17 @@ const MapSetDirection = ({ navigation }) => {
     >
       <MapView style={styles.map} initialRegion={region}>
         <Marker
-          // title='HOla, soy un Marker'
-          // description='Si, confirmo'
+          title='HOla, soy un Marker'
+          // pinColor='#FFFFFF'
+          description='Si, confirmo'
           coordinate={{
             latitude: region.latitude,
             longitude: region.longitude,
           }}
-          pinColor='#FFFFFF'
-          // draggable={true}
-          // onDragStart={(e) => {
-          //   console.log('DragStart:', e.nativeEvent.coordinate)
-          // }}
+          draggable={true}
+          onDragStart={(e) => {
+            console.log('DragStart:', e.nativeEvent.coordinate)
+          }}
           // onDragEnd={(e) => {
           //   console.log('DragEnd:', e.nativeEvent.coordinate)
           //   setPin({
@@ -52,7 +52,7 @@ const MapSetDirection = ({ navigation }) => {
           //     longitude: e.nativeEvent.coordinate.longitude,
           //   })
           // }}
-        ></Marker>
+        />
       </MapView>
     </View>
   )

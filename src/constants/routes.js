@@ -18,6 +18,7 @@ export default {
   SETTINGS: 'Settings',
   ACCOUNT_SETTINGS: 'Account Settings',
   SETTINGS_NAVIGATOR: 'Settings Navigator',
+  REGISTER_EMPLEADOR: 'RegisterEmpleador',
 
   SETTINGS_DETAIL: 'Settings Detail',
   PROFILE: 'My Profile',

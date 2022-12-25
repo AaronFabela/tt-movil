@@ -11,6 +11,7 @@ export default {
 
   MAP: 'Map',
   FirstDirection: 'FirstDirection',
+  REGISTER_EMPLEADOR: 'RegisterEmpleador',
 
   CHAT_ID: 'Chat ID',
 }
