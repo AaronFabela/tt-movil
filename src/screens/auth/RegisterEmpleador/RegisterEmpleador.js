@@ -25,8 +25,8 @@ const RegisterEmpleador = ({ navigation }) => {
       type: null,
       name: null,
     },
-    ine: {},
-    domicilio: {},
+    ine: { uri: null, type: null, name: null },
+    domicilio: { uri: null, type: null, name: null },
   })
   const [error, setError] = useState({
     form: true,
@@ -132,8 +132,8 @@ const RegisterEmpleador = ({ navigation }) => {
         setPassword(null)
         setRol(null)
       } else {
-        Alert.alert('Registro exitoso')
-        navigation.navigate(routes.FirstDirection)
+        Alert.alert('Solicitud Enviada Correctamente')
+        navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
       Toast.error(`${error.response.data.message}`, 'top')
