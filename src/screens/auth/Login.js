@@ -9,13 +9,13 @@ import {
   StyleSheet,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
-import routes from '../../utils/routes'
+import routes from '../../constants/routes'
 import { COLORS } from '../../constants'
 import authService from '../../services/auth.service.'
 import { set } from 'react-native-reanimated'
 import ToastManager, { Toast } from 'toastify-react-native'
 
-const LoginScreen = ({ navigation }) => {
+const Login = ({ navigation }) => {
   const [usuario, setUsuario] = useState(null)
   const [password, setPassword] = useState(null)
   const { setUserInfo } = useContext(AuthContext)
@@ -34,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
       console.log(response)
       if (response != undefined) {
         setUserInfo(response)
-        navigation.navigate(routes.HOME)
+        navigation.navigate(routes.HOME_TAB)
       } else {
         // console.log(response)
         Toast.error(error.response.data.message, 'top')
@@ -148,4 +148,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default LoginScreen
+export default Login

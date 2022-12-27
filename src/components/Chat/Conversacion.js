@@ -1,8 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import { COLORS, ROUTES } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import authService from '../../services/auth.service.'
 
 const Conversacion = ({ chat, userId, navigation }) => {

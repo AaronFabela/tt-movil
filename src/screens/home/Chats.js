@@ -35,6 +35,7 @@ const Chats = ({ navigation }) => {
       <View style={styles.chat}>
         {chats?.map((chat) => (
           <Conversacion
+            key={chat._id}
             chat={chat}
             userId={userInfo.id}
             navigation={navigation}

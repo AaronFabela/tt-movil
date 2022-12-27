@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import { COLORS } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
 import { getCurrentLocation } from '../../utils/helpers'
-import HomeModal from '../../modals/HomeModal'
 
 const Home = () => {
   const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
@@ -26,7 +25,6 @@ const Home = () => {
       <Text>
         Home! {userInfo?.usuario} {ubicacion?.latitude}
       </Text>
-      <HomeModal />
     </View>
   )
 }

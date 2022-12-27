@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
-import routes from '../../utils/routes'
+import routes from '../../constants/routes'
 import { COLORS } from '../../constants'
 import { useEffect } from 'react'
 import SelectDropdown from 'react-native-select-dropdown'

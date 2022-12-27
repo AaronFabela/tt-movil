@@ -1,9 +1,15 @@
-import { Button, StyleSheet, Text, View } from 'react-native'
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  TextInput,
+} from 'react-native'
 import React, { useContext, useState, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import chatService from '../../services/chat.service'
 import { useEffect } from 'react'
-import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import Mensaje from '../../components/Chat/Mensaje'
 import { io } from 'socket.io-client'
 import socket from '../../utils/socket'

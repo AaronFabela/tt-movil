@@ -4,8 +4,7 @@ import { AuthContext } from '../context/AuthContext'
 import { Icon } from '@rneui/themed'
 import { COLORS } from '../constants'
 
-const HomeModal = () => {
-  const { isModalOpen, setIsModalOpen } = useContext(AuthContext)
+const HomeModal = ({ isModalOpen, setIsModalOpen }) => {
   return (
     <>
       <Modal visible={isModalOpen} transparent={true} animationType={'slide'}>
