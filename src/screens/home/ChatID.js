@@ -14,7 +14,7 @@ import Mensaje from '../../components/Chat/Mensaje'
 import { io } from 'socket.io-client'
 import socket from '../../utils/socket'
 
-const ChatID = () => {
+const ChatID = ({ route }) => {
   const { currentChat, userInfo } = useContext(AuthContext)
   const [mensajesActuales, setMensajesActuales] = useState([])
   const [arrivalMessage, setArrivalMessage] = useState(null)

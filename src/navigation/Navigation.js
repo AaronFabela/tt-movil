@@ -1,14 +1,12 @@
 import React, { useContext } from 'react'
-import { Text, View } from 'react-native'
 import routes from '../constants/routes'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Home from '../screens/home/Home'
+import { COLORS } from '../constants'
 import Login from '../screens/auth/Login'
 import Register from '../screens/auth/Register'
 import { AuthContext } from '../context/AuthContext'
 import Perfil from '../screens/Perfil'
-import Map from '../screens/home/Map'
 import FirstDirection from '../screens/auth/FirstDirection'
 import RegisterEmpleador from '../screens/auth/RegisterEmpleador/RegisterEmpleador'
 import TabNavigator from './TabNavigation'
@@ -37,12 +35,30 @@ const Navigation = () => {
             <Stack.Screen
               name={routes.REGISTER}
               component={Register}
-              options={{ headerShown: false }}
+              options={{
+                title: 'Registro',
+                headerTintColor: 'white',
+                headerShown: true,
+                headerBackVisible: true,
+                headerStyle: {
+                  backgroundColor: COLORS.primary,
+                  // borderBottomLeftRadius: 50,
+                },
+              }}
             />
             <Stack.Screen
               name={routes.REGISTER_EMPLEADOR}
               component={RegisterEmpleador}
-              options={{ headerShown: false }}
+              options={{
+                title: 'Registro Empleador',
+                headerTintColor: 'white',
+                headerShown: true,
+                headerBackVisible: true,
+                headerStyle: {
+                  backgroundColor: COLORS.primary,
+                  // borderBottomLeftRadius: 50,
+                },
+              }}
             />
           </>
         )}
@@ -51,11 +67,11 @@ const Navigation = () => {
           component={Perfil}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name={routes.MAP}
-          component={Map}
+        {/* <Stack.Screen
+          name={routes.MAPMODAL}
+          component={MapModal}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
           name={routes.FirstDirection}
           component={FirstDirection}

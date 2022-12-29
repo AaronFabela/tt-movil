@@ -3,16 +3,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { COLORS } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
 import { getCurrentLocation } from '../../utils/helpers'
+import { ActivityIndicator } from 'react-native-paper'
 
-const Home = () => {
+const Home = ({ navigation }) => {
   const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    getCurrentLocation().then((response) => {
-      console.log(response)
-      setUbicacion(response.coords)
-    })
-  }, [])
   return (
     <View
       style={{
@@ -22,9 +18,14 @@ const Home = () => {
         backgroundColor: COLORS.bgColor,
       }}
     >
-      <Text>
-        Home! {userInfo?.usuario} {ubicacion?.latitude}
-      </Text>
+      {isLoading ? (
+        <ActivityIndicator size={50} animating={true} color={COLORS.white} />
+      ) : (
+        <></>
+        // <Text>
+        //   Home! {userInfo?.usuario} {userInfo?.direccionActual?.nombre}
+        // </Text>
+      )}
     </View>
   )
 }

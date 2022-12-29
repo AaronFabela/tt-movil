@@ -22,9 +22,6 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState(null)
   const [rol, setRol] = useState(null)
 
-  const { isLoading, login } = useContext(AuthContext)
-  const roles = ['------', 'empleador', 'prestador']
-
   // useEffect(() => {
   //   getCurrentLocation().then((response) => {
   //     console.log(response)
@@ -32,7 +29,7 @@ const Register = ({ navigation }) => {
   //   })
   // }, [])
   useEffect(() => {
-    navigation.setOptions({ headerShown: false })
+    // navigation.setOptions({ headerShown: false })
   }, [])
 
   const validate = () => {

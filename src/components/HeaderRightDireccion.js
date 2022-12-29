@@ -4,16 +4,23 @@ import { Icon } from '@rneui/themed'
 import { AuthContext } from '../context/AuthContext'
 import { COLORS } from '../constants'
 import { useState } from 'react'
-import HomeModal from '../modals/HomeModal'
+import DireccionesModal from '../modals/DireccionesModal'
+import routes from '../constants/routes'
 
-const HeaderRightDireccion = () => {
+const HeaderRightDireccion = ({ navigation }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const { userInfo } = useContext(AuthContext)
+  const { direccionActual } = userInfo
   return (
     <>
-      <TouchableOpacity onPress={() => setIsModalOpen(!isModalOpen)}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(routes.DIRECCIONESMODAL)}
+      >
         <View style={styles.right}>
           <Icon name='location' type='ionicon' size={15} color={COLORS.white} />
-          <Text style={{ color: 'white', fontSize: 15 }}>A Mendez 13</Text>
+          <Text style={{ color: 'white', fontSize: 15 }}>
+            {direccionActual != null ? direccionActual.nombre : 'Sin Direccion'}
+          </Text>
           <Icon
             name='caret-down-circle'
             type='ionicon'
@@ -22,7 +29,6 @@ const HeaderRightDireccion = () => {
           />
         </View>
       </TouchableOpacity>
-      <HomeModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
     </>
   )
 }

@@ -3,11 +3,14 @@ export default {
   REGISTER: 'Register',
   FORGOT_PASSWORD: 'Forgot Password',
 
+  DIRECCIONESMODAL: 'DireccionesModal',
+
+  HOMENAV: 'HomeNav',
   HOME: 'Home',
   HOME_TAB: 'HomeTab',
   PERFIL: 'Perfil',
 
-  MAP: 'Map',
+  MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',
   REGISTER_EMPLEADOR: 'RegisterEmpleador',
 

@@ -20,15 +20,15 @@ const Conversacion = ({ chat, userId, navigation }) => {
       }
     )
   }, [userId])
-  const handleSetChat = (chat, e) => {
+  const handleSetChat = (chat) => {
     setCurrentChat(chat)
     console.log(chat)
-    navigation.navigate(ROUTES.CHAT_ID)
+    navigation.navigate(ROUTES.CHAT_ID, { title: receptor.usuario })
   }
   return (
     <TouchableOpacity
       style={styles.conversacion}
-      onPress={(e) => handleSetChat(chat, e)}
+      onPress={() => handleSetChat(chat)}
     >
       <View>
         <Text>{receptor?.usuario}</Text>

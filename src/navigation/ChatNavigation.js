@@ -10,7 +10,11 @@ const ChatNavigation = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name={routes.CHATS} component={Chats} />
-      <Stack.Screen name={routes.CHAT_ID} component={ChatID} />
+      <Stack.Screen
+        name={routes.CHAT_ID}
+        component={ChatID}
+        options={({ route }) => ({ title: route.params?.title })}
+      />
     </Stack.Navigator>
   )
 }

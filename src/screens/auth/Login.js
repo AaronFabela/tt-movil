@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react'
 import {
   Button,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
   Alert,
   StyleSheet,
 } from 'react-native'
 import { AuthContext } from '../../context/AuthContext'
+import { TextInput } from 'react-native-paper'
 import routes from '../../constants/routes'
 import { COLORS } from '../../constants'
 import authService from '../../services/auth.service.'
@@ -43,7 +43,8 @@ const Login = ({ navigation }) => {
       }
     } catch (error) {
       console.log(error.response.data)
-      Toast.error(error.response.data.message, 'top')
+      Toast.error(error.response.data.errors[0].msg, 'top')
+
       setUsuario(null)
       setPassword(null)
     }
@@ -61,17 +62,26 @@ const Login = ({ navigation }) => {
           <Text style={styles.titulo}>Iniciar Sesion</Text>
           <TextInput
             style={styles.input}
-            placeholder='Ingresar Usuario'
+            label='Usuario'
+            mode='outlined'
             value={usuario}
             onChangeText={(text) => setUsuario(text)}
+            outlineColor={COLORS.primary}
+            selectionColor={COLORS.turques}
+            textColor={COLORS.primary}
+            activeOutlineColor={COLORS.primary}
           />
-
           <TextInput
             style={styles.input}
-            placeholder='Ingresar Contraseña'
+            label='Contraseña'
+            mode='outlined'
             value={password}
-            onChangeText={(text) => setPassword(text)}
             secureTextEntry
+            onChangeText={(pass) => setPassword(pass)}
+            outlineColor={COLORS.primary}
+            selectionColor={COLORS.turques}
+            textColor={COLORS.primary}
+            activeOutlineColor={COLORS.primary}
           />
           <TouchableOpacity onPress={validate} style={styles.boton}>
             <Text style={{ color: 'white', textAlign: 'center' }}>
@@ -120,12 +130,8 @@ const styles = StyleSheet.create({
     width: '80%',
   },
   input: {
-    marginBottom: 12,
-    borderWidth: 1,
-    borderColor: '#bbb',
-    borderRadius: 15,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
+    width: '100%',
+    marginBottom: 15,
   },
   noAccount: {
     flexDirection: 'row',
@@ -140,11 +146,13 @@ const styles = StyleSheet.create({
     color: COLORS.turques,
   },
   boton: {
+    justifyContent: 'center',
     borderRadius: 15,
     paddingHorizontal: 14,
     paddingVertical: 10,
     backgroundColor: COLORS.primary,
     color: 'white',
+    height: 50,
   },
 })
 

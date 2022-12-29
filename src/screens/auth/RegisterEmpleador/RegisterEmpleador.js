@@ -1,14 +1,10 @@
-import React, { useContext, useState } from 'react'
-import { Text, TouchableOpacity, View, Alert, StyleSheet } from 'react-native'
-import { AuthContext } from '../../../context/AuthContext'
+import React, { useState } from 'react'
+import { Text, View, Alert, StyleSheet } from 'react-native'
 import routes from '../../../constants/routes'
 import { COLORS } from '../../../constants'
-import { useEffect } from 'react'
-import authService from '../../../services/auth.service.'
 import ToastManager, { Toast } from 'toastify-react-native'
 import * as ImagePicker from 'expo-image-picker'
 import DatosGenerales from './components/DatosGenerales'
-import KeyboardAvoidingWrapper from '../../../components/KeyboardAvoidingWrapper'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
 import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
@@ -34,10 +30,6 @@ const RegisterEmpleador = ({ navigation }) => {
     ine: true,
     domicilio: true,
   })
-
-  useEffect(() => {
-    navigation.setOptions({ headerShown: false })
-  }, [])
 
   const handleImagePerfil = async () => {
     // No permissions request is necessary for launching the image library
@@ -84,7 +76,6 @@ const RegisterEmpleador = ({ navigation }) => {
     if (!result.cancelled) {
       setImages({ ...images, domicilio: result })
     }
-    console.log(images)
   }
 
   const validate = () => {
@@ -136,7 +127,7 @@ const RegisterEmpleador = ({ navigation }) => {
         navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
-      Toast.error(`${error.response.data.message}`, 'top')
+      Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
 
