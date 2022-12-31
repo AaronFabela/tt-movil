@@ -4,6 +4,7 @@ import {
   View,
   Modal,
   Button,
+  Alert,
   Image,
   TouchableOpacity,
 } from 'react-native'
@@ -13,11 +14,73 @@ import { Icon } from '@rneui/themed'
 import { COLORS } from '../constants'
 import routes from '../constants/routes'
 import ItemDireccion from './components/ItemDireccion'
+import direccionService from '../services/direccion.service'
+import usuarioService from '../services/usuario.service'
 
 const DireccionesModal = ({ navigation }) => {
-  const { userInfo } = useContext(AuthContext)
+  const { userInfo, setUserInfo } = useContext(AuthContext)
   const { direccionActual, direcciones } = userInfo
 
+  const setCurrentDireccion = async (direccionID) => {
+    try {
+      await direccionService.setDireccionActual(userInfo.id, direccionID)
+      const updateUser = await usuarioService.getUsuarioById(userInfo.id)
+      setUserInfo({
+        ...userInfo,
+        direccionActual: updateUser.data.direccionActual,
+      })
+      navigation.goBack()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleSetCurrentDireccion = (id) => {
+    Alert.alert(
+      'Confirmar Direccion Actual',
+      '¿Deseas confirmar esta como tu direccion actual?',
+      [
+        {
+          text: 'Confirmar',
+          onPress: () => setCurrentDireccion(id),
+        },
+        {
+          text: 'Cancelar',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ]
+    )
+  }
+
+  const deleteDireccion = async (id) => {
+    try {
+      await direccionService.eliminarDireccion(userInfo.id, id)
+      const updateUser = await usuarioService.getUsuarioById(userInfo.id)
+      setUserInfo({
+        ...userInfo,
+        direcciones: updateUser.data.direcciones,
+        direccionActual: updateUser.data.direccionActual,
+      })
+      navigation.goBack()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleDeleteDireccion = (id) => {
+    Alert.alert('Eliminar Direccion', '¿Deseas elimintar esta direccion?', [
+      {
+        text: 'Confirmar',
+        onPress: () => deleteDireccion(id),
+      },
+      {
+        text: 'Cancelar',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+    ])
+  }
   return (
     <>
       <View style={styles.container}>
@@ -38,8 +101,11 @@ const DireccionesModal = ({ navigation }) => {
                 <>
                   <ItemDireccion
                     key={direccion._id}
+                    id={direccion._id}
                     nombre={direccion.nombre}
                     direccion={direccion.direccion}
+                    handleDeleteDireccion={handleDeleteDireccion}
+                    handleSetCurrentDireccion={handleSetCurrentDireccion}
                   />
                 </>
               ))

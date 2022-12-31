@@ -32,9 +32,22 @@ const setDireccionActual = async (userID, direccion) => {
   return response.data
 }
 
+const eliminarDireccion = async (userID, direccion) => {
+  const response = await axios.delete(
+    API_URL + `direccion/eliminarDireccion/${userID}/${direccion}`,
+    {
+      headers: {
+        'Access-Control-Allow-Origin': true,
+      },
+    }
+  )
+  return response.data
+}
+
 const direccionService = {
   crearDireccion,
   setDireccionActual,
+  eliminarDireccion,
 }
 
 export default direccionService

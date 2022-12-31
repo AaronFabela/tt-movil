@@ -9,6 +9,8 @@ export default {
   HOME: 'Home',
   HOME_TAB: 'HomeTab',
   PERFIL: 'Perfil',
+  PERFILPRESTADORHOME: 'PerfilPrestadorHome',
+  ORDENSERVICIOMODAL: 'OrdenServicioModal',
 
   MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',

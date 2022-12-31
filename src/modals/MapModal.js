@@ -13,7 +13,6 @@ import { getCurrentLocation } from '../utils/helpers'
 const MapModal = ({ navigation }) => {
   const { userInfo, ubicacion, setUserInfo, setUbicacion } =
     useContext(AuthContext)
-  const { latitude, longitude } = ubicacion
   const [isLoading, setIsLoading] = useState(true)
   const [form, setForm] = useState({
     nombre: '',
@@ -23,8 +22,8 @@ const MapModal = ({ navigation }) => {
 
   const [index, setIndex] = useState(0)
   const [region, setRegion] = useState({
-    latitude,
-    longitude,
+    latitude: 0,
+    longitude: 0,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   })
@@ -34,14 +33,24 @@ const MapModal = ({ navigation }) => {
   })
 
   const [pin, setPin] = useState({
-    latitude,
-    longitude,
+    latitude: 0,
+    longitude: 0,
   })
 
   useEffect(() => {
     getCurrentLocation().then((response) => {
       console.log(userInfo)
       setUbicacion(response.coords)
+      setRegion({
+        ...region,
+        latitude: response.coords.latitude,
+        longitude: response.coords.longitude,
+      })
+      setPin({
+        latitude: response.coords.latitude,
+        longitude: response.coords.longitude,
+      })
+
       setIsLoading(false)
     })
   }, [])
@@ -118,57 +127,49 @@ const MapModal = ({ navigation }) => {
                 return (
                   <>
                     <View style={styles.newDireccion}>
-                      {ubicacion?.latitude != null ? (
-                        <>
-                          <View style={styles.mapa}>
-                            <MapSetDirection region={region} setPin={setPin} />
-                          </View>
-                          <View
-                            style={{
-                              position: 'absolute',
-                              bottom: '1%',
-                              width: '100%',
-                              left: '5%',
-                            }}
+                      <>
+                        <View style={styles.mapa}>
+                          <MapSetDirection region={region} setPin={setPin} />
+                        </View>
+                        <View
+                          style={{
+                            position: 'absolute',
+                            bottom: '1%',
+                            width: '100%',
+                            left: '5%',
+                          }}
+                        >
+                          <TouchableOpacity
+                            style={styles.agregarDirMap}
+                            onPress={() =>
+                              handleNewDirection(pin.latitude, pin.longitude)
+                            }
                           >
-                            <TouchableOpacity
-                              style={styles.agregarDirMap}
-                              onPress={() =>
-                                handleNewDirection(pin.latitude, pin.longitude)
-                              }
-                            >
-                              <Text style={{ color: 'white', fontSize: 20 }}>
-                                Seleccionar Ubicacion
-                              </Text>
-                            </TouchableOpacity>
-                          </View>
-                          <View
-                            style={{
-                              position: 'absolute',
-                              top: '5%',
-                              width: '100%',
-                              left: '85%',
-                            }}
+                            <Text style={{ color: 'white', fontSize: 20 }}>
+                              Seleccionar Ubicacion
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View
+                          style={{
+                            position: 'absolute',
+                            top: '5%',
+                            width: '100%',
+                            left: '85%',
+                          }}
+                        >
+                          <TouchableOpacity
+                            style={styles.botonBack}
+                            onPress={() => navigation.goBack()}
                           >
-                            <TouchableOpacity
-                              style={styles.botonBack}
-                              onPress={() => navigation.goBack()}
-                            >
-                              <Ionicons
-                                name='arrow-back'
-                                color={COLORS.primary}
-                                size={35}
-                              />
-                            </TouchableOpacity>
-                          </View>
-                        </>
-                      ) : (
-                        <ActivityIndicator
-                          size={50}
-                          animating={true}
-                          color={COLORS.white}
-                        />
-                      )}
+                            <Ionicons
+                              name='arrow-back'
+                              color={COLORS.primary}
+                              size={35}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                      </>
                     </View>
                   </>
                 )
