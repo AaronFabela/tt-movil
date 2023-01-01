@@ -11,6 +11,12 @@ export default {
   PERFIL: 'Perfil',
   PERFILPRESTADORHOME: 'PerfilPrestadorHome',
   ORDENSERVICIOMODAL: 'OrdenServicioModal',
+  CREARORDENSERVICIOMODAL: 'CrearOrdenServicioModal',
+
+  ORDENESSERVICIO_NAVIGATION: 'OrdenesServicioNav',
+  ORDENESSERVICIOACTIVAS: 'OrdenesServicioActivas',
+  ORDENESERVICIO_ACTIVA_MODAL: 'OrdenServicioActivaModal',
+  ORDENESERVICIO_HISTORIAL_MODAL: 'OrdenServicioHistorialModal',
 
   MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',

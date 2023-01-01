@@ -33,19 +33,14 @@ const ItemOrdenServicio = ({ descri, navigation }) => {
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => navigation.navigate(routes.ORDENSERVICIOMODAL)}
+            onPress={() =>
+              navigation.navigate(routes.ORDENESERVICIO_ACTIVA_MODAL)
+            }
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() =>
-              navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
-                servicios: 'servicio 1',
-              })
-            }
-          >
-            <Text style={{ color: 'white' }}>Contratar</Text>
+          <TouchableOpacity style={styles.btn}>
+            <Text style={{ color: 'white' }}>Mensaje</Text>
           </TouchableOpacity>
         </View>
       </View>

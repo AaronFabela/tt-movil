@@ -9,53 +9,44 @@ import {
 import React from 'react'
 import { COLORS } from '../../../../constants'
 
-const ModalOrdenServicio = ({ route, navigation }) => {
-  // const { ordenServicio } = route.params
-
+const ModalOrdenServicioActiva = ({ route, params }) => {
   return (
     <ScrollView
-      style={{ width: '100%', flex: 1 }}
+      style={{ width: '100%', flex: 1, backgroundColor: 'white' }}
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.container}>
         <View style={styles.contenido}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-            ModalOrdenServicio
+            Orden Servicio Activa
           </Text>
           <View style={styles.contenidoOrden}>
-            <Text style={styles.titulo}>Descripcion</Text>
+            <Text style={styles.titulo}>Servicio</Text>
             <Text style={styles.descripcion}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
               consequatur necessitatibus quas repudiandae? Dignissimos rem sint
               accusamus perferendis ea voluptatum asperiores optio obcaecati
               soluta maiores libero inventore, ut praesentium nemo.
             </Text>
-            <Text style={styles.titulo}>Notas</Text>
+            <Text style={styles.titulo}>Descripcion</Text>
             <Text style={styles.descripcion}>
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Asperiores excepturi recusandae quo accusantium modi fugiat labore
               id, perspiciatis quasi
             </Text>
-            <Text style={styles.titulo}>Calificacion</Text>
+            <Text style={styles.titulo}>Fecha</Text>
             <Text style={styles.descripcion}>
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
               Asperiores excepturi recusandae quo accusantium modi fugiat labore
               id, perspiciatis quasi
             </Text>
           </View>
-          <Image
-            source={{
-              uri: 'https://i.scdn.co/image/ab67616d0000b273ac7bbd44360e147f4bb81bf2',
-            }}
-            // resizeMode='cover'
-            style={{ height: 400, width: '100%' }}
-          />
           <View style={styles.acciones}>
             <TouchableOpacity style={styles.accionBoton}>
               <Text style={{ color: 'white' }}>Mensaje</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.accionBoton}>
-              <Text style={{ color: 'white' }}>Contratar</Text>
+              <Text style={{ color: 'white' }}>Cancelar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -64,7 +55,7 @@ const ModalOrdenServicio = ({ route, navigation }) => {
   )
 }
 
-export default ModalOrdenServicio
+export default ModalOrdenServicioActiva
 
 const styles = StyleSheet.create({
   container: {

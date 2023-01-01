@@ -127,8 +127,8 @@ const PerfilPrestador = ({ route, navigation }) => {
                 }
                 navigation={navigation}
               />
-              <ItemOrdenServicio />
-              <ItemOrdenServicio />
+              <ItemOrdenServicio navigation={navigation} />
+              <ItemOrdenServicio navigation={navigation} />
             </View>
           </ScrollView>
         </View>

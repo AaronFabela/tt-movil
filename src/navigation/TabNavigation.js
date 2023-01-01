@@ -3,9 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import routes from '../constants/routes'
 import { COLORS } from '../constants'
 import Feather from 'react-native-vector-icons/Feather'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import ChatNavigation from './ChatNavigation'
 import { AuthContext } from '../context/AuthContext'
 import HomeNavigation from './HomeNavigation'
+import OrdenesNavigation from './OrdenesNavigation'
 
 const Tab = createBottomTabNavigator()
 
@@ -27,6 +29,20 @@ const TabNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name='home' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.ORDENESSERVICIO_NAVIGATION}
+        component={OrdenesNavigation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name='note-text-outline'
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

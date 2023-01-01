@@ -10,6 +10,7 @@ import DireccionesModal from '../modals/DireccionesModal'
 import MapModal from '../modals/MapModal'
 import PerfilPrestador from '../screens/home/PerfilPrestador/PerfilPrestador'
 import ModalOrdenServicio from '../screens/home/PerfilPrestador/modals/ModalOrdenServicio'
+import ModalCrearOrdenServicio from '../screens/home/PerfilPrestador/modals/ModalCrearOrdenServicio'
 
 const Stack = createNativeStackNavigator()
 
@@ -64,6 +65,25 @@ const HomeNavigation = () => {
           component={ModalOrdenServicio}
           options={{
             title: 'Orden de Servicio',
+            headerStyle: {
+              backgroundColor: COLORS.primary,
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name={routes.CREARORDENSERVICIOMODAL}
+          component={ModalCrearOrdenServicio}
+          options={{
+            title: 'Crear Orden Servicio',
+            headerStyle: {
+              backgroundColor: COLORS.primary,
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
           }}
         />
       </Stack.Group>
