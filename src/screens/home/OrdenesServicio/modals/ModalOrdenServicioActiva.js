@@ -9,7 +9,8 @@ import {
 import React from 'react'
 import { COLORS } from '../../../../constants'
 
-const ModalOrdenServicioActiva = ({ route, params }) => {
+const ModalOrdenServicioActiva = ({ route }) => {
+  const { orden } = route.params
   return (
     <ScrollView
       style={{ width: '100%', flex: 1, backgroundColor: 'white' }}
@@ -22,24 +23,13 @@ const ModalOrdenServicioActiva = ({ route, params }) => {
           </Text>
           <View style={styles.contenidoOrden}>
             <Text style={styles.titulo}>Servicio</Text>
-            <Text style={styles.descripcion}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-              consequatur necessitatibus quas repudiandae? Dignissimos rem sint
-              accusamus perferendis ea voluptatum asperiores optio obcaecati
-              soluta maiores libero inventore, ut praesentium nemo.
-            </Text>
+            <Text style={styles.descripcion}>{orden.servicio.nombre}</Text>
             <Text style={styles.titulo}>Descripcion</Text>
-            <Text style={styles.descripcion}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Asperiores excepturi recusandae quo accusantium modi fugiat labore
-              id, perspiciatis quasi
-            </Text>
+            <Text style={styles.descripcion}>{orden.descripcion}</Text>
             <Text style={styles.titulo}>Fecha</Text>
-            <Text style={styles.descripcion}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Asperiores excepturi recusandae quo accusantium modi fugiat labore
-              id, perspiciatis quasi
-            </Text>
+            <Text style={styles.descripcion}>{orden.fecha}</Text>
+            <Text style={styles.titulo}>Hora</Text>
+            <Text style={styles.descripcion}>{orden.hora}</Text>
           </View>
           <View style={styles.acciones}>
             <TouchableOpacity style={styles.accionBoton}>

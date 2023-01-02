@@ -10,6 +10,8 @@ import Perfil from '../screens/Perfil'
 import FirstDirection from '../screens/auth/FirstDirection'
 import RegisterEmpleador from '../screens/auth/RegisterEmpleador/RegisterEmpleador'
 import TabNavigator from './TabNavigation'
+import RegisterPrestador from '../screens/auth/RegisterPrestador/RegisterPrestador'
+import PrestadorTabNavigator from './Prestador/PrestadorTabNavigation'
 
 const Stack = createNativeStackNavigator()
 
@@ -20,11 +22,32 @@ const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator>
         {userInfo.login ? (
-          <Stack.Screen
-            name={routes.HOME_TAB}
-            options={{ headerShown: false }}
-            component={TabNavigator}
-          />
+          (() => {
+            switch (userInfo.rol) {
+              case 'empleador':
+                return (
+                  <Stack.Screen
+                    name={routes.HOME_TAB}
+                    options={{ headerShown: false }}
+                    component={TabNavigator}
+                  />
+                )
+              case 'prestador':
+                return (
+                  <Stack.Screen
+                    name={routes.PRESTADOR_HOMETAB}
+                    options={{ headerShown: false }}
+                    component={PrestadorTabNavigator}
+                  />
+                )
+              case 'won':
+                return <Won handleClick={handleClick} />
+              case 'lost':
+                return <Lost handleClick={handleClick} />
+              default:
+                return null
+            }
+          })()
         ) : (
           <>
             <Stack.Screen
@@ -50,7 +73,21 @@ const Navigation = () => {
               name={routes.REGISTER_EMPLEADOR}
               component={RegisterEmpleador}
               options={{
-                title: 'Registro Empleador',
+                title: '',
+                headerTintColor: 'white',
+                headerShown: true,
+                headerBackVisible: true,
+                headerStyle: {
+                  backgroundColor: COLORS.primary,
+                  // borderBottomLeftRadius: 50,
+                },
+              }}
+            />
+            <Stack.Screen
+              name={routes.REGISTER_PRESTADOR}
+              component={RegisterPrestador}
+              options={{
+                title: '',
                 headerTintColor: 'white',
                 headerShown: true,
                 headerBackVisible: true,

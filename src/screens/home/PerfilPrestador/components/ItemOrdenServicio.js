@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { COLORS } from '../../../../constants'
 import routes from '../../../../constants/routes'
 
-const ItemOrdenServicio = ({ descri, navigation }) => {
-  const [description, setDescription] = useState(descri)
+const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
+  // const [description, setDescription] = useState(descri)
   return (
     <View style={styles.item}>
       <View style={styles.imagen}>
@@ -24,16 +24,21 @@ const ItemOrdenServicio = ({ descri, navigation }) => {
       </View>
       <View style={styles.contenido}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          ItemOrdenServicio
+          Orden de Servicio
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {description?.substring(0, 100)}
+          {ordenServicio?.descripcion?.substring(0, 100)}
         </Text>
         <Text style={{ marginBottom: 5 }}>Calificacion</Text>
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
-            onPress={() => navigation.navigate(routes.ORDENSERVICIOMODAL)}
+            onPress={() =>
+              navigation.navigate(routes.ORDENSERVICIOMODAL, {
+                ordenServicio,
+                prestador,
+              })
+            }
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
           </TouchableOpacity>
@@ -41,7 +46,7 @@ const ItemOrdenServicio = ({ descri, navigation }) => {
             style={styles.btn}
             onPress={() =>
               navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
-                servicios: 'servicio 1',
+                prestador: prestador,
               })
             }
           >

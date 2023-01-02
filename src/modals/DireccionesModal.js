@@ -69,7 +69,7 @@ const DireccionesModal = ({ navigation }) => {
   }
 
   const handleDeleteDireccion = (id) => {
-    Alert.alert('Eliminar Direccion', '¿Deseas elimintar esta direccion?', [
+    Alert.alert('Eliminar Direccion', '¿Deseas eliminar esta direccion?', [
       {
         text: 'Confirmar',
         onPress: () => deleteDireccion(id),

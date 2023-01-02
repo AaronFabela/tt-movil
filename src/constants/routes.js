@@ -21,8 +21,13 @@ export default {
   MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',
   REGISTER_EMPLEADOR: 'RegisterEmpleador',
+  REGISTER_PRESTADOR: 'RegisterPrestador',
 
   CHAT_NAVIGATION: 'ChatNavigation',
   CHAT_ID: 'Chat ID',
   CHATS: 'Chats',
+
+  PRESTADOR_HOMETAB: 'PrestadorHomeTab',
+  PRESTADOR_HOMENAV: 'PrestadorHomeNav',
+  PRESTADOR_HOME: 'PrestadorHome',
 }

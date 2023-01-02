@@ -8,9 +8,10 @@ import {
 } from 'react-native'
 import React from 'react'
 import { COLORS } from '../../../../constants'
+import routes from '../../../../constants/routes'
 
 const ModalOrdenServicio = ({ route, navigation }) => {
-  // const { ordenServicio } = route.params
+  const { ordenServicio, prestador } = route.params
 
   return (
     <ScrollView
@@ -20,22 +21,13 @@ const ModalOrdenServicio = ({ route, navigation }) => {
       <View style={styles.container}>
         <View style={styles.contenido}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-            ModalOrdenServicio
+            Orden de Servicio
           </Text>
           <View style={styles.contenidoOrden}>
             <Text style={styles.titulo}>Descripcion</Text>
-            <Text style={styles.descripcion}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-              consequatur necessitatibus quas repudiandae? Dignissimos rem sint
-              accusamus perferendis ea voluptatum asperiores optio obcaecati
-              soluta maiores libero inventore, ut praesentium nemo.
-            </Text>
+            <Text style={styles.descripcion}>{ordenServicio?.descripcion}</Text>
             <Text style={styles.titulo}>Notas</Text>
-            <Text style={styles.descripcion}>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Asperiores excepturi recusandae quo accusantium modi fugiat labore
-              id, perspiciatis quasi
-            </Text>
+            <Text style={styles.descripcion}>{ordenServicio?.notas}</Text>
             <Text style={styles.titulo}>Calificacion</Text>
             <Text style={styles.descripcion}>
               Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -54,7 +46,14 @@ const ModalOrdenServicio = ({ route, navigation }) => {
             <TouchableOpacity style={styles.accionBoton}>
               <Text style={{ color: 'white' }}>Mensaje</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.accionBoton}>
+            <TouchableOpacity
+              style={styles.accionBoton}
+              onPress={() =>
+                navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
+                  prestador,
+                })
+              }
+            >
               <Text style={{ color: 'white' }}>Contratar</Text>
             </TouchableOpacity>
           </View>

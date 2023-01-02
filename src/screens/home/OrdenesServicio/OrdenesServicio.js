@@ -1,16 +1,58 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ItemOrdenServicio from './components/ItemOrdenServicio'
+import { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { useEffect } from 'react'
+import ordenServicioService from '../../../services/ordenServicio.service'
+import { useState } from 'react'
+import { ActivityIndicator } from 'react-native-paper'
+import { COLORS } from '../../../constants'
 
 const OrdenesServicio = ({ navigation }) => {
+  const { userInfo } = useContext(AuthContext)
+  const [isLoading, setIsLoading] = useState(true)
+  const [ordenesServicio, setOrdenesServicio] = useState([])
+
+  useEffect(() => {
+    ordenServicioService.getOrdenServicioByEmpleador(userInfo.id).then(
+      (response) => {
+        setOrdenesServicio(response.data)
+        setIsLoading(false)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }, [])
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        <ItemOrdenServicio navigation={navigation} />
-        <ItemOrdenServicio navigation={navigation} />
-        <ItemOrdenServicio navigation={navigation} />
-        <ItemOrdenServicio navigation={navigation} />
-      </View>
+      {isLoading ? (
+        <>
+          <View
+            style={{
+              flex: 1,
+              // justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: COLORS.white,
+              justifyContent: 'center',
+            }}
+          >
+            <ActivityIndicator
+              size={50}
+              animating={true}
+              color={COLORS.primary}
+            />
+          </View>
+        </>
+      ) : (
+        <View style={styles.container}>
+          {ordenesServicio.map((orden) => (
+            <ItemOrdenServicio orden={orden} navigation={navigation} />
+          ))}
+        </View>
+      )}
     </ScrollView>
   )
 }

@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { COLORS } from '../../../../constants'
 import routes from '../../../../constants/routes'
 
-const ItemOrdenServicio = ({ descri, navigation }) => {
-  const [description, setDescription] = useState(descri)
+const ItemOrdenServicio = ({ orden, navigation }) => {
   return (
     <View style={styles.item}>
       <View style={styles.imagen}>
@@ -24,17 +23,17 @@ const ItemOrdenServicio = ({ descri, navigation }) => {
       </View>
       <View style={styles.contenido}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          ItemOrdenServicio
+          {orden.servicio?.nombre}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {description?.substring(0, 100)}
+          {orden.descripcion?.substring(0, 100)}
         </Text>
         <Text style={{ marginBottom: 5 }}>Calificacion</Text>
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
             onPress={() =>
-              navigation.navigate(routes.ORDENESERVICIO_ACTIVA_MODAL)
+              navigation.navigate(routes.ORDENESERVICIO_ACTIVA_MODAL, { orden })
             }
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>

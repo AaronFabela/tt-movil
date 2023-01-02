@@ -15,25 +15,39 @@ import { COLORS } from '../../../constants'
 import { Tab, TabView } from '@rneui/themed'
 import ItemOrdenServicio from './components/ItemOrdenServicio'
 import ItemServicioDisponible from './components/ItemServicioDisponible'
+import ordenServicioService from '../../../services/ordenServicio.service'
 
-const PerfilPrestador = ({ route, navigation }) => {
-  const { id } = route.params
+const PerfilPrestador = ({ route }) => {
+  const { id, navigation } = route.params
   const [prestador, setPrestador] = useState([])
   const [index, setIndex] = React.useState(0)
   const [isLoading, setIsLoading] = useState(true)
   const [ordenesServicio, setOrdenesServicio] = useState([])
   const [ordenesServicioFiltradas, setOrdenesServicioFiltradas] = useState([])
   useEffect(() => {
-    prestadoresService.getPrestadorId(id).then(
-      (response) => {
-        setPrestador(response.data)
-        // setOrdenesServicio(response.data.ordenesServicio)
-        setIsLoading(false)
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+    prestadoresService
+      .getPrestadorId(id)
+      .then(
+        (response) => {
+          setPrestador(response.data)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      .then(
+        ordenServicioService.getOrdenServicioByPrestador(id).then(
+          (response) => {
+            console.log(response.data)
+            setOrdenesServicio(response.data)
+            setIsLoading(false)
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      )
+
     // navigation.setOptions({ title: nombre })
   }, [])
   return (
@@ -110,7 +124,7 @@ const PerfilPrestador = ({ route, navigation }) => {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  {prestador.servicios.map((servicio) => (
+                  {prestador?.servicios.map((servicio) => (
                     <ItemServicioDisponible
                       key={servicio._id}
                       icono={require('../../../assets/iconosServicios/electricist.png')}
@@ -121,14 +135,18 @@ const PerfilPrestador = ({ route, navigation }) => {
               </View>
             </View>
             <View style={styles.ordenesServicio}>
-              <ItemOrdenServicio
-                descri={
-                  'Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis,voluptatibus dolorem nisi similique magni asperiores, delenitiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaxsssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssszzzzzzzzzzzzzzzzz'
-                }
-                navigation={navigation}
-              />
-              <ItemOrdenServicio navigation={navigation} />
-              <ItemOrdenServicio navigation={navigation} />
+              {ordenesServicio?.length > 0 ? (
+                ordenesServicio.map((ordenServicio) => (
+                  <ItemOrdenServicio
+                    key={ordenServicio._id}
+                    ordenServicio={ordenServicio}
+                    navigation={navigation}
+                    prestador={prestador}
+                  />
+                ))
+              ) : (
+                <Text>No cuenta con ordenes de servicio terminadas</Text>
+              )}
             </View>
           </ScrollView>
         </View>

@@ -1,18 +1,36 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
 import React from 'react'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../context/AuthContext'
 import { COLORS } from '../../../../constants'
 import DateTimePicker from '@react-native-community/datetimepicker'
+import { RadioButton, TextInput } from 'react-native-paper'
+import ordenServicioService from '../../../../services/ordenServicio.service'
+import { Alert } from 'react-native'
+import ToastManager, { Toast } from 'toastify-react-native'
 
-const ModalCrearOrdenServicio = ({ route, params }) => {
+const ModalCrearOrdenServicio = ({ route, params, navigation }) => {
   const { userInfo } = useContext(AuthContext)
-  const { servicios } = route.params
+  const { prestador } = route.params
   const dia = new Date()
   const [date, setDate] = useState(dia)
   const [time, setTime] = useState(dia)
   const [openDate, setOpenDate] = useState(false)
   const [openTime, setOpenTime] = useState(false)
+  const [servicio, setServicio] = useState('')
+  const [notas, setNotas] = useState('')
+  const [descripcion, setDescripcion] = useState('')
+
+  const handleOpenTime = () => {
+    setOpenTime(!openTime)
+  }
 
   const handleDate = (event, selectedDate) => {
     console.log(selectedDate)
@@ -25,65 +43,146 @@ const ModalCrearOrdenServicio = ({ route, params }) => {
     setTime(selectedTime)
     setOpenTime(false)
   }
+
+  const handleServicio = (servicio) => {
+    console.log(servicio)
+    setServicio(servicio)
+  }
+
+  const handleEnviar = async () => {
+    try {
+      await ordenServicioService.crearOrdenServicio(
+        servicio,
+        prestador._id,
+        userInfo.id,
+        descripcion,
+        notas,
+        userInfo.direccionActual._id,
+        date,
+        time
+      )
+      Alert.alert('Orden creada con exito')
+      navigation.pop(1)
+    } catch (error) {
+      console.log(error.response.data)
+      Toast.error(error.response.data.errors[0].msg, 'top')
+    }
+  }
   return (
-    <View style={styles.container}>
-      <Text style={{ marginTop: 15 }}>ModalCrearOrdenServicio{servicios}</Text>
-      <View style={styles.datos}>
-        <View style={styles.empleador}>
-          <Image
-            source={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-            }}
-            style={{ height: 100, width: 100 }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
-            {userInfo.usuario}
-          </Text>
-          <Text style={{ fontSize: 10 }}>Empleador</Text>
+    <ScrollView>
+      <ToastManager />
+      <View style={styles.container}>
+        <View style={styles.datos}>
+          <View style={styles.empleador}>
+            <Image
+              source={{
+                uri: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+              }}
+              style={{ height: 100, width: 100 }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+              {userInfo.usuario}
+            </Text>
+            <Text style={{ fontSize: 10 }}>Empleador</Text>
+          </View>
+          <View style={styles.prestador}>
+            <Image
+              source={{
+                uri: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+              }}
+              style={{ height: 100, width: 100 }}
+            />
+            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+              {prestador?.usuario}
+            </Text>
+            <Text style={{ fontSize: 10 }}>Prestador</Text>
+          </View>
         </View>
-        <View style={styles.prestador}>
-          <Image
-            source={{
-              uri: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
-            }}
-            style={{ height: 100, width: 100 }}
-          />
-          <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
-            Nombre Prestador
-          </Text>
-          <Text style={{ fontSize: 10 }}>Prestador</Text>
+        <View style={styles.fecha}>
+          <View style={styles.picker}>
+            <TouchableOpacity
+              style={styles.boton}
+              onPress={() => setOpenDate(true)}
+            >
+              <Text style={{ color: 'white' }}>Fecha</Text>
+            </TouchableOpacity>
+            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+              {date.toDateString()}
+            </Text>
+          </View>
+          <View style={styles.picker}>
+            <TouchableOpacity style={styles.boton}>
+              <Text style={{ color: 'white' }} onPress={() => handleOpenTime()}>
+                Hora
+              </Text>
+            </TouchableOpacity>
+            <Text style={{ fontWeight: 'bold', fontSize: 15 }}>
+              {time.toLocaleTimeString()}
+            </Text>
+          </View>
+
+          {openDate ? (
+            <DateTimePicker
+              testID='datePicker'
+              value={date}
+              mode={'date'}
+              onChange={handleDate}
+            />
+          ) : null}
+          {openTime ? (
+            <DateTimePicker
+              testID='timePicker'
+              value={time}
+              mode={'time'}
+              onChange={handleTime}
+            />
+          ) : null}
         </View>
-      </View>
-      <View style={styles.fecha}>
-        <TouchableOpacity
-          style={styles.boton}
-          onPress={() => setOpenDate(true)}
-        >
-          <Text style={{ color: 'white' }}>Fecha</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.boton}>
-          <Text style={{ color: 'white' }} onPress={() => setOpenTime(true)}>
-            Hora
+        <View style={styles.servicios}>
+          <RadioButton.Group
+            onValueChange={(newServicio) => handleServicio(newServicio)}
+            value={servicio}
+          >
+            {prestador?.servicios.map((servicio) => (
+              <View style={styles.radioBtn} key={servicio._id}>
+                <Text>{servicio.nombre}</Text>
+                <RadioButton value={`${servicio._id}`} />
+              </View>
+            ))}
+          </RadioButton.Group>
+        </View>
+        <TextInput
+          value={descripcion}
+          onChangeText={(text) => setDescripcion(text)}
+          label='Descripcion'
+          mode='outlined'
+          outlineColor={COLORS.primary}
+          selectionColor={COLORS.turques}
+          textColor={COLORS.primary}
+          activeOutlineColor={COLORS.primary}
+          style={{ width: '100%', marginTop: 15 }}
+        />
+        <TextInput
+          value={notas}
+          onChangeText={(text) => setNotas(text)}
+          label='Notas'
+          mode='outlined'
+          outlineColor={COLORS.primary}
+          selectionColor={COLORS.turques}
+          textColor={COLORS.primary}
+          activeOutlineColor={COLORS.primary}
+          style={{ width: '100%', marginTop: 15 }}
+        />
+        <TouchableOpacity style={styles.enviar}>
+          <Text
+            style={{ color: 'white', fontSize: 18 }}
+            onPress={() => handleEnviar()}
+          >
+            Crear Orden Servicio
           </Text>
         </TouchableOpacity>
-        {openDate ? (
-          <DateTimePicker
-            testID='dateTimePicker'
-            value={date}
-            mode={'date'}
-            onChange={handleDate}
-          />
-        ) : null}
-        {openTime ? (
-          <DateTimePicker
-            testID='dateTimePicker'
-            value={time}
-            mode={'time'}
-            onChange={handleTime}
-          />
-        ) : null}
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -129,14 +228,39 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 15,
     width: '100%',
-    height: 50,
+    height: 55,
+  },
+  picker: {
+    width: '45%',
+    height: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   boton: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '45%',
+    width: '100%',
     height: 30,
     backgroundColor: COLORS.primary,
+    borderRadius: 10,
+  },
+  servicios: {
+    marginTop: 15,
+    width: '100%',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  radioBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  enviar: {
+    marginTop: 15,
+    backgroundColor: COLORS.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 50,
     borderRadius: 10,
   },
 })
