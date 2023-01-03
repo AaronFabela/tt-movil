@@ -124,7 +124,7 @@ const PerfilPrestador = ({ route }) => {
                   horizontal={true}
                   showsHorizontalScrollIndicator={false}
                 >
-                  {prestador?.servicios.map((servicio) => (
+                  {prestador?.servicios?.map((servicio) => (
                     <ItemServicioDisponible
                       key={servicio._id}
                       icono={require('../../../assets/iconosServicios/electricist.png')}

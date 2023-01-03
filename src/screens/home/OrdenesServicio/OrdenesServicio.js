@@ -15,7 +15,7 @@ const OrdenesServicio = ({ navigation }) => {
   const [ordenesServicio, setOrdenesServicio] = useState([])
 
   useEffect(() => {
-    ordenServicioService.getOrdenServicioByEmpleador(userInfo.id).then(
+    ordenServicioService.getOrdenesServicioByActivas(userInfo.id).then(
       (response) => {
         setOrdenesServicio(response.data)
         setIsLoading(false)
@@ -46,11 +46,27 @@ const OrdenesServicio = ({ navigation }) => {
             />
           </View>
         </>
-      ) : (
+      ) : ordenesServicio.length > 0 ? (
         <View style={styles.container}>
           {ordenesServicio.map((orden) => (
-            <ItemOrdenServicio orden={orden} navigation={navigation} />
+            <ItemOrdenServicio
+              key={orden._id}
+              orden={orden}
+              navigation={navigation}
+            />
           ))}
+        </View>
+      ) : (
+        <View
+          style={{
+            flex: 1,
+            // justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: COLORS.white,
+            justifyContent: 'center',
+          }}
+        >
+          <Text style={{ fontSize: 20 }}>No cuentas con ordenes activas</Text>
         </View>
       )}
     </ScrollView>

@@ -23,13 +23,13 @@ const ModalOrdenServicioActiva = ({ route }) => {
           </Text>
           <View style={styles.contenidoOrden}>
             <Text style={styles.titulo}>Servicio</Text>
-            <Text style={styles.descripcion}>{orden.servicio.nombre}</Text>
+            <Text style={styles.descripcion}>{orden?.servicio?.nombre}</Text>
             <Text style={styles.titulo}>Descripcion</Text>
-            <Text style={styles.descripcion}>{orden.descripcion}</Text>
+            <Text style={styles.descripcion}>{orden?.descripcion}</Text>
             <Text style={styles.titulo}>Fecha</Text>
-            <Text style={styles.descripcion}>{orden.fecha}</Text>
+            <Text style={styles.descripcion}>{orden?.fecha}</Text>
             <Text style={styles.titulo}>Hora</Text>
-            <Text style={styles.descripcion}>{orden.hora}</Text>
+            <Text style={styles.descripcion}>{orden?.hora}</Text>
           </View>
           <View style={styles.acciones}>
             <TouchableOpacity style={styles.accionBoton}>

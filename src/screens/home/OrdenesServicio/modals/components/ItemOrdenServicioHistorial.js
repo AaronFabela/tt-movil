@@ -1,11 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useState } from 'react'
-import { COLORS } from '../../../../constants'
-import routes from '../../../../constants/routes'
+import { COLORS } from '../../../../../constants'
+import routes from '../../../../../constants/routes'
 
-const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
-  // const [description, setDescription] = useState(descri)
+const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
   return (
     <View style={styles.item}>
       <View style={styles.imagen}>
@@ -24,33 +23,22 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
       </View>
       <View style={styles.contenido}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          {ordenServicio?.servicio?.nombre}
+          {orden.servicio?.nombre}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {ordenServicio?.descripcion?.substring(0, 100)}
+          {orden.descripcion?.substring(0, 100)}
         </Text>
         <Text style={{ marginBottom: 5 }}>Calificacion</Text>
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
             onPress={() =>
-              navigation.navigate(routes.ORDENSERVICIOMODAL, {
-                ordenServicio,
-                prestador,
+              navigation.navigate(routes.ORDENESERVICIO_HISTORIAL_ITEM_MODAL, {
+                orden,
               })
             }
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() =>
-              navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
-                prestador: prestador,
-              })
-            }
-          >
-            <Text style={{ color: 'white' }}>Contratar</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -58,7 +46,7 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
   )
 }
 
-export default ItemOrdenServicio
+export default ItemOrdenServicioHistorial
 
 const styles = StyleSheet.create({
   item: {

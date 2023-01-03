@@ -17,6 +17,7 @@ export default {
   ORDENESSERVICIOACTIVAS: 'OrdenesServicioActivas',
   ORDENESERVICIO_ACTIVA_MODAL: 'OrdenServicioActivaModal',
   ORDENESERVICIO_HISTORIAL_MODAL: 'OrdenServicioHistorialModal',
+  ORDENESERVICIO_HISTORIAL_ITEM_MODAL: 'OrdenServicioHistorialItemModal',
 
   MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',

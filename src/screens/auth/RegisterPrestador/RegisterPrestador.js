@@ -8,11 +8,13 @@ import DatosGenerales from './components/DatosGenerales'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
 import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
+import { Chip } from 'react-native-paper'
+
 const RegisterPrestador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
-  const [rol, setRol] = useState('empleador')
+  const [rol, setRol] = useState('prestador')
   const data = new FormData()
   const [images, setImages] = useState({
     perfil: {
@@ -28,7 +30,13 @@ const RegisterPrestador = ({ navigation }) => {
     perfil: true,
     ine: true,
     domicilio: true,
+    servicios: true,
   })
+  const [servicios, setServicios] = useState([])
+  const [sCarpintero, setSCarpintero] = useState(false)
+  const [sCerrajeria, setSCerrajeria] = useState(false)
+  const [sPlomeria, setSPlomeria] = useState(false)
+  const [sElectricista, setSElectricista] = useState(false)
 
   const handleImagePerfil = async () => {
     // No permissions request is necessary for launching the image library
@@ -58,7 +66,10 @@ const RegisterPrestador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
-      setImages({ ...images, ine: result })
+      setImages({
+        ...images,
+        ine: { uri: result.uri, type: result.type, name: result.fileName },
+      })
     }
     console.log(images)
   }
@@ -73,7 +84,14 @@ const RegisterPrestador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
-      setImages({ ...images, domicilio: result })
+      setImages({
+        ...images,
+        domicilio: {
+          uri: result.uri,
+          type: result.type,
+          name: result.fileName,
+        },
+      })
     }
   }
 
@@ -111,9 +129,14 @@ const RegisterPrestador = ({ navigation }) => {
       data.append('email', email)
       data.append('password', password)
       data.append('rol', rol)
-      data.append('imagen', images.perfil)
+      data.append('perfil', images.perfil)
+      data.append('INE', images.ine)
+      data.append('comprobanteDomicilio', images.domicilio)
+      data.append('servicios', servicios)
+      // console.log(servicios)
       console.log(data)
-      const response = await solicitudService.crearSolicitud(data)
+      const response = await solicitudService.solicitudPrestador(data)
+
       if (response.code === 400) {
         const key = response.key.toUpperCase()
         Toast.error(`${response.data.message}`, 'top')
@@ -126,6 +149,7 @@ const RegisterPrestador = ({ navigation }) => {
         navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
+      console.log(error)
       Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
@@ -161,6 +185,14 @@ const RegisterPrestador = ({ navigation }) => {
     }
   }
 
+  const handleServicios = (servicio) => {
+    if (servicios.includes(servicio)) {
+      setServicios(servicios.filter((serv) => serv != servicio))
+    } else {
+      servicios.push(servicio)
+    }
+  }
+
   return (
     <View style={styles.container}>
       {/* <Spinner */}
@@ -169,7 +201,7 @@ const RegisterPrestador = ({ navigation }) => {
         <Text>Chambitas</Text>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.titulo}>Registar Empleador</Text>
+        <Text style={styles.titulo}>Registar Prestador</Text>
 
         <View style={styles.wrapper}>
           <View style={{ flex: 1 }}>
@@ -229,7 +261,7 @@ const RegisterPrestador = ({ navigation }) => {
                 label='Comprobante'
                 previousBtnText='Anterior'
                 nextBtnText='Siguiente'
-                onSubmit={() => (handleImage('domicilio'), handleRegister())}
+                onNext={() => handleImage('domicilio')}
                 errors={error.domicilio}
               >
                 <View style={{ alignItems: 'center' }}>
@@ -239,6 +271,59 @@ const RegisterPrestador = ({ navigation }) => {
                     uriType={images.domicilio}
                     titulo='Selecciona Comprobante Dom'
                   />
+                </View>
+              </ProgressStep>
+              <ProgressStep
+                label='Servicios'
+                previousBtnText='Anterior'
+                nextBtnText='Siguiente'
+                onSubmit={() => handleRegister()}
+                errors={error.servicios}
+              >
+                <View style={styles.servicios}>
+                  <Chip
+                    style={{ marginBottom: 10 }}
+                    onPress={() => (
+                      setSCarpintero(!sCarpintero),
+                      handleServicios('carpintero')
+                    )}
+                    showSelectedOverlay={true}
+                    selected={sCarpintero}
+                  >
+                    Carpintero
+                  </Chip>
+                  <Chip
+                    style={{ marginBottom: 10 }}
+                    onPress={() => (
+                      setSCerrajeria(!sCerrajeria),
+                      handleServicios('cerrajeria')
+                    )}
+                    showSelectedOverlay={true}
+                    selected={sCerrajeria}
+                  >
+                    Cerrajeria
+                  </Chip>
+                  <Chip
+                    style={{ marginBottom: 10 }}
+                    onPress={() => (
+                      setSPlomeria(!sPlomeria), handleServicios('plomeria')
+                    )}
+                    showSelectedOverlay={true}
+                    selected={sPlomeria}
+                  >
+                    Plomeria
+                  </Chip>
+                  <Chip
+                    style={{ marginBottom: 10 }}
+                    onPress={() => (
+                      setSElectricista(!sElectricista),
+                      handleServicios('electricista')
+                    )}
+                    showSelectedOverlay={true}
+                    selected={sElectricista}
+                  >
+                    Electricista
+                  </Chip>
                 </View>
               </ProgressStep>
             </ProgressSteps>
@@ -333,5 +418,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     // flexDirection: 'row',
+  },
+  servicios: {
+    width: '100%',
   },
 })

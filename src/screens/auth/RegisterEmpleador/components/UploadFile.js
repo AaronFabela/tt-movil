@@ -15,9 +15,6 @@ const UploadFile = ({ styles, handleUpload, uriType, titulo }) => {
             style={{ width: 300, height: 300 }}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleUpload} style={styles.botonUpload}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>{titulo}</Text>
-        </TouchableOpacity>
       </View>
     </View>
   )

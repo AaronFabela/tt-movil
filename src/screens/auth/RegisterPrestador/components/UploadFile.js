@@ -12,11 +12,8 @@ const UploadFile = ({ styles, handleUpload, uriType, titulo }) => {
                 ? { uri: uriType.uri }
                 : require('../../../../assets/upload.png')
             }
-            style={{ width: 300, height: 300 }}
+            style={{ width: 200, height: 200 }}
           />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleUpload} style={styles.botonUpload}>
-          <Text style={{ color: 'white', textAlign: 'center' }}>{titulo}</Text>
         </TouchableOpacity>
       </View>
     </View>

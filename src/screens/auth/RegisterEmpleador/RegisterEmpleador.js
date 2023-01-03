@@ -14,7 +14,6 @@ const RegisterEmpleador = ({ navigation }) => {
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const [rol, setRol] = useState('empleador')
-  const data = new FormData()
   const [images, setImages] = useState({
     perfil: {
       uri: null,
@@ -59,7 +58,10 @@ const RegisterEmpleador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
-      setImages({ ...images, ine: result })
+      setImages({
+        ...images,
+        ine: { uri: result.uri, type: result.type, name: result.fileName },
+      })
     }
     console.log(images)
   }
@@ -74,7 +76,14 @@ const RegisterEmpleador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
-      setImages({ ...images, domicilio: result })
+      setImages({
+        ...images,
+        domicilio: {
+          uri: result.uri,
+          type: result.type,
+          name: result.fileName,
+        },
+      })
     }
   }
 
@@ -107,14 +116,23 @@ const RegisterEmpleador = ({ navigation }) => {
 
   const handleRegister = async () => {
     try {
+      const data = new FormData()
       // const response = await authService.signup(usuario, email, password, rol)
       data.append('usuario', usuario)
       data.append('email', email)
       data.append('password', password)
       data.append('rol', rol)
-      data.append('imagen', images.perfil)
-      console.log(data)
-      const response = await solicitudService.crearSolicitud(data)
+      data.append('INE', images.ine)
+      data.append('perfil', images.perfil)
+      data.append('comprobanteDomicilio', images.domicilio)
+      // console.log('Hola', data)
+      // // console.log(data.entries())
+      // // console.log(Object.fromEntries(data))
+      // for (const valor of data.entries()) {
+      //   console.log(`${valor[0]}, ${valor[1]}`)
+      // }
+
+      const response = await solicitudService.solicitudEmpleador(data)
       if (response.code === 400) {
         const key = response.key.toUpperCase()
         Toast.error(`${response.data.message}`, 'top')
@@ -127,7 +145,8 @@ const RegisterEmpleador = ({ navigation }) => {
         navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
-      Toast.error(error.response.data.errors[0].msg, 'top')
+      console.log(error)
+      // Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
 

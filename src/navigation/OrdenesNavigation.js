@@ -9,6 +9,7 @@ import ModalOrdenServicioActiva from '../screens/home/OrdenesServicio/modals/Mod
 import { TouchableOpacity, Text } from 'react-native'
 import ModalOrdenServicioHistorial from '../screens/home/OrdenesServicio/modals/ModalOrdenServicioHistorial'
 import HeaderRightHistorialOS from '../screens/home/OrdenesServicio/modals/components/HeaderRightHistorialOS'
+import ModalOrdenServicioHistorialItem from '../screens/home/OrdenesServicio/modals/ModalOrdenServicioHistorialItem'
 
 const Stack = createNativeStackNavigator()
 
@@ -50,6 +51,19 @@ const OrdenesNavigation = () => {
           component={ModalOrdenServicioHistorial}
           options={{
             title: 'Historial Ordenes Servicio',
+            headerStyle: {
+              backgroundColor: COLORS.primary,
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name={routes.ORDENESERVICIO_HISTORIAL_ITEM_MODAL}
+          component={ModalOrdenServicioHistorialItem}
+          options={{
+            title: 'Ordenes Servicio Terminada',
             headerStyle: {
               backgroundColor: COLORS.primary,
               shadowColor: '#000',
