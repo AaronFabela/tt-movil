@@ -4,7 +4,7 @@ import { COLORS } from '../../../constants'
 
 const CardServicio = ({ titulo, icono, handleFilter }) => {
   return (
-    <View style={{ width: '45%' }}>
+    <View style={{ width: '30%' }}>
       <TouchableOpacity onPress={() => handleFilter(titulo)}>
         <View style={styles.card}>
           <View style={styles.icono}>{icono}</View>

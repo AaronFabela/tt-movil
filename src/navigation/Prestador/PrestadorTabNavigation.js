@@ -5,6 +5,8 @@ import { COLORS } from '../../constants'
 import Feather from 'react-native-vector-icons/Feather'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import PrestadorHomeNavigation from './PrestadorHomeNavigation'
+import PrestadorChatNavigation from './PrestadorChatNavigation'
+import PrestadorPerfilNavigation from './PrestadorPerfilNavigation'
 
 const Tab = createBottomTabNavigator()
 
@@ -27,6 +29,26 @@ const PrestadorTabNavigator = () => {
           ),
         }}
       />
+      <Tab.Screen
+        name={routes.PRESTADOR_CHAT_NAVIGATION}
+        component={PrestadorChatNavigation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name='message-circle' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.PRESTADOR_PERFIL_NAVIGATION}
+        component={PrestadorPerfilNavigation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name='settings' color={color} size={size} />
+          ),
+        }}
+      />
       {/* <Tab.Screen
         name={routes.ORDENESSERVICIO_NAVIGATION}
         component={OrdenesNavigation}
@@ -41,16 +63,7 @@ const PrestadorTabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name={routes.CHAT_NAVIGATION}
-        component={ChatNavigation}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <Feather name='message-circle' color={color} size={size} />
-          ),
-        }}
-      /> */}
+      */}
     </Tab.Navigator>
   )
 }

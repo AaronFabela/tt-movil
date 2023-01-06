@@ -5,6 +5,8 @@ import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../../context/AuthContext'
 import { COLORS } from '../../constants'
 import PrestadorHome from '../../screens/Prestador/home/PrestadorHome'
+import PrestadorMapModal from '../../screens/Prestador/home/modals/PrestadorMapModal'
+import PrestadorModalOrdenServicio from '../../screens/Prestador/home/modals/PrestadorModalOrdenServicio'
 
 const Stack = createNativeStackNavigator()
 
@@ -43,20 +45,20 @@ const PrestadorHomeNavigation = () => {
           headerBackTitle: '',
         }}
       /> */}
-      {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        {/* <Stack.Screen
           name={routes.DIRECCIONESMODAL}
           component={DireccionesModal}
           options={{ headerShown: false }}
-        />
+        /> */}
         <Stack.Screen
-          name={routes.MAPMODAL}
-          component={MapModal}
+          name={routes.PRESTADOR_MAPMODAL}
+          component={PrestadorMapModal}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name={routes.ORDENSERVICIOMODAL}
-          component={ModalOrdenServicio}
+          name={routes.PRESTADOR_MODALORDENSERVICIOMODAL}
+          component={PrestadorModalOrdenServicio}
           options={{
             title: 'Orden de Servicio',
             headerStyle: {
@@ -67,7 +69,7 @@ const PrestadorHomeNavigation = () => {
             headerBackTitle: '',
           }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name={routes.CREARORDENSERVICIOMODAL}
           component={ModalCrearOrdenServicio}
           options={{
@@ -79,8 +81,8 @@ const PrestadorHomeNavigation = () => {
             headerTintColor: 'white',
             headerBackTitle: '',
           }}
-        />
-      </Stack.Group> */}
+        /> */}
+      </Stack.Group>
     </Stack.Navigator>
   )
 }

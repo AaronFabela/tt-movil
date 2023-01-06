@@ -4,16 +4,18 @@ import { useState } from 'react'
 import { COLORS } from '../../../../constants'
 import routes from '../../../../constants/routes'
 
-const ItemOrdenServicio = ({ orden, navigation }) => {
+const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
+  // const [description, setDescription] = useState(descri)
   return (
     <View style={styles.item}>
       <View style={styles.imagen}>
         <Image
           // resizeMode='contain'
+
           source={{
-            uri: orden.prestador?.perfil?.secure_url
-              ? orden.prestador?.perfil?.secure_url
-              : 'https://fastly.4sqi.net/img/general/600x600/33DWRTO3WOIL4QTI4WXTXCLBLV34EMYWRSG2Z5QJIKXYM1UG.jpg',
+            uri: ordenServicio?.empleador?.perfil?.secure_id
+              ? ordenServicio?.empleador?.perfil?.secure_id
+              : 'https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg',
           }}
           style={{
             height: '100%',
@@ -25,29 +27,28 @@ const ItemOrdenServicio = ({ orden, navigation }) => {
       </View>
       <View style={styles.contenido}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          {orden.prestador?.usuario}
+          {ordenServicio?.servicio?.nombre}
+        </Text>
+        <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>
+          {ordenServicio?.empleador?.usuario}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          Servicio: {orden?.servicio?.nombre}
+          {ordenServicio?.descripcion?.substring(0, 100)}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {orden.descripcion?.substring(0, 100)}
+          Fecha: {new Date(ordenServicio?.fecha).toLocaleDateString()}
         </Text>
-
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
             onPress={() =>
-              navigation.navigate(routes.ORDENESERVICIO_ACTIVA_MODAL, {
-                orden,
-                navigation,
+              navigation.navigate(routes.PRESTADOR_MODALORDENSERVICIOMODAL, {
+                ordenServicio,
+                prestador,
               })
             }
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
-            <Text style={{ color: 'white' }}>Mensaje</Text>
           </TouchableOpacity>
         </View>
       </View>

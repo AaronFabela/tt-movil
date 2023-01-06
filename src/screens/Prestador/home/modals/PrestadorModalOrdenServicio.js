@@ -8,22 +8,16 @@ import {
 } from 'react-native'
 import React from 'react'
 import { COLORS } from '../../../../constants'
+import routes from '../../../../constants/routes'
+import MapOrdenServicio from '../components/MapOrdenServicio'
 import ordenServicioService from '../../../../services/ordenServicio.service'
-import { Alert } from 'react-native'
 
-const ModalOrdenServicioActiva = ({ route }) => {
-  const { orden, navigation } = route.params
+const PrestadorModalOrdenServicio = ({ route, navigation }) => {
+  const { ordenServicio, prestador } = route.params
 
-  const handleCancelar = async () => {
-    try {
-      const response = await ordenServicioService.cancelarOrdenServicio(
-        orden._id
-      )
-      Alert.alert('Orden Cancelada')
-      navigation.goBack()
-    } catch (error) {
-      console.log(error)
-    }
+  const handleTerminada = async () => {
+    await ordenServicioService.terminarOrdenServicio(ordenServicio._id)
+    navigation.pop(1)
   }
 
   return (
@@ -34,27 +28,32 @@ const ModalOrdenServicioActiva = ({ route }) => {
       <View style={styles.container}>
         <View style={styles.contenido}>
           <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
-            {orden?.prestador?.usuario}
+            {ordenServicio?.empleador?.usuario}
           </Text>
           <View style={styles.contenidoOrden}>
-            <Text style={styles.titulo}>Servicio</Text>
-            <Text style={styles.descripcion}>{orden?.servicio?.nombre}</Text>
             <Text style={styles.titulo}>Descripcion</Text>
-            <Text style={styles.descripcion}>{orden?.descripcion}</Text>
+            <Text style={styles.descripcion}>{ordenServicio?.descripcion}</Text>
+            <Text style={styles.titulo}>Notas</Text>
+            <Text style={styles.descripcion}>{ordenServicio?.notas}</Text>
             <Text style={styles.titulo}>Fecha</Text>
-            <Text style={styles.descripcion}>{orden?.fecha}</Text>
+            <Text style={styles.descripcion}>
+              {new Date(ordenServicio?.fecha).toLocaleDateString()}
+            </Text>
             <Text style={styles.titulo}>Hora</Text>
-            <Text style={styles.descripcion}>{orden?.hora}</Text>
+            <Text style={styles.descripcion}>
+              {new Date(ordenServicio?.fecha).toLocaleTimeString()}
+            </Text>
           </View>
+          <MapOrdenServicio region={ordenServicio?.direccion} />
           <View style={styles.acciones}>
-            {/* <TouchableOpacity style={styles.accionBoton}>
-              <Text style={{ color: 'white' }}>Mensaje</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.accionBoton}
-              onPress={() => handleCancelar()}
+              onPress={() => handleTerminada()}
             >
-              <Text style={{ color: 'white' }}>Cancelar</Text>
+              <Text style={{ color: 'white' }}>Terminada</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.accionBoton}>
+              <Text style={{ color: 'white' }}>Cancelada</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -63,7 +62,7 @@ const ModalOrdenServicioActiva = ({ route }) => {
   )
 }
 
-export default ModalOrdenServicioActiva
+export default PrestadorModalOrdenServicio
 
 const styles = StyleSheet.create({
   container: {
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: '45%',
     borderRadius: 10,
     backgroundColor: COLORS.primary,
   },

@@ -1,16 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
-import { COLORS } from '../constants'
-import MapSetDirection from '../components/MapSetDirection'
+import { AuthContext } from '../../../../context/AuthContext'
+import { COLORS } from '../../../../constants'
+import MapSetDirection from '../../../../components/MapSetDirection'
 import { ActivityIndicator, TextInput } from 'react-native-paper'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Alert } from 'react-native'
-import direccionService from '../services/direccion.service'
-import usuarioService from '../services/usuario.service'
-import { getCurrentLocation } from '../utils/helpers'
+import direccionService from '../../../../services/direccion.service'
+import usuarioService from '../../../../services/usuario.service'
+import { getCurrentLocation } from '../../../../utils/helpers'
 
-const MapModal = ({ navigation }) => {
+const PrestadorMapModal = ({ navigation }) => {
   const { userInfo, ubicacion, setUserInfo, setUbicacion } =
     useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(true)
@@ -19,7 +19,6 @@ const MapModal = ({ navigation }) => {
     direccion: '',
     referencias: '',
   })
-
   const [index, setIndex] = useState(0)
   const [region, setRegion] = useState({
     latitude: 0,
@@ -31,12 +30,10 @@ const MapModal = ({ navigation }) => {
     latitude: 0,
     longitude: 0,
   })
-
   const [pin, setPin] = useState({
     latitude: 0,
     longitude: 0,
   })
-
   useEffect(() => {
     getCurrentLocation().then((response) => {
       console.log(userInfo)
@@ -50,7 +47,6 @@ const MapModal = ({ navigation }) => {
         latitude: response.coords.latitude,
         longitude: response.coords.longitude,
       })
-
       setIsLoading(false)
     })
   }, [])
@@ -76,16 +72,15 @@ const MapModal = ({ navigation }) => {
           direccionActual: updateUser.data.direccionActual,
         })
         Alert.alert('Direccion añadida con exito')
-        navigation.pop(4)
+        navigation.pop(3)
       } else {
-        // Toast.error(error.response.data.message, 'top')
+        Toast.error(error.response.data.message, 'top')
       }
     } catch (error) {
       console.log(error)
       // Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
-
   const handleNewDirection = (latitude, longitude) => {
     Alert.alert('Confirmar Ubicación', '¿Deseas confirmar esta ubicacion?', [
       {
@@ -99,7 +94,6 @@ const MapModal = ({ navigation }) => {
       },
     ])
   }
-
   const handleSetNewDirection = (latitude, longitude) => {
     setNewDirection({
       latitude,
@@ -107,7 +101,6 @@ const MapModal = ({ navigation }) => {
     })
     setIndex(1)
   }
-
   return (
     <>
       {isLoading ? (
@@ -360,4 +353,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default MapModal
+export default PrestadorMapModal

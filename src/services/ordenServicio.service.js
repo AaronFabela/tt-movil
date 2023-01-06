@@ -65,12 +65,42 @@ const getOrdenesServicioByTerminadas = async (id) => {
   })
 }
 
+const terminarOrdenServicio = async (id) => {
+  console.log(id)
+  return axios.put(API_URL + 'ordenesServicio/terminarOrdenServicio/' + id, {
+    headers: {
+      'Access-Control-Allow-Origin': true,
+    },
+  })
+}
+
+const cancelarOrdenServicio = async (id) => {
+  console.log(id)
+  return axios.put(API_URL + 'ordenesServicio/cancelarOrdenServicio/' + id, {
+    headers: {
+      'Access-Control-Allow-Origin': true,
+    },
+  })
+}
+
+const getServicios = async () => {
+  console.log(id)
+  return axios.get(API_URL + 'servicio/', {
+    headers: {
+      'Access-Control-Allow-Origin': true,
+    },
+  })
+}
+
 const ordenServicioService = {
   crearOrdenServicio,
   getOrdenServicioByPrestador,
   getOrdenServicioByEmpleador,
   getOrdenesServicioByActivas,
   getOrdenesServicioByTerminadas,
+  terminarOrdenServicio,
+  getServicios,
+  cancelarOrdenServicio,
 }
 
 export default ordenServicioService

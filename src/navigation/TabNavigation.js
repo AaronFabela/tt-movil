@@ -8,6 +8,7 @@ import ChatNavigation from './ChatNavigation'
 import { AuthContext } from '../context/AuthContext'
 import HomeNavigation from './HomeNavigation'
 import OrdenesNavigation from './OrdenesNavigation'
+import PerfilNavigation from '../navigation/PerfilNavigation'
 
 const Tab = createBottomTabNavigator()
 
@@ -53,6 +54,16 @@ const TabNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name='message-circle' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.PERFIL_NAVIGATION}
+        component={PerfilNavigation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name='settings' color={color} size={size} />
           ),
         }}
       />

@@ -11,7 +11,9 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
         <Image
           // resizeMode='contain'
           source={{
-            uri: 'https://fastly.4sqi.net/img/general/600x600/33DWRTO3WOIL4QTI4WXTXCLBLV34EMYWRSG2Z5QJIKXYM1UG.jpg',
+            uri: orden?.prestador?.perfil?.secure_id
+              ? orden?.prestador?.perfil?.secure_id
+              : 'https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg',
           }}
           style={{
             height: '100%',
@@ -35,6 +37,7 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
             onPress={() =>
               navigation.navigate(routes.ORDENESERVICIO_HISTORIAL_ITEM_MODAL, {
                 orden,
+                navigation,
               })
             }
           >

@@ -3,7 +3,13 @@ import React from 'react'
 
 const MiniCardServicio = ({ titulo, icono, handleFilter }) => {
   return (
-    <View style={{ width: '22%' }}>
+    <View
+      style={{
+        width: 80,
+        alignItems: 'center',
+        marginRight: 15,
+      }}
+    >
       <TouchableOpacity onPress={() => handleFilter(titulo)}>
         <View style={styles.card}>
           <View style={styles.icono}>{icono}</View>
@@ -20,7 +26,7 @@ export default MiniCardServicio
 
 const styles = StyleSheet.create({
   card: {
-    height: '70%',
+    height: 80,
     backgroundColor: '#fafafa',
     borderRadius: 15,
     padding: 15,

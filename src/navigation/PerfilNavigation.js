@@ -1,43 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react'
 import routes from '../constants/routes'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import Home from '../screens/home/Home'
 import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context/AuthContext'
-import HeaderRightDireccion from '../components/HeaderRightDireccion'
 import { COLORS } from '../constants'
-import DireccionesModal from '../modals/DireccionesModal'
-import MapModal from '../modals/MapModal'
-import PerfilPrestador from '../screens/home/PerfilPrestador/PerfilPrestador'
-import ModalOrdenServicio from '../screens/home/PerfilPrestador/modals/ModalOrdenServicio'
-import ModalCrearOrdenServicio from '../screens/home/PerfilPrestador/modals/ModalCrearOrdenServicio'
-import ServiciosModal from '../modals/ServiciosModal'
+import Perfil from '../screens/home/Perfil'
 
 const Stack = createNativeStackNavigator()
 
-const HomeNavigation = () => {
+const PerfilNavigation = () => {
   const { userInfo } = useContext(AuthContext)
 
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={routes.HOME}
-        component={Home}
-        options={({ navigation }) => ({
-          title: `Hola, ${userInfo?.usuario}`,
+        name={routes.PERFIL}
+        component={Perfil}
+        options={{
+          title: `Perfil`,
           headerShown: true,
           headerTintColor: 'white',
-          headerRight: () => <HeaderRightDireccion navigation={navigation} />,
+          // headerRight: () => <HeaderRightDireccion navigation={navigation} />,
           headerStyle: {
             backgroundColor: COLORS.primary,
             shadowColor: '#000',
           },
-          tabBarIcon: ({ color, size }) => (
-            <Feather name='home' color={color} size={size} />
-          ),
-        })}
+        }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name={routes.PERFILPRESTADORHOME}
         component={PerfilPrestador}
         options={{
@@ -49,19 +39,19 @@ const HomeNavigation = () => {
           headerTintColor: 'white',
           headerBackTitle: '',
         }}
-      />
+      /> */}
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen
+        {/* <Stack.Screen
           name={routes.DIRECCIONESMODAL}
           component={DireccionesModal}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name={routes.MAPMODAL}
-          component={MapModal}
+        /> */}
+        {/* <Stack.Screen
+          name={routes.PRESTADOR_MAPMODAL}
+          component={PrestadorMapModal}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
+        /> */}
+        {/* <Stack.Screen
           name={routes.ORDENSERVICIOMODAL}
           component={ModalOrdenServicio}
           options={{
@@ -86,23 +76,10 @@ const HomeNavigation = () => {
             headerTintColor: 'white',
             headerBackTitle: '',
           }}
-        />
-        <Stack.Screen
-          name={routes.SERVICIOSMODAL}
-          component={ServiciosModal}
-          options={{
-            title: 'Todos los Servicios',
-            headerStyle: {
-              backgroundColor: COLORS.primary,
-              shadowColor: '#000',
-            },
-            headerTintColor: 'white',
-            headerBackTitle: '',
-          }}
-        />
+        /> */}
       </Stack.Group>
     </Stack.Navigator>
   )
 }
 
-export default HomeNavigation
+export default PerfilNavigation

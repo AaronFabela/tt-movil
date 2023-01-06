@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import MapView from 'react-native-maps'
 import { StyleSheet, Text, View, Dimensions } from 'react-native'
-import { AuthContext } from '../context/AuthContext'
-import { COLORS } from '../constants'
 import { Marker } from 'react-native-maps'
 
-const MapSetDirection = ({ navigation, region, setPin }) => {
+const MapOrdenServicio = ({ navigation, region }) => {
   // useEffect(() => {
   //   console.log('hol2', ubicacion)
   //   // setPin({latitude}]
@@ -21,20 +19,18 @@ const MapSetDirection = ({ navigation, region, setPin }) => {
     >
       <MapView
         style={styles.map}
-        initialRegion={region}
+        initialRegion={{
+          latitude: parseFloat(region.latitude),
+          longitude: parseFloat(region.longitude),
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
         showsUserLocation={true}
       >
         <Marker
           coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude,
-          }}
-          draggable={true}
-          onDragEnd={(e) => {
-            setPin({
-              latitude: e.nativeEvent.coordinate.latitude,
-              longitude: e.nativeEvent.coordinate.longitude,
-            })
+            latitude: parseFloat(region.latitude),
+            longitude: parseFloat(region.longitude),
           }}
         />
       </MapView>
@@ -44,9 +40,9 @@ const MapSetDirection = ({ navigation, region, setPin }) => {
 
 const styles = StyleSheet.create({
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: '100%',
+    height: 200,
   },
 })
 
-export default MapSetDirection
+export default MapOrdenServicio

@@ -9,18 +9,34 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import MiniCardServicio from './components/MiniCardServicio'
 import ItemServicio from './components/ItemServicio'
 import prestadoresService from '../../services/prestadores.service'
+import servicioService from '../../services/servicios.service'
+import routes from '../../constants/routes'
 
 const Home = ({ navigation }) => {
   const { userInfo, ubicacion, setUbicacion } = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(true)
   const [prestadores, setPrestadores] = useState([])
   const [prestadoresFilter, setPrestadoresFilter] = useState([])
+  const [servicios, setServicios] = useState([])
+  const [servicios1, setServicios1] = useState([])
+  const [servicios2, setServicios2] = useState([])
 
   useEffect(() => {
     prestadoresService.getPrestadoresByActivos().then(
       (response) => {
         setPrestadores(response.data)
         setPrestadoresFilter(response.data)
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
+    servicioService.getServicios().then(
+      (response) => {
+        setServicios(response.data)
+        setServicios1(response.data.slice(0, 3))
+        setServicios2(response.data.slice(3))
         setIsLoading(false)
       },
       (error) => {
@@ -73,68 +89,49 @@ const Home = ({ navigation }) => {
         >
           <View style={styles.servicios}>
             <View style={styles.serviciosRow}>
-              <CardServicio
-                titulo={'carpinteria'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/carpentry.png`)}
-                    style={{ width: 60, height: 60 }}
-                  />
-                }
-                handleFilter={handleFilter}
-              />
-              <CardServicio
-                titulo={'plomeria'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/plumber.png`)}
-                    style={{ width: 60, height: 60 }}
-                  />
-                }
-                handleFilter={handleFilter}
-              />
+              {servicios1.map((servicio1) => (
+                <CardServicio
+                  titulo={servicio1.nombre}
+                  icono={
+                    <Image
+                      source={require(`../../assets/iconosServicios/carpentry.png`)}
+                      style={{ width: 60, height: 60 }}
+                    />
+                  }
+                  handleFilter={handleFilter}
+                />
+              ))}
             </View>
             <View style={styles.serviciosRow}>
-              <MiniCardServicio
-                titulo={'cerrajeria'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/cerrajeria.png`)}
-                    style={{ width: 50, height: 50 }}
+              <ScrollView horizontal={true}>
+                {servicios2.map((servicio2) => (
+                  <MiniCardServicio
+                    titulo={servicio2.nombre}
+                    icono={
+                      <Image
+                        source={require(`../../assets/iconosServicios/houseCleaning.png`)}
+                        style={{ width: 50, height: 50 }}
+                      />
+                    }
+                    handleFilter={handleFilter}
                   />
-                }
-                handleFilter={handleFilter}
-              />
-              <MiniCardServicio
-                titulo={'albañileria'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/brickwall.png`)}
-                    style={{ width: 50, height: 50 }}
-                  />
-                }
-                handleFilter={handleFilter}
-              />
-              <MiniCardServicio
-                titulo={'electricista'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/electricist.png`)}
-                    style={{ width: 50, height: 50 }}
-                  />
-                }
-                handleFilter={handleFilter}
-              />
-              <MiniCardServicio
-                titulo={'pintura'}
-                icono={
-                  <Image
-                    source={require(`../../assets/iconosServicios/paint.png`)}
-                    style={{ width: 50, height: 50 }}
-                  />
-                }
-                handleFilter={handleFilter}
-              />
+                ))}
+                <MiniCardServicio
+                  titulo='Todos'
+                  icono={
+                    <Image
+                      source={require(`../../assets/iconosServicios/all.png`)}
+                      style={{ width: 50, height: 50 }}
+                    />
+                  }
+                  handleFilter={() =>
+                    navigation.navigate(routes.SERVICIOSMODAL, {
+                      servicios,
+                      handleFilter,
+                    })
+                  }
+                />
+              </ScrollView>
             </View>
           </View>
           <View style={styles.listaServicios}>
@@ -169,7 +166,6 @@ const Home = ({ navigation }) => {
                 <Text>No contamos con prestadores en tu zona</Text>
               </View>
             )}
-            {}
           </View>
         </ScrollView>
         // <Text>Hola</Text>

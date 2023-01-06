@@ -6,7 +6,6 @@ import { COLORS } from '../constants'
 import Login from '../screens/auth/Login'
 import Register from '../screens/auth/Register'
 import { AuthContext } from '../context/AuthContext'
-import Perfil from '../screens/Perfil'
 import FirstDirection from '../screens/auth/FirstDirection'
 import RegisterEmpleador from '../screens/auth/RegisterEmpleador/RegisterEmpleador'
 import TabNavigator from './TabNavigation'
@@ -99,11 +98,6 @@ const Navigation = () => {
             />
           </>
         )}
-        <Stack.Screen
-          name={routes.PERFIL}
-          component={Perfil}
-          options={{ headerShown: false }}
-        />
         {/* <Stack.Screen
           name={routes.MAPMODAL}
           component={MapModal}

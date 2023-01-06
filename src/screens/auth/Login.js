@@ -42,7 +42,7 @@ const Login = ({ navigation }) => {
         setPassword(null)
       }
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error)
       Toast.error(error.response.data.errors[0].msg, 'top')
 
       setUsuario(null)

@@ -8,11 +8,12 @@ import DatosGenerales from './components/DatosGenerales'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
 import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
-import { Chip } from 'react-native-paper'
+import { Chip, ActivityIndicator } from 'react-native-paper'
 
 const RegisterPrestador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
   const [password, setPassword] = useState('')
+  const [isSending, setIsSending] = useState(false)
   const [email, setEmail] = useState('')
   const [rol, setRol] = useState('prestador')
   const data = new FormData()
@@ -145,10 +146,12 @@ const RegisterPrestador = ({ navigation }) => {
         setPassword(null)
         setRol(null)
       } else {
+        setIsSending(false)
         Alert.alert('Solicitud Enviada Correctamente')
         navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
+      setIsSending(false)
       console.log(error)
       Toast.error(error.response.data.errors[0].msg, 'top')
     }
@@ -205,128 +208,136 @@ const RegisterPrestador = ({ navigation }) => {
 
         <View style={styles.wrapper}>
           <View style={{ flex: 1 }}>
-            <ProgressSteps>
-              <ProgressStep
-                label='Formulario'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleForm()}
-                errors={error.form}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <DatosGenerales
-                    email={email}
-                    setEmail={setEmail}
-                    usuario={usuario}
-                    setUsuario={setUsuario}
-                    password={password}
-                    setPassword={setPassword}
-                    styles={styles}
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='Foto Perfil'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleImage('perfil')}
-                errors={error.perfil}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImagePerfil}
-                    uriType={images.perfil}
-                    titulo='Selecciona Foto de Perfil'
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='INE'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleImage('ine')}
-                errors={error.ine}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImageIne}
-                    uriType={images.ine}
-                    titulo='Selecciona tu INE'
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='Comprobante'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleImage('domicilio')}
-                errors={error.domicilio}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImageDomicilio}
-                    uriType={images.domicilio}
-                    titulo='Selecciona Comprobante Dom'
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='Servicios'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onSubmit={() => handleRegister()}
-                errors={error.servicios}
-              >
-                <View style={styles.servicios}>
-                  <Chip
-                    style={{ marginBottom: 10 }}
-                    onPress={() => (
-                      setSCarpintero(!sCarpintero),
-                      handleServicios('carpintero')
-                    )}
-                    showSelectedOverlay={true}
-                    selected={sCarpintero}
-                  >
-                    Carpintero
-                  </Chip>
-                  <Chip
-                    style={{ marginBottom: 10 }}
-                    onPress={() => (
-                      setSCerrajeria(!sCerrajeria),
-                      handleServicios('cerrajeria')
-                    )}
-                    showSelectedOverlay={true}
-                    selected={sCerrajeria}
-                  >
-                    Cerrajeria
-                  </Chip>
-                  <Chip
-                    style={{ marginBottom: 10 }}
-                    onPress={() => (
-                      setSPlomeria(!sPlomeria), handleServicios('plomeria')
-                    )}
-                    showSelectedOverlay={true}
-                    selected={sPlomeria}
-                  >
-                    Plomeria
-                  </Chip>
-                  <Chip
-                    style={{ marginBottom: 10 }}
-                    onPress={() => (
-                      setSElectricista(!sElectricista),
-                      handleServicios('electricista')
-                    )}
-                    showSelectedOverlay={true}
-                    selected={sElectricista}
-                  >
-                    Electricista
-                  </Chip>
-                </View>
-              </ProgressStep>
-            </ProgressSteps>
+            {isSending ? (
+              <ActivityIndicator
+                size={50}
+                animating={true}
+                color={COLORS.primary}
+              />
+            ) : (
+              <ProgressSteps>
+                <ProgressStep
+                  label='Formulario'
+                  previousBtnText='Anterior'
+                  nextBtnText='Siguiente'
+                  onNext={() => handleForm()}
+                  errors={error.form}
+                >
+                  <View style={{ alignItems: 'center' }}>
+                    <DatosGenerales
+                      email={email}
+                      setEmail={setEmail}
+                      usuario={usuario}
+                      setUsuario={setUsuario}
+                      password={password}
+                      setPassword={setPassword}
+                      styles={styles}
+                    />
+                  </View>
+                </ProgressStep>
+                <ProgressStep
+                  label='Foto Perfil'
+                  previousBtnText='Anterior'
+                  nextBtnText='Siguiente'
+                  onNext={() => handleImage('perfil')}
+                  errors={error.perfil}
+                >
+                  <View style={{ alignItems: 'center' }}>
+                    <UploadFile
+                      styles={styles}
+                      handleUpload={handleImagePerfil}
+                      uriType={images.perfil}
+                      titulo='Selecciona Foto de Perfil'
+                    />
+                  </View>
+                </ProgressStep>
+                <ProgressStep
+                  label='INE'
+                  previousBtnText='Anterior'
+                  nextBtnText='Siguiente'
+                  onNext={() => handleImage('ine')}
+                  errors={error.ine}
+                >
+                  <View style={{ alignItems: 'center' }}>
+                    <UploadFile
+                      styles={styles}
+                      handleUpload={handleImageIne}
+                      uriType={images.ine}
+                      titulo='Selecciona tu INE'
+                    />
+                  </View>
+                </ProgressStep>
+                <ProgressStep
+                  label='Comprobante'
+                  previousBtnText='Anterior'
+                  nextBtnText='Siguiente'
+                  onNext={() => handleImage('domicilio')}
+                  errors={error.domicilio}
+                >
+                  <View style={{ alignItems: 'center' }}>
+                    <UploadFile
+                      styles={styles}
+                      handleUpload={handleImageDomicilio}
+                      uriType={images.domicilio}
+                      titulo='Selecciona Comprobante Dom'
+                    />
+                  </View>
+                </ProgressStep>
+                <ProgressStep
+                  label='Servicios'
+                  previousBtnText='Anterior'
+                  nextBtnText='Siguiente'
+                  onSubmit={() => (setIsSending(true), handleRegister())}
+                  errors={error.servicios}
+                >
+                  <View style={styles.servicios}>
+                    <Chip
+                      style={{ marginBottom: 10 }}
+                      onPress={() => (
+                        setSCarpintero(!sCarpintero),
+                        handleServicios('carpintero')
+                      )}
+                      showSelectedOverlay={true}
+                      selected={sCarpintero}
+                    >
+                      Carpintero
+                    </Chip>
+                    <Chip
+                      style={{ marginBottom: 10 }}
+                      onPress={() => (
+                        setSCerrajeria(!sCerrajeria),
+                        handleServicios('cerrajeria')
+                      )}
+                      showSelectedOverlay={true}
+                      selected={sCerrajeria}
+                    >
+                      Cerrajeria
+                    </Chip>
+                    <Chip
+                      style={{ marginBottom: 10 }}
+                      onPress={() => (
+                        setSPlomeria(!sPlomeria), handleServicios('plomeria')
+                      )}
+                      showSelectedOverlay={true}
+                      selected={sPlomeria}
+                    >
+                      Plomeria
+                    </Chip>
+                    <Chip
+                      style={{ marginBottom: 10 }}
+                      onPress={() => (
+                        setSElectricista(!sElectricista),
+                        handleServicios('electricista')
+                      )}
+                      showSelectedOverlay={true}
+                      selected={sElectricista}
+                    >
+                      Electricista
+                    </Chip>
+                  </View>
+                </ProgressStep>
+              </ProgressSteps>
+            )}
           </View>
         </View>
       </View>

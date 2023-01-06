@@ -16,6 +16,7 @@ import { Tab, TabView } from '@rneui/themed'
 import ItemOrdenServicio from './components/ItemOrdenServicio'
 import ItemServicioDisponible from './components/ItemServicioDisponible'
 import ordenServicioService from '../../../services/ordenServicio.service'
+import routes from '../../../constants/routes'
 
 const PerfilPrestador = ({ route }) => {
   const { id, navigation } = route.params
@@ -104,9 +105,27 @@ const PerfilPrestador = ({ route }) => {
                         borderRadius: 10,
                         alignItems: 'center',
                         justifyContent: 'center',
+                        marginBottom: 5,
                       }}
                     >
                       <Text style={{ color: 'white' }}>Mensaje</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: COLORS.primary,
+                        height: 40,
+                        width: 70,
+                        borderRadius: 10,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      onPress={() =>
+                        navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
+                          prestador,
+                        })
+                      }
+                    >
+                      <Text style={{ color: 'white' }}>Contratar</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

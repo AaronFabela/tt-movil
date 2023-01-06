@@ -7,12 +7,13 @@ import { AuthContext } from '../../../../context/AuthContext'
 import ItemOrdenServicioHistorial from './components/ItemOrdenServicioHistorial'
 import { COLORS } from '../../../../constants'
 
-const ModalOrdenServicioHistorial = () => {
+const ModalOrdenServicioHistorial = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext)
   const [ordenServicioHistorial, setOrdenServicioHistorial] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    console.log(userInfo.id)
     ordenServicioService.getOrdenesServicioByTerminadas(userInfo.id).then(
       (response) => {
         setOrdenServicioHistorial(response.data)
@@ -25,7 +26,10 @@ const ModalOrdenServicioHistorial = () => {
   }, [])
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: 'white' }}
+    >
       {isLoading ? (
         <>
           <View
@@ -47,11 +51,13 @@ const ModalOrdenServicioHistorial = () => {
       ) : ordenServicioHistorial.length > 0 ? (
         <View style={styles.container}>
           {ordenServicioHistorial.map((orden) => (
-            <ItemOrdenServicioHistorial
-              key={orden._id}
-              orden={orden}
-              navigation={navigation}
-            />
+            <>
+              <ItemOrdenServicioHistorial
+                key={orden._id}
+                orden={orden}
+                navigation={navigation}
+              />
+            </>
           ))}
         </View>
       ) : (
@@ -75,4 +81,11 @@ const ModalOrdenServicioHistorial = () => {
 
 export default ModalOrdenServicioHistorial
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 15,
+    backgroundColor: 'white',
+    flex: 1,
+    marginTop: 15,
+  },
+})

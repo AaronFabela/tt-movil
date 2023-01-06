@@ -43,11 +43,16 @@ const signup = async (usuario, email, password, rol) => {
   return response.data
 }
 
+const logout = async () => {
+  await AsyncStorage.clear()
+}
+
 const authService = {
   // getCurrentUser,
   login,
   signup,
   getUsuarioById,
+  logout,
 }
 
 export default authService
