@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useContext, useState } from 'react'
 import { AuthContext } from '../../../../context/AuthContext'
 import { COLORS } from '../../../../constants'
@@ -15,19 +15,30 @@ import { ActivityIndicator, RadioButton, TextInput } from 'react-native-paper'
 import ordenServicioService from '../../../../services/ordenServicio.service'
 import { Alert } from 'react-native'
 import ToastManager, { Toast } from 'toastify-react-native'
+import ItemServicioDisponible from '../components/ItemServicioDisponible'
 
-const ModalCrearOrdenServicio = ({ route, params, navigation }) => {
+const ModalCrearOrdenServicio = ({ route, navigation }) => {
   const { userInfo } = useContext(AuthContext)
-  const { prestador } = route.params
+  const { ordenServicio, prestador } = route.params
   const dia = new Date()
   const [date, setDate] = useState(dia)
   const [time, setTime] = useState(dia)
   const [openDate, setOpenDate] = useState(false)
   const [openTime, setOpenTime] = useState(false)
-  const [servicio, setServicio] = useState('')
+  const [servicioActivo, setServicioActivo] = useState('')
   const [notas, setNotas] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setServicioActivo(
+      ordenServicio?.servicio?.nombre != null ||
+        ordenServicio?.servicio?.nombre != undefined
+        ? ordenServicio?.servicio?.nombre
+        : ''
+    )
+    console.log('hols', ordenServicio?.servicio?.nombre)
+  }, [])
 
   const handleOpenTime = () => {
     setOpenTime(!openTime)
@@ -53,7 +64,7 @@ const ModalCrearOrdenServicio = ({ route, params, navigation }) => {
   const handleEnviar = async () => {
     try {
       await ordenServicioService.crearOrdenServicio(
-        servicio,
+        servicioActivo,
         prestador._id,
         userInfo.id,
         descripcion,
@@ -157,18 +168,21 @@ const ModalCrearOrdenServicio = ({ route, params, navigation }) => {
                 />
               ) : null}
             </View>
-            <View style={styles.servicios}>
-              <RadioButton.Group
-                onValueChange={(newServicio) => handleServicio(newServicio)}
-                value={servicio}
+            <View style={styles.cardServDisp}>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
               >
-                {prestador?.servicios.map((servicio) => (
-                  <View style={styles.radioBtn} key={servicio._id}>
-                    <Text>{servicio.nombre}</Text>
-                    <RadioButton value={`${servicio._id}`} />
-                  </View>
+                {prestador?.servicios?.map((servicio) => (
+                  <ItemServicioDisponible
+                    key={servicio._id}
+                    icono={require('../../../../assets/iconosServicios/electricist.png')}
+                    nombre={servicio.nombre}
+                    setServicioActivo={setServicioActivo}
+                    servicioActivo={servicioActivo}
+                  />
                 ))}
-              </RadioButton.Group>
+              </ScrollView>
             </View>
             <TextInput
               value={descripcion}
@@ -283,5 +297,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderRadius: 10,
+  },
+  cardServDisp: {
+    marginVertical: 15,
+    flex: 5,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 })

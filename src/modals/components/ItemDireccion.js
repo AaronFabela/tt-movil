@@ -7,6 +7,7 @@ const ItemDireccion = ({
   id,
   nombre,
   direccion,
+  direccionActualId,
   handleSetCurrentDireccion,
   handleDeleteDireccion,
 }) => {
@@ -20,7 +21,11 @@ const ItemDireccion = ({
           style={styles.accion}
           onPress={() => handleSetCurrentDireccion(id)}
         >
-          <Feather name='check-circle' color={COLORS.success} size={30} />
+          <Feather
+            name='check-circle'
+            color={id === direccionActualId ? COLORS.success : COLORS.grayLight}
+            size={30}
+          />
         </TouchableOpacity>
         <TouchableOpacity style={styles.accion}>
           <Feather

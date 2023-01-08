@@ -40,4 +40,11 @@ export default {
   PRESTADOR_PERFIL_NAVIGATION: 'PerfilPrestadorNavigation',
   PRESTADOR_PERFIL: 'PrestadorPerfil',
   PRESTADOR_MODALORDENSERVICIOMODAL: 'PrestadorModalOrdenServicioModal',
+
+  PRESTADOR_ORDENESTERMINADAS: 'PrestadorOrdenesTerminadas',
+  PRESTADOR_ORDENESSERVICIOACTIVAS: 'OrdenesServicioActivas',
+  PRESTADOR_ORDENESERVICIO_ACTIVA_MODAL: 'OrdenServicioActivaModal',
+  PRESTADOR_ORDENESERVICIO_HISTORIAL_MODAL: 'OrdenServicioHistorialModal',
+  PRESTADOR_ORDENESERVICIO_HISTORIAL_ITEM_MODAL:
+    'OrdenServicioHistorialItemModal',
 }

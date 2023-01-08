@@ -35,8 +35,8 @@ const Home = ({ navigation }) => {
     servicioService.getServicios().then(
       (response) => {
         setServicios(response.data)
-        setServicios1(response.data.slice(0, 3))
-        setServicios2(response.data.slice(3))
+        setServicios1(response.data.slice(0, 2))
+        setServicios2(response.data.slice(2, 5))
         setIsLoading(false)
       },
       (error) => {
@@ -99,39 +99,41 @@ const Home = ({ navigation }) => {
                     />
                   }
                   handleFilter={handleFilter}
+                  key={servicio1._id}
                 />
               ))}
             </View>
+
             <View style={styles.serviciosRow}>
-              <ScrollView horizontal={true}>
-                {servicios2.map((servicio2) => (
-                  <MiniCardServicio
-                    titulo={servicio2.nombre}
-                    icono={
-                      <Image
-                        source={require(`../../assets/iconosServicios/houseCleaning.png`)}
-                        style={{ width: 50, height: 50 }}
-                      />
-                    }
-                    handleFilter={handleFilter}
-                  />
-                ))}
+              {servicios2.map((servicio2) => (
                 <MiniCardServicio
-                  titulo='Todos'
+                  titulo={servicio2.nombre}
                   icono={
                     <Image
-                      source={require(`../../assets/iconosServicios/all.png`)}
+                      source={require(`../../assets/iconosServicios/houseCleaning.png`)}
                       style={{ width: 50, height: 50 }}
                     />
                   }
-                  handleFilter={() =>
-                    navigation.navigate(routes.SERVICIOSMODAL, {
-                      servicios,
-                      handleFilter,
-                    })
-                  }
+                  handleFilter={handleFilter}
+                  key={servicio2._id}
                 />
-              </ScrollView>
+              ))}
+              <MiniCardServicio
+                titulo='Todos'
+                icono={
+                  <Image
+                    source={require(`../../assets/iconosServicios/all.png`)}
+                    style={{ width: 50, height: 50 }}
+                  />
+                }
+                handleFilter={() =>
+                  navigation.navigate(routes.SERVICIOSMODAL, {
+                    servicios,
+                    handleFilter,
+                  })
+                }
+                key={'todos_id'}
+              />
             </View>
           </View>
           <View style={styles.listaServicios}>
@@ -180,14 +182,15 @@ const styles = StyleSheet.create({
   servicios: {
     width: '100%',
     paddingHorizontal: 15,
-    height: 300,
+    marginBottom: 15,
   },
   listaServicios: {
     width: '100%',
     paddingHorizontal: 15,
   },
   serviciosRow: {
-    flex: 1,
+    width: '100%',
+
     marginTop: 15,
     flexDirection: 'row',
     justifyContent: 'space-between',

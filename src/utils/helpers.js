@@ -1,5 +1,5 @@
 import * as Location from 'expo-location'
-import { Alert } from 'react-native'
+import * as Contacts from 'expo-contacts'
 
 export const getCurrentLocation = async () => {
   let { status } = await Location.requestForegroundPermissionsAsync()
@@ -9,17 +9,20 @@ export const getCurrentLocation = async () => {
   }
 
   const location = await Location.getCurrentPositionAsync({})
-  // setLocation(location)
-
-  // const position = await Location.getCurrentPositionAsync({})
-  // const location = {
-  //   latitude: position.coords.latitude,
-  //   altitude: position.coords.altitude,
-  //   latitudeDelta: 0.001,
-  //   longitudDelta: 0.001,
-  // }
-
-  // response.status = true
-  // response.location = location
   return location
+}
+
+export const getContacts = async () => {
+  const { status } = await Contacts.requestPermissionsAsync()
+  if (status === 'granted') {
+    const { data } = await Contacts.getContactsAsync({
+      fields: [Contacts.Fields.PhoneNumbers],
+    })
+
+    if (data.length > 0) {
+      const newData = data.slice(0, 25)
+      console.log(JSON.stringify(newData))
+      // data.map((d) => console.log(d))
+    }
+  }
 }

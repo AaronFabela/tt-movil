@@ -14,36 +14,6 @@ import { COLORS } from '../../../constants'
 const ItemServicio = ({ cover, prestador, navigation }) => {
   return (
     <>
-      {/* <View style={styles.item}>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate(routes.PERFILPRESTADORHOME, {
-              id: prestador._id,
-              navigation,
-            })
-          }
-          style={{ backgroundColor: COLORS.primary, height: '65%' }}
-        >
-          <View style={styles.cover}>{cover}</View>
-        </TouchableOpacity>
-        <View style={styles.descripcion}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate(routes.PERFILPRESTADORHOME, {
-                id: prestador._id,
-                navigation,
-              })
-            }
-          >
-            <Text style={{ fontSize: 25, marginLeft: 15, marginBottom: 5 }}>
-              {prestador.usuario}
-            </Text>
-          </TouchableOpacity>
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-            <View style={styles.servicios}></View>
-          </ScrollView>
-        </View>
-      </View> */}
       <TouchableOpacity
         onPress={() =>
           navigation.navigate(routes.PERFILPRESTADORHOME, {
@@ -51,12 +21,10 @@ const ItemServicio = ({ cover, prestador, navigation }) => {
             navigation,
           })
         }
-        // style={{ backgroundColor: COLORS.primary, height: '65%' }}
       >
         <View style={styles.item}>
           <View style={styles.imagen}>
             <Image
-              // resizeMode='contain'
               source={{
                 uri: prestador.perfil?.secure_url
                   ? prestador.perfil?.secure_url

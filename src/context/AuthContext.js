@@ -1,7 +1,4 @@
-import axios from 'axios'
 import React, { createContext, useState } from 'react'
-import { API_URL } from '../api'
-import { getCurrentLocation } from '../utils/helpers'
 
 export const AuthContext = createContext()
 

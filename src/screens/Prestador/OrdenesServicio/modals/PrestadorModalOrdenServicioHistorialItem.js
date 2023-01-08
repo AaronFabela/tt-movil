@@ -18,7 +18,7 @@ import { ActivityIndicator } from 'react-native-paper'
 import { Alert } from 'react-native'
 import { AirbnbRating } from '@rneui/themed'
 
-const ModalOrdenServicioHistorialItem = ({ route, navigation }) => {
+const PrestadorModalOrdenServicioHistorialItem = ({ route, navigation }) => {
   const { orden } = route.params
   const [calificacion, setCalificacion] = useState(3)
   const [descripcion, setDescripcion] = useState('')
@@ -205,7 +205,7 @@ const ModalOrdenServicioHistorialItem = ({ route, navigation }) => {
   )
 }
 
-export default ModalOrdenServicioHistorialItem
+export default PrestadorModalOrdenServicioHistorialItem
 
 const styles = StyleSheet.create({
   container: {

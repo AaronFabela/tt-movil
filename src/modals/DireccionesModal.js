@@ -104,6 +104,7 @@ const DireccionesModal = ({ navigation }) => {
                     id={direccion._id}
                     nombre={direccion.nombre}
                     direccion={direccion.direccion}
+                    direccionActualId={direccionActual._id}
                     handleDeleteDireccion={handleDeleteDireccion}
                     handleSetCurrentDireccion={handleSetCurrentDireccion}
                   />

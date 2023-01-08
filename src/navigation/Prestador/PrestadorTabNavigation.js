@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import PrestadorHomeNavigation from './PrestadorHomeNavigation'
 import PrestadorChatNavigation from './PrestadorChatNavigation'
 import PrestadorPerfilNavigation from './PrestadorPerfilNavigation'
+import PrestadorOrdenesNavigation from '../PrestadorOrdenesNavigation'
 
 const Tab = createBottomTabNavigator()
 
@@ -26,6 +27,20 @@ const PrestadorTabNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name='home' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.PRESTADOR_ORDENESTERMINADAS}
+        component={PrestadorOrdenesNavigation}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name='note-text-outline'
+              color={color}
+              size={size}
+            />
           ),
         }}
       />

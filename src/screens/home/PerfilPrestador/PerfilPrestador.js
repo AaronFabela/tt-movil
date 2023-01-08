@@ -25,6 +25,7 @@ const PerfilPrestador = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true)
   const [ordenesServicio, setOrdenesServicio] = useState([])
   const [ordenesServicioFiltradas, setOrdenesServicioFiltradas] = useState([])
+  const [servicioActivo, setServicioActivo] = useState('Todos')
   useEffect(() => {
     prestadoresService
       .getPrestadorId(id)
@@ -41,6 +42,7 @@ const PerfilPrestador = ({ route }) => {
           (response) => {
             console.log(response.data)
             setOrdenesServicio(response.data)
+            setOrdenesServicioFiltradas(response.data)
             setIsLoading(false)
           },
           (error) => {
@@ -51,6 +53,20 @@ const PerfilPrestador = ({ route }) => {
 
     // navigation.setOptions({ title: nombre })
   }, [])
+
+  const handleFilter = (servicio) => {
+    if (servicio === 'Todos') {
+      setOrdenesServicioFiltradas(ordenesServicio)
+    } else {
+      const ordenesF = []
+      for (let i = 0; i < ordenesServicio.length; i++) {
+        ordenesServicio[i]?.servicio?.nombre === servicio
+          ? ordenesF.push(ordenesServicio[i])
+          : null
+      }
+      setOrdenesServicioFiltradas(ordenesF)
+    }
+  }
   return (
     <View
       style={{
@@ -84,9 +100,11 @@ const PerfilPrestador = ({ route }) => {
                 <View style={styles.imagenPerfil}>
                   <Image
                     source={{
-                      uri: 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+                      uri: prestador?.perfil?.secure_url
+                        ? prestador?.perfil?.secure_url
+                        : 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
                     }}
-                    style={{ width: 100, height: 100 }}
+                    style={{ width: 100, height: 100, borderRadius: 50 }}
                   />
                 </View>
                 <View style={styles.datos}>
@@ -101,20 +119,29 @@ const PerfilPrestador = ({ route }) => {
                       style={{
                         backgroundColor: COLORS.primary,
                         height: 40,
-                        width: 70,
+                        width: '100%',
                         borderRadius: 10,
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginBottom: 5,
                       }}
                     >
-                      <Text style={{ color: 'white' }}>Mensaje</Text>
+                      <Text
+                        style={{ color: 'white' }}
+                        onPress={() =>
+                          navigation.navigate(routes.HOME_TAB, {
+                            screen: routes.CHAT_NAVIGATION,
+                          })
+                        }
+                      >
+                        Mensaje
+                      </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{
                         backgroundColor: COLORS.primary,
                         height: 40,
-                        width: 70,
+                        width: '100%',
                         borderRadius: 10,
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -148,14 +175,25 @@ const PerfilPrestador = ({ route }) => {
                       key={servicio._id}
                       icono={require('../../../assets/iconosServicios/electricist.png')}
                       nombre={servicio.nombre}
+                      setServicioActivo={setServicioActivo}
+                      servicioActivo={servicioActivo}
+                      handleFilter={handleFilter}
                     />
                   ))}
+                  <ItemServicioDisponible
+                    key='todos'
+                    icono={require('../../../assets/iconosServicios/electricist.png')}
+                    nombre='Todos'
+                    setServicioActivo={setServicioActivo}
+                    servicioActivo={servicioActivo}
+                    handleFilter={handleFilter}
+                  />
                 </ScrollView>
               </View>
             </View>
             <View style={styles.ordenesServicio}>
-              {ordenesServicio?.length > 0 ? (
-                ordenesServicio.map((ordenServicio) => (
+              {ordenesServicioFiltradas?.length > 0 ? (
+                ordenesServicioFiltradas.map((ordenServicio) => (
                   <ItemOrdenServicio
                     key={ordenServicio._id}
                     ordenServicio={ordenServicio}

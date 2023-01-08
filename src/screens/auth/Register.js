@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import {
   Text,
   TextInput,
@@ -8,15 +8,15 @@ import {
   StyleSheet,
   Image,
 } from 'react-native'
-import { AuthContext } from '../../context/AuthContext'
 import routes from '../../constants/routes'
 import { COLORS } from '../../constants'
-import { useEffect } from 'react'
-import SelectDropdown from 'react-native-select-dropdown'
-import authService from '../../services/auth.service.'
 import ToastManager, { Toast } from 'toastify-react-native'
+import { getContacts } from '../../utils/helpers'
 
 const Register = ({ navigation }) => {
+  useEffect(() => {
+    getContacts()
+  }, [])
   return (
     <View style={styles.container}>
       {/* <Spinner */}

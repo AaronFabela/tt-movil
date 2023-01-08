@@ -11,7 +11,7 @@ import { COLORS } from '../../../../constants'
 import ordenServicioService from '../../../../services/ordenServicio.service'
 import { Alert } from 'react-native'
 
-const ModalOrdenServicioActiva = ({ route }) => {
+const PrestadorModalOrdenServicioActiva = ({ route }) => {
   const { orden, navigation } = route.params
 
   const handleCancelar = async () => {
@@ -79,7 +79,7 @@ const ModalOrdenServicioActiva = ({ route }) => {
   )
 }
 
-export default ModalOrdenServicioActiva
+export default PrestadorModalOrdenServicioActiva
 
 const styles = StyleSheet.create({
   container: {

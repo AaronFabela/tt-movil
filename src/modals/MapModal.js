@@ -3,12 +3,14 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import { AuthContext } from '../context/AuthContext'
 import { COLORS } from '../constants'
 import MapSetDirection from '../components/MapSetDirection'
-import { ActivityIndicator, TextInput } from 'react-native-paper'
+import { Tooltip } from '@rneui/themed'
+import { ActivityIndicator, IconButton, TextInput } from 'react-native-paper'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Alert } from 'react-native'
 import direccionService from '../services/direccion.service'
 import usuarioService from '../services/usuario.service'
 import { getCurrentLocation } from '../utils/helpers'
+import Feather from 'react-native-vector-icons/Feather'
 
 const MapModal = ({ navigation }) => {
   const { userInfo, ubicacion, setUserInfo, setUbicacion } =
@@ -19,6 +21,7 @@ const MapModal = ({ navigation }) => {
     direccion: '',
     referencias: '',
   })
+  const [tooltipoDireccion, setTooltipoDireccion] = useState(false)
 
   const [index, setIndex] = useState(0)
   const [region, setRegion] = useState({
@@ -81,7 +84,7 @@ const MapModal = ({ navigation }) => {
         // Toast.error(error.response.data.message, 'top')
       }
     } catch (error) {
-      console.log(error)
+      console.log(error.errors)
       // Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
@@ -189,6 +192,9 @@ const MapModal = ({ navigation }) => {
                     </View>
                     <View style={styles.contenido}>
                       <View style={styles.form}>
+                        <Text style={{ color: COLORS.grayLight }}>
+                          Min 10 caracteres
+                        </Text>
                         <TextInput
                           label='Direccion'
                           value={form.direccion}
@@ -201,7 +207,11 @@ const MapModal = ({ navigation }) => {
                           selectionColor={COLORS.turques}
                           textColor={COLORS.primary}
                           activeOutlineColor={COLORS.primary}
+                          re
                         />
+                        <Text style={{ color: COLORS.grayLight }}>
+                          Min 10 caracteres
+                        </Text>
                         <TextInput
                           label='Alias'
                           value={form.nombre}
@@ -215,6 +225,9 @@ const MapModal = ({ navigation }) => {
                           textColor={COLORS.primary}
                           activeOutlineColor={COLORS.primary}
                         />
+                        <Text style={{ color: COLORS.grayLight }}>
+                          Min 10 caracteres
+                        </Text>
                         <TextInput
                           label='Referencias'
                           value={form.referencias}
@@ -339,7 +352,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   form: {
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
     width: '100%',
     flex: 9,
@@ -357,6 +370,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    marginBottom: 15,
   },
 })
 

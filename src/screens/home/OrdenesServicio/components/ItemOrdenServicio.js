@@ -31,7 +31,7 @@ const ItemOrdenServicio = ({ orden, navigation }) => {
           Servicio: {orden?.servicio?.nombre}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {orden.descripcion?.substring(0, 100)}
+          {orden.descripcion?.substring(0, 30)}
         </Text>
 
         <View style={styles.acciones}>
@@ -46,7 +46,14 @@ const ItemOrdenServicio = ({ orden, navigation }) => {
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
+          <TouchableOpacity
+            style={styles.btn}
+            onPress={() =>
+              navigation.navigate(routes.HOME_TAB, {
+                screen: routes.CHAT_NAVIGATION,
+              })
+            }
+          >
             <Text style={{ color: 'white' }}>Mensaje</Text>
           </TouchableOpacity>
         </View>
@@ -61,7 +68,7 @@ const styles = StyleSheet.create({
   item: {
     borderWidth: 1,
     borderColor: '#d9d9d9',
-    height: 200,
+    height: 150,
     width: '100%',
     marginBottom: 15,
     flexDirection: 'row',

@@ -3,6 +3,7 @@ import React from 'react'
 import { useState } from 'react'
 import { COLORS } from '../../../../constants'
 import routes from '../../../../constants/routes'
+import { AirbnbRating } from '@rneui/themed'
 
 const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
   // const [description, setDescription] = useState(descri)
@@ -12,7 +13,9 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
         <Image
           // resizeMode='contain'
           source={{
-            uri: 'https://fastly.4sqi.net/img/general/600x600/33DWRTO3WOIL4QTI4WXTXCLBLV34EMYWRSG2Z5QJIKXYM1UG.jpg',
+            uri: ordenServicio?.resena?.imagen?.secure_url
+              ? ordenServicio?.resena?.imagen?.secure_url
+              : 'https://t3.ftcdn.net/jpg/04/62/93/66/360_F_462936689_BpEEcxfgMuYPfTaIAOC1tCDurmsno7Sp.jpg',
           }}
           style={{
             height: '100%',
@@ -27,9 +30,20 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
           {ordenServicio?.servicio?.nombre}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {ordenServicio?.descripcion?.substring(0, 100)}
+          {ordenServicio?.descripcion?.substring(0, 30)}
         </Text>
-        <Text style={{ marginBottom: 5 }}>Calificacion</Text>
+        {ordenServicio?.resena?.calificacion != null ? (
+          <AirbnbRating
+            count={5}
+            defaultRating={ordenServicio?.resena?.calificacion}
+            showRating={false}
+            isDisabled={true}
+            size={20}
+          />
+        ) : (
+          <></>
+        )}
+
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
@@ -42,10 +56,12 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
           >
             <Text style={{ color: 'white' }}>Ver Mas</Text>
           </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.btn}
             onPress={() =>
               navigation.navigate(routes.CREARORDENSERVICIOMODAL, {
+                ordenServicio,
                 prestador: prestador,
               })
             }
@@ -64,7 +80,7 @@ const styles = StyleSheet.create({
   item: {
     borderWidth: 1,
     borderColor: '#d9d9d9',
-    height: 200,
+    height: 150,
     width: '100%',
     marginBottom: 15,
     flexDirection: 'row',
@@ -83,6 +99,7 @@ const styles = StyleSheet.create({
     flex: 3,
     backgroundColor: 'white',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
   },
   acciones: {
     flexDirection: 'row',

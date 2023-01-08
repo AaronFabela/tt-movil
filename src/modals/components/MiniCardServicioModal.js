@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const MiniCardServicio = ({ titulo, icono, handleFilter }) => {
+const MiniCardServicioModal = ({ titulo, icono, handleFilter, navigation }) => {
   return (
-    <View style={{ width: '22%' }}>
-      <TouchableOpacity onPress={() => handleFilter(titulo)}>
+    <View style={{ width: '100%' }}>
+      <TouchableOpacity
+        onPress={() => (handleFilter(titulo), navigation.goBack())}
+      >
         <View style={styles.card}>
           <View style={styles.icono}>{icono}</View>
         </View>
@@ -16,7 +18,7 @@ const MiniCardServicio = ({ titulo, icono, handleFilter }) => {
   )
 }
 
-export default MiniCardServicio
+export default MiniCardServicioModal
 
 const styles = StyleSheet.create({
   card: {
