@@ -27,6 +27,7 @@ const TabNavigator = () => {
         name={routes.HOMENAV}
         component={HomeNavigation}
         options={{
+          // unmountOnBlur: true,
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name='home' color={color} size={size} />

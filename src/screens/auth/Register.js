@@ -12,11 +12,10 @@ import routes from '../../constants/routes'
 import { COLORS } from '../../constants'
 import ToastManager, { Toast } from 'toastify-react-native'
 import { getContacts } from '../../utils/helpers'
+import solicitudService from '../../services/solicitud.service'
+import usuarioService from '../../services/usuario.service'
 
 const Register = ({ navigation }) => {
-  useEffect(() => {
-    getContacts()
-  }, [])
   return (
     <View style={styles.container}>
       {/* <Spinner */}
@@ -31,6 +30,7 @@ const Register = ({ navigation }) => {
             <View style={styles.usuario}>
               <TouchableOpacity
                 onPress={() => navigation.navigate(routes.REGISTER_EMPLEADOR)}
+                // onPress={() => handleR()}
                 style={styles.usuario}
               >
                 <Image

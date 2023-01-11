@@ -16,6 +16,7 @@ import ordenServicioService from '../../../../services/ordenServicio.service'
 import { Alert } from 'react-native'
 import ToastManager, { Toast } from 'toastify-react-native'
 import ItemServicioDisponible from '../components/ItemServicioDisponible'
+import ModalItemServicioDisponible from '../components/ModalItemServicioDisponible'
 
 const ModalCrearOrdenServicio = ({ route, navigation }) => {
   const { userInfo } = useContext(AuthContext)
@@ -29,6 +30,7 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
   const [notas, setNotas] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [servicionew, setServicionew] = useState(null)
 
   useEffect(() => {
     setServicioActivo(
@@ -56,15 +58,12 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
     setOpenTime(false)
   }
 
-  const handleServicio = (servicio) => {
-    console.log(servicio)
-    setServicio(servicio)
-  }
-
   const handleEnviar = async () => {
+    console.log('hola', servicioActivo)
+
     try {
       await ordenServicioService.crearOrdenServicio(
-        servicioActivo,
+        servicioActivo._id,
         prestador._id,
         userInfo.id,
         descripcion,
@@ -174,16 +173,17 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
                 showsHorizontalScrollIndicator={false}
               >
                 {prestador?.servicios?.map((servicio) => (
-                  <ItemServicioDisponible
+                  <ModalItemServicioDisponible
                     key={servicio._id}
-                    icono={require('../../../../assets/iconosServicios/electricist.png')}
-                    nombre={servicio.nombre}
+                    icono={{ uri: servicio.icono }}
+                    servicio={servicio}
                     setServicioActivo={setServicioActivo}
                     servicioActivo={servicioActivo}
                   />
                 ))}
               </ScrollView>
             </View>
+            <Text>Min 25 caracteres</Text>
             <TextInput
               value={descripcion}
               onChangeText={(text) => setDescripcion(text)}
@@ -193,8 +193,9 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
               selectionColor={COLORS.turques}
               textColor={COLORS.primary}
               activeOutlineColor={COLORS.primary}
-              style={{ width: '100%', marginTop: 15 }}
+              style={{ width: '100%', marginBottom: 15 }}
             />
+            <Text>Min 10 caracteres</Text>
             <TextInput
               value={notas}
               onChangeText={(text) => setNotas(text)}
@@ -204,12 +205,13 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
               selectionColor={COLORS.turques}
               textColor={COLORS.primary}
               activeOutlineColor={COLORS.primary}
-              style={{ width: '100%', marginTop: 15 }}
+              style={{ width: '100%', marginBottom: 15 }}
             />
             <TouchableOpacity style={styles.enviar}>
               <Text
                 style={{ color: 'white', fontSize: 18 }}
-                onPress={() => (handleEnviar(), setIsLoading(true))}
+                // onPress={() => (handleEnviar(), setIsLoading(true))}
+                onPress={() => handleEnviar()}
               >
                 Crear Orden Servicio
               </Text>

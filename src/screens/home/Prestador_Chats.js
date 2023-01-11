@@ -12,8 +12,9 @@ import chatService from '../../services/chat.service'
 import { AuthContext } from '../../context/AuthContext'
 import Conversacion from '../../components/Chat/Conversacion'
 import { ActivityIndicator } from 'react-native-paper'
+import PrestadorConversacion from '../../components/Chat/PrestadorConversacion'
 
-const Chats = ({ navigation }) => {
+const Prestador_Chats = ({ navigation }) => {
   const [chats, setChats] = useState([])
   const { userInfo } = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(true)
@@ -66,7 +67,7 @@ const Chats = ({ navigation }) => {
         ) : chats.length > 0 ? (
           <View style={styles.chat}>
             {chats?.map((chat) => (
-              <Conversacion
+              <PrestadorConversacion
                 key={chat._id}
                 chat={chat}
                 userId={userInfo.id}
@@ -90,7 +91,7 @@ const Chats = ({ navigation }) => {
   )
 }
 
-export default Chats
+export default Prestador_Chats
 
 const styles = StyleSheet.create({
   chat: {

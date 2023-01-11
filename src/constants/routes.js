@@ -29,6 +29,8 @@ export default {
   CHAT_NAVIGATION: 'ChatNavigation',
   CHAT_ID: 'Chat ID',
   CHATS: 'Chats',
+  PRESTADOR_CHAT_ID: 'PRESTADOR_ChatID',
+  PRESTADOR_CHATS: 'PRESTADOR_Chats',
 
   PRESTADOR_HOMETAB: 'PrestadorHomeTab',
   PRESTADOR_HOMENAV: 'PrestadorHomeNav',

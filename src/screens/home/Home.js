@@ -1,4 +1,12 @@
-import { Button, StyleSheet, Text, View, Image, ScrollView } from 'react-native'
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  RefreshControl,
+} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { COLORS } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
@@ -20,17 +28,53 @@ const Home = ({ navigation }) => {
   const [servicios, setServicios] = useState([])
   const [servicios1, setServicios1] = useState([])
   const [servicios2, setServicios2] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
-    prestadoresService.getPrestadoresByActivos().then(
-      (response) => {
-        setPrestadores(response.data)
-        setPrestadoresFilter(response.data)
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
+    firstLoad()
+  }, [])
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    firstLoad()
+  }
+
+  const firstLoad = () => {
+    if (userInfo.direccionActual != null) {
+      console.log('si tiene direccion', userInfo.direccionActual.latitude)
+      const data = new FormData()
+      data.append('lat', userInfo.direccionActual.latitude)
+      data.append('long', userInfo.direccionActual.longitude)
+      data.append('max', 5)
+
+      prestadoresService
+        .getPrestadoresByDistance(
+          userInfo.direccionActual.longitude,
+          userInfo.direccionActual.latitude,
+          5
+        )
+        .then(
+          (response) => {
+            console.log(response.data)
+            setPrestadores(response.data.prestadoresCercanos)
+            setPrestadoresFilter(response.data.prestadoresCercanos)
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+    } else {
+      console.log('no tiene direccion')
+      prestadoresService.getPrestadoresByActivos().then(
+        (response) => {
+          setPrestadores(response.data)
+          setPrestadoresFilter(response.data)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
 
     servicioService.getServicios().then(
       (response) => {
@@ -43,7 +87,9 @@ const Home = ({ navigation }) => {
         console.log(error)
       }
     )
-  }, [])
+
+    setRefreshing(false)
+  }
 
   const handleFilter = (servicio) => {
     const prestadoresF = []
@@ -86,6 +132,10 @@ const Home = ({ navigation }) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ width: '100%' }}
+          contentContainerStyle={styles.scrollView}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
         >
           <View style={styles.servicios}>
             <View style={styles.serviciosRow}>
@@ -94,7 +144,7 @@ const Home = ({ navigation }) => {
                   titulo={servicio1.nombre}
                   icono={
                     <Image
-                      source={require(`../../assets/iconosServicios/carpentry.png`)}
+                      source={{ uri: servicio1.icono }}
                       style={{ width: 60, height: 60 }}
                     />
                   }
@@ -110,7 +160,7 @@ const Home = ({ navigation }) => {
                   titulo={servicio2.nombre}
                   icono={
                     <Image
-                      source={require(`../../assets/iconosServicios/houseCleaning.png`)}
+                      source={{ uri: servicio2.icono }}
                       style={{ width: 50, height: 50 }}
                     />
                   }

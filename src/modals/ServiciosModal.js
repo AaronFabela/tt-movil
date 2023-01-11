@@ -13,7 +13,7 @@ const ServiciosModal = ({ route, navigation }) => {
               titulo={servicio.nombre}
               icono={
                 <Image
-                  source={require(`../assets/iconosServicios/cerrajeria.png`)}
+                  source={{ uri: servicio.icono }}
                   style={{ width: 50, height: 50 }}
                 />
               }

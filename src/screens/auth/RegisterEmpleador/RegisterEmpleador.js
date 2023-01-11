@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, Alert, StyleSheet } from 'react-native'
 import routes from '../../../constants/routes'
 import { COLORS } from '../../../constants'
@@ -8,12 +8,15 @@ import DatosGenerales from './components/DatosGenerales'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
 import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
+import { cadenaAleatoria, getContacts } from '../../../utils/helpers'
+import { ActivityIndicator } from 'react-native-paper'
 
 const RegisterEmpleador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
   const [password, setPassword] = useState('')
   const [email, setEmail] = useState('')
   const [rol, setRol] = useState('empleador')
+  const [telefono, setTelefono] = useState('')
   const [images, setImages] = useState({
     perfil: {
       uri: null,
@@ -29,6 +32,26 @@ const RegisterEmpleador = ({ navigation }) => {
     ine: true,
     domicilio: true,
   })
+  const [contactos, setContactos] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setContactos(getContacts())
+  }, [])
+
+  // const handleR = async () => {
+  //   try {
+  //     console.log('Holiwis')
+  //     const response = await usuarioService.buscarAmigos(
+  //       '6397e7e779ad99f86553b9be',
+  //       con
+  //     )
+  //     console.log(response)
+  //   } catch (error) {
+  //     console.log(error)
+  //     // setPassword(null)
+  //   }
+  // }
 
   const handleImagePerfil = async () => {
     // No permissions request is necessary for launching the image library
@@ -42,7 +65,7 @@ const RegisterEmpleador = ({ navigation }) => {
     if (!result.cancelled) {
       setImages({
         ...images,
-        perfil: { uri: result.uri, type: result.type, name: result.fileName },
+        perfil: { uri: result.uri, type: result.type, name: cadenaAleatoria },
       })
     }
     console.log(images)
@@ -60,7 +83,7 @@ const RegisterEmpleador = ({ navigation }) => {
     if (!result.cancelled) {
       setImages({
         ...images,
-        ine: { uri: result.uri, type: result.type, name: result.fileName },
+        ine: { uri: result.uri, type: result.type, name: cadenaAleatoria },
       })
     }
     console.log(images)
@@ -81,7 +104,7 @@ const RegisterEmpleador = ({ navigation }) => {
         domicilio: {
           uri: result.uri,
           type: result.type,
-          name: result.fileName,
+          name: cadenaAleatoria,
         },
       })
     }
@@ -117,22 +140,20 @@ const RegisterEmpleador = ({ navigation }) => {
   const handleRegister = async () => {
     try {
       const data = new FormData()
-      // const response = await authService.signup(usuario, email, password, rol)
       data.append('usuario', usuario)
       data.append('email', email)
       data.append('password', password)
       data.append('rol', rol)
+      data.append('contactos', contactos._z)
+      data.append('telefono', telefono)
       data.append('INE', images.ine)
       data.append('perfil', images.perfil)
       data.append('comprobanteDomicilio', images.domicilio)
-      // console.log('Hola', data)
-      // // console.log(data.entries())
-      // // console.log(Object.fromEntries(data))
-      // for (const valor of data.entries()) {
-      //   console.log(`${valor[0]}, ${valor[1]}`)
-      // }
 
+      console.log(data)
+      console.log('enviando')
       const response = await solicitudService.solicitudEmpleador(data)
+
       if (response.code === 400) {
         const key = response.key.toUpperCase()
         Toast.error(`${response.data.message}`, 'top')
@@ -141,10 +162,13 @@ const RegisterEmpleador = ({ navigation }) => {
         setPassword(null)
         setRol(null)
       } else {
+        setIsLoading(false)
         Alert.alert('Solicitud Enviada Correctamente')
         navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
+      setIsLoading(false)
+
       console.log(error)
       // Toast.error(error.response.data.errors[0].msg, 'top')
     }
@@ -189,81 +213,96 @@ const RegisterEmpleador = ({ navigation }) => {
         <Text>Chambitas</Text>
       </View>
       <View style={styles.bottom}>
-        <Text style={styles.titulo}>Registar Empleador</Text>
-
-        <View style={styles.wrapper}>
-          <View style={{ flex: 1 }}>
-            <ProgressSteps>
-              <ProgressStep
-                label='Formulario'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleForm()}
-                errors={error.form}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <DatosGenerales
-                    email={email}
-                    setEmail={setEmail}
-                    usuario={usuario}
-                    setUsuario={setUsuario}
-                    password={password}
-                    setPassword={setPassword}
-                    styles={styles}
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='Foto Perfil'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleImage('perfil')}
-                errors={error.perfil}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImagePerfil}
-                    uriType={images.perfil}
-                    titulo='Selecciona Foto de Perfil'
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='INE'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onNext={() => handleImage('ine')}
-                errors={error.ine}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImageIne}
-                    uriType={images.ine}
-                    titulo='Selecciona tu INE'
-                  />
-                </View>
-              </ProgressStep>
-              <ProgressStep
-                label='Comprobante'
-                previousBtnText='Anterior'
-                nextBtnText='Siguiente'
-                onSubmit={() => (handleImage('domicilio'), handleRegister())}
-                errors={error.domicilio}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <UploadFile
-                    styles={styles}
-                    handleUpload={handleImageDomicilio}
-                    uriType={images.domicilio}
-                    titulo='Selecciona Comprobante Dom'
-                  />
-                </View>
-              </ProgressStep>
-            </ProgressSteps>
-          </View>
-        </View>
+        {isLoading ? (
+          <ActivityIndicator
+            size={50}
+            animating={true}
+            color={COLORS.primary}
+          />
+        ) : (
+          <>
+            <Text style={styles.titulo}>Registar Empleador</Text>
+            <View style={styles.wrapper}>
+              <View style={{ flex: 1 }}>
+                <ProgressSteps>
+                  <ProgressStep
+                    label='Formulario'
+                    previousBtnText='Anterior'
+                    nextBtnText='Siguiente'
+                    onNext={() => handleForm()}
+                    errors={error.form}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <DatosGenerales
+                        email={email}
+                        setEmail={setEmail}
+                        usuario={usuario}
+                        setUsuario={setUsuario}
+                        password={password}
+                        setPassword={setPassword}
+                        telefono={telefono}
+                        setTelefono={setTelefono}
+                        styles={styles}
+                      />
+                    </View>
+                  </ProgressStep>
+                  <ProgressStep
+                    label='Foto Perfil'
+                    previousBtnText='Anterior'
+                    nextBtnText='Siguiente'
+                    onNext={() => handleImage('perfil')}
+                    errors={error.perfil}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <UploadFile
+                        styles={styles}
+                        handleUpload={handleImagePerfil}
+                        uriType={images.perfil}
+                        titulo='Selecciona Foto de Perfil'
+                      />
+                    </View>
+                  </ProgressStep>
+                  <ProgressStep
+                    label='INE'
+                    previousBtnText='Anterior'
+                    nextBtnText='Siguiente'
+                    onNext={() => handleImage('ine')}
+                    errors={error.ine}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <UploadFile
+                        styles={styles}
+                        handleUpload={handleImageIne}
+                        uriType={images.ine}
+                        titulo='Selecciona tu INE'
+                      />
+                    </View>
+                  </ProgressStep>
+                  <ProgressStep
+                    label='Comprobante'
+                    previousBtnText='Anterior'
+                    nextBtnText='Siguiente'
+                    onSubmit={() => (
+                      handleImage('domicilio'),
+                      handleRegister(),
+                      setIsLoading(true)
+                    )}
+                    errors={error.domicilio}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <UploadFile
+                        styles={styles}
+                        handleUpload={handleImageDomicilio}
+                        uriType={images.domicilio}
+                        titulo='Selecciona Comprobante Dom'
+                      />
+                    </View>
+                  </ProgressStep>
+                </ProgressSteps>
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </View>
   )

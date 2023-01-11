@@ -9,6 +9,8 @@ import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
 import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
 import { Chip, ActivityIndicator } from 'react-native-paper'
+import { cadenaAleatoria } from '../../../utils/helpers'
+import mime from 'mime'
 
 const RegisterPrestador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
@@ -49,12 +51,17 @@ const RegisterPrestador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
       setImages({
         ...images,
-        perfil: { uri: result.uri, type: result.type, name: result.fileName },
+        perfil: {
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
+        },
       })
     }
-    console.log(images)
+    console.log(result)
   }
 
   const handleImageIne = async () => {
@@ -67,12 +74,18 @@ const RegisterPrestador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+
       setImages({
         ...images,
-        ine: { uri: result.uri, type: result.type, name: result.fileName },
+        ine: {
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
+        },
       })
     }
-    console.log(images)
+    console.log(result)
   }
 
   const handleImageDomicilio = async () => {
@@ -85,15 +98,18 @@ const RegisterPrestador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+
       setImages({
         ...images,
         domicilio: {
-          uri: result.uri,
-          type: result.type,
-          name: result.fileName,
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
         },
       })
     }
+    console.log(result)
   }
 
   const validate = () => {
@@ -137,7 +153,7 @@ const RegisterPrestador = ({ navigation }) => {
       // console.log(servicios)
       console.log(data)
       const response = await solicitudService.solicitudPrestador(data)
-
+      console.log(response)
       if (response.code === 400) {
         const key = response.key.toUpperCase()
         Toast.error(`${response.data.message}`, 'top')
@@ -148,12 +164,12 @@ const RegisterPrestador = ({ navigation }) => {
       } else {
         setIsSending(false)
         Alert.alert('Solicitud Enviada Correctamente')
-        navigation.navigate(routes.LOGIN)
+        // navigation.navigate(routes.LOGIN)
       }
     } catch (error) {
       setIsSending(false)
       console.log(error)
-      Toast.error(error.response.data.errors[0].msg, 'top')
+      // Toast.error(error)
     }
   }
 

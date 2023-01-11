@@ -28,10 +28,24 @@ const getPrestadoresByActivos = async () => {
   })
 }
 
+const getPrestadoresByDistance = async (long, lat, max) => {
+  // console.log('Hola', ubicacion)
+  return axios.get(
+    API_URL + `usuario/prestadoresCercanos/${long}/${lat}/${max}`,
+    {
+      headers: {
+        'Access-Control-Allow-Origin': true,
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+}
+
 const prestadoresService = {
   getPrestadores,
   getPrestadorId,
   getPrestadoresByActivos,
+  getPrestadoresByDistance,
 }
 
 export default prestadoresService

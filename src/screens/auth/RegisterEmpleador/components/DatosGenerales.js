@@ -8,6 +8,8 @@ const DatosGenerales = ({
   setUsuario,
   password,
   setPassword,
+  telefono,
+  setTelefono,
   styles,
 }) => {
   return (
@@ -31,6 +33,12 @@ const DatosGenerales = ({
         value={password}
         onChangeText={(text) => setPassword(text)}
         secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Ingresa tu número de teléfono'
+        value={telefono}
+        onChangeText={(text) => setTelefono(text)}
       />
     </View>
   )

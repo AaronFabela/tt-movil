@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  RefreshControl,
+} from 'react-native'
 import React from 'react'
 import ItemOrdenServicio from './components/ItemOrdenServicio'
 import { useContext } from 'react'
@@ -13,8 +19,18 @@ const OrdenesServicio = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(true)
   const [ordenesServicio, setOrdenesServicio] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
+    firstLoad()
+  }, [])
+
+  const onRefresh = () => {
+    setRefreshing(true)
+    firstLoad()
+  }
+
+  const firstLoad = () => {
     ordenServicioService.getOrdenesServicioByActivas(userInfo.id).then(
       (response) => {
         setOrdenesServicio(response.data)
@@ -24,10 +40,16 @@ const OrdenesServicio = ({ navigation }) => {
         console.log(error)
       }
     )
-  }, [])
+    setRefreshing(false)
+  }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       {isLoading ? (
         <>
           <View

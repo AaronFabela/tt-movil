@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Chats from '../../screens/home/Chats'
 import ChatID from '../../screens/home/ChatID'
 import { COLORS } from '../../constants'
+import Prestador_ChatID from '../../screens/home/Prestador_ChatID'
+import Prestador_Chats from '../../screens/home/Prestador_Chats'
 
 const Stack = createNativeStackNavigator()
 
@@ -12,7 +14,7 @@ const PrestadorChatNavigation = () => {
     <Stack.Navigator>
       <Stack.Screen
         name={routes.PRESTADOR_CHATS}
-        component={Chats}
+        component={Prestador_Chats}
         options={{
           headerShown: true,
           headerTintColor: 'white',
@@ -26,7 +28,7 @@ const PrestadorChatNavigation = () => {
       />
       <Stack.Screen
         name={routes.PRESTADOR_CHATS_ID}
-        component={ChatID}
+        component={Prestador_ChatID}
         options={({ route }) => ({ title: route.params?.title })}
       />
     </Stack.Navigator>

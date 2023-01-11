@@ -17,8 +17,13 @@ import ItemOrdenServicio from './components/ItemOrdenServicio'
 import ItemServicioDisponible from './components/ItemServicioDisponible'
 import ordenServicioService from '../../../services/ordenServicio.service'
 import routes from '../../../constants/routes'
+import chatService from '../../../services/chat.service'
+import { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { Alert } from 'react-native'
 
 const PerfilPrestador = ({ route }) => {
+  const { userInfo } = useContext(AuthContext)
   const { id, navigation } = route.params
   const [prestador, setPrestador] = useState([])
   const [index, setIndex] = React.useState(0)
@@ -67,6 +72,19 @@ const PerfilPrestador = ({ route }) => {
       setOrdenesServicioFiltradas(ordenesF)
     }
   }
+
+  const handleMessage = async () => {
+    try {
+      const response = await chatService.nuevoChat(userInfo.id, prestador._id)
+      if (response != null) {
+        Alert.alert('Chat creado con éxito')
+        navigation.navigate(routes.HOME_TAB, {
+          screen: routes.CHAT_NAVIGATION,
+        })
+      }
+    } catch (error) {}
+  }
+
   return (
     <View
       style={{
@@ -128,11 +146,7 @@ const PerfilPrestador = ({ route }) => {
                     >
                       <Text
                         style={{ color: 'white' }}
-                        onPress={() =>
-                          navigation.navigate(routes.HOME_TAB, {
-                            screen: routes.CHAT_NAVIGATION,
-                          })
-                        }
+                        onPress={() => handleMessage()}
                       >
                         Mensaje
                       </Text>
@@ -173,7 +187,7 @@ const PerfilPrestador = ({ route }) => {
                   {prestador?.servicios?.map((servicio) => (
                     <ItemServicioDisponible
                       key={servicio._id}
-                      icono={require('../../../assets/iconosServicios/electricist.png')}
+                      icono={{ uri: servicio.icono }}
                       nombre={servicio.nombre}
                       setServicioActivo={setServicioActivo}
                       servicioActivo={servicioActivo}
@@ -182,7 +196,7 @@ const PerfilPrestador = ({ route }) => {
                   ))}
                   <ItemServicioDisponible
                     key='todos'
-                    icono={require('../../../assets/iconosServicios/electricist.png')}
+                    icono={require('../../../assets/iconosServicios/all.png')}
                     nombre='Todos'
                     setServicioActivo={setServicioActivo}
                     servicioActivo={servicioActivo}

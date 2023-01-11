@@ -4,7 +4,7 @@ import { COLORS, ROUTES } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
 import authService from '../../services/auth.service.'
 
-const Conversacion = ({ chat, userId, navigation }) => {
+const PrestadorConversacion = ({ chat, userId, navigation }) => {
   const { setCurrentChat } = useContext(AuthContext)
   const [receptor, setReceptor] = useState(null)
 
@@ -23,7 +23,7 @@ const Conversacion = ({ chat, userId, navigation }) => {
   const handleSetChat = (chat) => {
     setCurrentChat(chat)
     console.log('gol', chat)
-    navigation.navigate(ROUTES.CHAT_ID, { title: receptor.usuario })
+    navigation.navigate(ROUTES.PRESTADOR_CHATS_ID, { title: receptor.usuario })
   }
   return (
     <TouchableOpacity
@@ -37,7 +37,7 @@ const Conversacion = ({ chat, userId, navigation }) => {
   )
 }
 
-export default Conversacion
+export default PrestadorConversacion
 
 const styles = StyleSheet.create({
   conversacion: {

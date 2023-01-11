@@ -37,7 +37,7 @@ const PrestadorHome = ({ navigation }) => {
   }, [navigation])
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: 'white' }}>
       <View style={styles.container}>
         {(userInfo?.direccionActual === undefined) |
         (userInfo?.direccionActual === null) ? (
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   noDireccion: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    height: '100%',
   },
   botonDir: {
     justifyContent: 'center',
@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
   },
   ordenesServicio: {
     marginTop: 15,
+    height: '100%',
   },
   lista: {
     width: '100%',
