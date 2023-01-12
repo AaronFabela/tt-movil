@@ -66,7 +66,9 @@ const PrestadorOrdenesServicio = ({ navigation }) => {
             justifyContent: 'center',
           }}
         >
-          <Text style={{ fontSize: 20 }}>No cuentas con ordenes activas</Text>
+          <Text style={{ fontSize: 20 }}>
+            No cuentas con un historial de ordenes
+          </Text>
         </View>
       )}
     </ScrollView>

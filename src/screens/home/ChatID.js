@@ -36,7 +36,11 @@ const ChatID = ({ route }) => {
   useEffect(() => {
     // socket.current = io(SOCKET)
     // setSocket(io.connect('http://192.168.137.254:4001'))
-    console.log(socket)
+    // const socket = io('http://192.168.146.215:4001', {
+    //   transports: ['websockets'],
+    // })
+    // socket.connect()
+    // console.log(socket)
     socket.on('getMessage', (data) => {
       setArrivalMessage({
         emisor: data.senderId,

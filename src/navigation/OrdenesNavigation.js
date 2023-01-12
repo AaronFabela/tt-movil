@@ -63,7 +63,7 @@ const OrdenesNavigation = () => {
           name={routes.ORDENESERVICIO_HISTORIAL_ITEM_MODAL}
           component={ModalOrdenServicioHistorialItem}
           options={{
-            title: 'Ordenes Servicio Terminada',
+            title: 'Orden de Servicio Terminada',
             headerStyle: {
               backgroundColor: COLORS.primary,
               shadowColor: '#000',

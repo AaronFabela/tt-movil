@@ -10,6 +10,7 @@ import React from 'react'
 import routes from '../../../constants/routes'
 import { Chip } from 'react-native-paper'
 import { COLORS } from '../../../constants'
+import { AirbnbRating } from '@rneui/themed'
 
 const ItemServicio = ({ cover, prestador, navigation }) => {
   return (
@@ -42,14 +43,33 @@ const ItemServicio = ({ cover, prestador, navigation }) => {
             <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
               {prestador?.usuario}
             </Text>
-            <View style={styles.acciones}>
-              {prestador?.servicios?.map((servicio) => (
-                <View style={styles.chip}>
-                  <Text style={{ color: COLORS.primary }}>
-                    {servicio.nombre}
-                  </Text>
+            <View>
+              <ScrollView
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+              >
+                <View
+                  style={styles.acciones}
+                  onStartShouldSetResponder={() => true}
+                >
+                  {prestador?.servicios?.map((servicio) => (
+                    <View style={styles.chip}>
+                      <Text style={{ color: COLORS.primary }}>
+                        {servicio.nombre}
+                      </Text>
+                    </View>
+                  ))}
                 </View>
-              ))}
+              </ScrollView>
+            </View>
+            <View style={{ alignItems: 'flex-start' }}>
+              <AirbnbRating
+                count={5}
+                defaultRating={4.5}
+                showRating={false}
+                isDisabled={true}
+                size={15}
+              />
             </View>
           </View>
         </View>
@@ -100,7 +120,7 @@ const styles = StyleSheet.create({
   item: {
     borderWidth: 1,
     borderColor: '#d9d9d9',
-    height: 200,
+    height: 150,
     width: '100%',
     marginBottom: 15,
     flexDirection: 'row',
@@ -135,7 +155,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
   },
   chip: {
-    backgroundColor: 'rgba(6, 40, 61,0.3)',
+    backgroundColor: 'rgba(0, 56, 255,0.15)',
     alignSelf: 'center',
     padding: 5,
     borderRadius: 10,

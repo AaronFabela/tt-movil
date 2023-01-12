@@ -26,7 +26,14 @@ const ChatNavigation = () => {
       <Stack.Screen
         name={routes.CHAT_ID}
         component={ChatID}
-        options={({ route }) => ({ title: route.params?.title })}
+        options={({ route }) => ({
+          title: route.params?.title,
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+            shadowColor: '#000',
+          },
+          headerTintColor: 'white',
+        })}
       />
     </Stack.Navigator>
   )

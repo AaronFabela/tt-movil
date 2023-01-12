@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 35,
     marginBottom: 15,
-    color: COLORS.turques,
+    color: COLORS.primary,
   },
   boton: {
     justifyContent: 'center',

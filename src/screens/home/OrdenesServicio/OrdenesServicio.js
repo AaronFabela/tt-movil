@@ -46,6 +46,7 @@ const OrdenesServicio = ({ navigation }) => {
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
+      style={{ backgroundColor: 'white' }}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }

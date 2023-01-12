@@ -34,12 +34,26 @@ const ModalOrdenServicioActiva = ({ route }) => {
       <View style={styles.container}>
         <View style={styles.contenido}>
           <View style={styles.cajita}>
+            <View style={{ alignItems: 'center' }}>
+              <Image
+                source={{ uri: orden?.prestador?.perfil?.secure_url }}
+                style={{
+                  height: 150,
+                  width: 150,
+                  borderRadius: 100,
+                  borderColor: COLORS.primary,
+                  borderWidth: 3,
+                }}
+              />
+            </View>
             <Text style={{ fontSize: 40, fontWeight: 'bold' }}>
               {orden?.prestador?.usuario}
             </Text>
             <Text style={styles.lineaTexto}>
               <Text style={{ color: COLORS.gray }}>
-                {new Date(orden?.fecha).toLocaleDateString()}
+                {new Date(orden?.fecha).toLocaleDateString() +
+                  ' - ' +
+                  new Date(orden?.hora).toLocaleTimeString()}
               </Text>
             </Text>
           </View>
@@ -59,6 +73,10 @@ const ModalOrdenServicioActiva = ({ route }) => {
               <Text style={[styles.lineaTexto, styles.margen]}>
                 <Text style={styles.titulo}>Descripcion: </Text>
                 <Text style={styles.descripcion}>{orden?.descripcion}</Text>
+              </Text>
+              <Text style={[styles.lineaTexto, styles.margen]}>
+                <Text style={styles.titulo}>Notas: </Text>
+                <Text style={styles.descripcion}>{orden?.notas}</Text>
               </Text>
             </View>
           </View>

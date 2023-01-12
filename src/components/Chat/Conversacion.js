@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import { COLORS, ROUTES } from '../../constants'
 import { AuthContext } from '../../context/AuthContext'
@@ -30,8 +30,14 @@ const Conversacion = ({ chat, userId, navigation }) => {
       style={styles.conversacion}
       onPress={() => handleSetChat(chat)}
     >
-      <View>
-        <Text>{receptor?.usuario}</Text>
+      <View style={styles.sameLine}>
+        <Image
+          source={{ uri: receptor?.perfil?.secure_url }}
+          style={{ height: 50, width: 50, borderRadius: 100 }}
+        />
+        <View>
+          <Text>{receptor?.usuario}</Text>
+        </View>
       </View>
     </TouchableOpacity>
   )
@@ -45,8 +51,13 @@ const styles = StyleSheet.create({
     height: 70,
     justifyContent: 'center',
     backgroundColor: 'white',
-    paddingLeft: 30,
+    paddingLeft: 15,
     borderBottomColor: COLORS.turques,
     borderBottomWidth: 1,
+  },
+  sameLine: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
   },
 })

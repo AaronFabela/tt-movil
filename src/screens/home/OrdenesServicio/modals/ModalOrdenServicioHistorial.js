@@ -51,13 +51,11 @@ const ModalOrdenServicioHistorial = ({ navigation }) => {
       ) : ordenServicioHistorial.length > 0 ? (
         <View style={styles.container}>
           {ordenServicioHistorial.map((orden) => (
-            <>
-              <ItemOrdenServicioHistorial
-                key={orden._id}
-                orden={orden}
-                navigation={navigation}
-              />
-            </>
+            <ItemOrdenServicioHistorial
+              key={orden._id}
+              orden={orden}
+              navigation={navigation}
+            />
           ))}
         </View>
       ) : (

@@ -13,8 +13,8 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
           // resizeMode='contain'
 
           source={{
-            uri: ordenServicio?.empleador?.perfil?.secure_id
-              ? ordenServicio?.empleador?.perfil?.secure_id
+            uri: ordenServicio?.empleador?.perfil?.secure_url
+              ? ordenServicio?.empleador?.perfil?.secure_url
               : 'https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg',
           }}
           style={{
@@ -27,14 +27,12 @@ const ItemOrdenServicio = ({ ordenServicio, navigation, prestador }) => {
       </View>
       <View style={styles.contenido}>
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          {ordenServicio?.servicio?.nombre}
-        </Text>
-        <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>
           {ordenServicio?.empleador?.usuario}
         </Text>
-        <Text style={{ marginBottom: 5 }}>
-          {ordenServicio?.descripcion?.substring(0, 100)}
+        <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 5 }}>
+          {ordenServicio?.servicio?.nombre}
         </Text>
+
         <Text style={{ marginBottom: 5 }}>
           Fecha: {new Date(ordenServicio?.fecha).toLocaleDateString()}
         </Text>
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
   item: {
     borderWidth: 1,
     borderColor: '#d9d9d9',
-    height: 200,
+    height: 150,
     width: '100%',
     marginBottom: 15,
     flexDirection: 'row',

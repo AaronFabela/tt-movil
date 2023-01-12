@@ -16,8 +16,9 @@ const PrestadorTabNavigator = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
-        tabBarStyle: { backgroundColor: COLORS.primary },
-        tabBarActiveTintColor: COLORS.white,
+        tabBarStyle: { backgroundColor: COLORS.white },
+        tabBarActiveTintColor: COLORS.primary,
+        tabBarInactiveTintColor: COLORS.turques,
       }}
     >
       <Tab.Screen

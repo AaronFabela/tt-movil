@@ -27,13 +27,13 @@ const ItemOrdenServicio = ({ orden, navigation }) => {
         <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
           {orden.prestador?.usuario}
         </Text>
-        <Text style={{ marginBottom: 5 }}>
-          Servicio: {orden?.servicio?.nombre}
-        </Text>
-        <Text style={{ marginBottom: 5 }}>
-          {orden.descripcion?.substring(0, 30)}
-        </Text>
-
+        <View style={styles.chiplist}>
+          <View style={styles.chip}>
+            <Text style={{ color: COLORS.primary }}>
+              {orden.servicio.nombre}
+            </Text>
+          </View>
+        </View>
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
     flex: 2,
-    backgroundColor: 'green',
+    backgroundColor: 'white',
   },
   contenido: {
     borderTopRightRadius: 15,
@@ -102,5 +102,23 @@ const styles = StyleSheet.create({
     width: '47%',
     borderRadius: 10,
     backgroundColor: COLORS.primary,
+  },
+  chiplist: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    height: 40,
+    width: '100%',
+  },
+  chip: {
+    backgroundColor: 'rgba(0, 56, 255,0.15)',
+    alignSelf: 'center',
+    padding: 5,
+    borderRadius: 10,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+    marginRight: 8,
+    color: COLORS.primary,
+    marginBottom: 5,
   },
 })

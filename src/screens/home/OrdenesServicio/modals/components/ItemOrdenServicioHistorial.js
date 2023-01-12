@@ -12,8 +12,8 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
         <Image
           // resizeMode='contain'
           source={{
-            uri: orden?.prestador?.perfil?.secure_id
-              ? orden?.prestador?.perfil?.secure_id
+            uri: orden?.prestador?.perfil?.secure_url
+              ? orden?.prestador?.perfil?.secure_url
               : 'https://i.pinimg.com/474x/bd/f4/d3/bdf4d3fe1f9a17136319df951fe9b3e0.jpg',
           }}
           style={{
@@ -25,23 +25,28 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
         />
       </View>
       <View style={styles.contenido}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-          {orden.servicio?.nombre}
+        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+          {orden.prestador?.usuario}
         </Text>
-        <Text style={{ marginBottom: 5 }}>
-          {`${orden.descripcion?.substring(0, 30)}...`}
-        </Text>
-        {orden?.resena?.calificacion != null ? (
-          <AirbnbRating
-            count={5}
-            defaultRating={orden?.resena?.calificacion}
-            showRating={false}
-            isDisabled={true}
-            size={20}
-          />
-        ) : (
-          <></>
-        )}
+        <View style={styles.sameLine}>
+          <View style={styles.chip}>
+            <Text style={{ color: COLORS.primary }}>
+              {orden?.servicio?.nombre}
+            </Text>
+          </View>
+          {orden?.resena?.calificacion != null ? (
+            <AirbnbRating
+              count={5}
+              defaultRating={orden?.resena?.calificacion}
+              showRating={false}
+              isDisabled={true}
+              size={15}
+            />
+          ) : (
+            <></>
+          )}
+        </View>
+
         <View style={styles.acciones}>
           <TouchableOpacity
             style={styles.btn}
@@ -76,7 +81,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderBottomLeftRadius: 15,
     flex: 2,
-    backgroundColor: 'green',
   },
   contenido: {
     borderTopRightRadius: 15,
@@ -101,5 +105,21 @@ const styles = StyleSheet.create({
     width: '47%',
     borderRadius: 10,
     backgroundColor: COLORS.primary,
+  },
+
+  chip: {
+    backgroundColor: 'rgba(0, 56, 255,0.15)',
+    alignSelf: 'center',
+    padding: 5,
+    borderRadius: 10,
+    borderColor: COLORS.primary,
+    borderWidth: 1,
+    marginRight: 8,
+    color: COLORS.primary,
+    marginBottom: 5,
+  },
+  sameLine: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 })
