@@ -17,6 +17,8 @@ import resenaService from '../../../../services/reseña.service'
 import { ActivityIndicator } from 'react-native-paper'
 import { Alert } from 'react-native'
 import { AirbnbRating } from '@rneui/themed'
+import mime from 'mime'
+import routes from '../../../../constants/routes'
 
 const ModalOrdenServicioHistorialItem = ({ route, navigation }) => {
   const { orden } = route.params
@@ -41,7 +43,12 @@ const ModalOrdenServicioHistorialItem = ({ route, navigation }) => {
     })
 
     if (!result.cancelled) {
-      setImagen({ uri: result.uri, type: result.type, name: result.fileName })
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+      setImagen({
+        uri: newImageUri,
+        type: mime.getType(newImageUri),
+        name: newImageUri.split('/').pop(),
+      })
     }
   }
 
@@ -116,86 +123,121 @@ const ModalOrdenServicioHistorialItem = ({ route, navigation }) => {
                   <Text style={styles.descripcion}>{orden?.descripcion}</Text>
                 </Text>
               </View>
-              <Text
-                style={{
-                  fontSize: 25,
-                  fontWeight: 'bold',
-                  marginBottom: 10,
-                  marginTop: 15,
-                }}
-              >
-                Calificacion
-              </Text>
-              {orden?.resena === null || orden?.resena === undefined ? (
-                sendResena ? (
-                  <View style={{ width: '100%' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                      Reseña
-                    </Text>
-                    <TextInput
-                      style={{ width: '100%', marginBottom: 10 }}
-                      placeholder='Descripcion'
-                      mode='outlined'
-                      value={descripcion}
-                      onChangeText={(text) => setDescripcion(text)}
-                    />
-                    <Rating
-                      initialValue={3}
-                      onChangeValue={(value) => setCalificacion(value)}
-                    />
-                    <UploadFileGeneral
-                      handleUpload={handleImagen}
-                      uriType={imagen}
-                    />
-                    <View style={styles.acciones}>
-                      <TouchableOpacity
-                        style={styles.accionBoton}
-                        onPress={() => (setIsSending(true), handleResena())}
-                      >
-                        <Text style={{ color: 'white' }}>Enviar</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.accionBoton}
-                        onPress={() => setSendResena(false)}
-                      >
-                        <Text style={{ color: 'white' }}>Cancelar</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.acciones}>
-                    <TouchableOpacity
-                      style={styles.accionBoton2}
-                      onPress={() => setSendResena(true)}
-                    >
-                      <Text style={{ color: 'white' }}>Calificar</Text>
-                    </TouchableOpacity>
-                  </View>
-                )
-              ) : (
-                <View style={{ alignItems: 'flex-start' }}>
-                  <Text style={[styles.lineaTexto, styles.margen]}>
-                    <Text style={styles.titulo}>Reseña: </Text>
-                    <Text style={styles.descripcion}>
-                      {orden?.resena?.descripcion}
-                    </Text>
+              {orden?.estatus !== 'Cancelado' ? (
+                <>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontWeight: 'bold',
+                      marginBottom: 10,
+                      marginTop: 15,
+                    }}
+                  >
+                    Calificacion
                   </Text>
-                  <View style={{ alignItems: 'center', width: '100%' }}>
-                    <Image
-                      style={{ width: 200, height: 200, marginBottom: 15 }}
-                      source={{ uri: orden?.resena?.imagen?.secure_url }}
-                    />
-                    <AirbnbRating
-                      count={5}
-                      defaultRating={orden?.resena?.calificacion}
-                      showRating={false}
-                      isDisabled={true}
-                      size={30}
-                    />
-                  </View>
+                  {orden?.resena === null || orden?.resena === undefined ? (
+                    sendResena ? (
+                      <View style={{ width: '100%' }}>
+                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                          Reseña
+                        </Text>
+                        <TextInput
+                          style={{ width: '100%', marginBottom: 10 }}
+                          placeholder='Descripcion'
+                          mode='outlined'
+                          value={descripcion}
+                          onChangeText={(text) => setDescripcion(text)}
+                        />
+                        <Rating
+                          initialValue={3}
+                          onChangeValue={(value) => setCalificacion(value)}
+                        />
+                        <UploadFileGeneral
+                          handleUpload={handleImagen}
+                          uriType={imagen}
+                        />
+                        <View style={styles.acciones}>
+                          <TouchableOpacity
+                            style={styles.accionBoton}
+                            onPress={() => (setIsSending(true), handleResena())}
+                          >
+                            <Text style={{ color: 'white' }}>Enviar</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={styles.accionBoton}
+                            onPress={() => setSendResena(false)}
+                          >
+                            <Text style={{ color: 'white' }}>Cancelar</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    ) : (
+                      <>
+                        <View style={styles.acciones}>
+                          <TouchableOpacity
+                            style={styles.accionBoton2}
+                            onPress={() => setSendResena(true)}
+                          >
+                            <Text style={{ color: 'white' }}>Calificar</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.acciones}>
+                          <TouchableOpacity
+                            style={styles.accionBoton3}
+                            onPress={() =>
+                              navigation.navigate(
+                                routes.ORDENESERVICIO_REPORTE,
+                                { ordenServicio: orden }
+                              )
+                            }
+                          >
+                            <Text style={{ color: 'white' }}>Reportar</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    )
+                  ) : (
+                    <View style={{ alignItems: 'flex-start' }}>
+                      <Text style={[styles.lineaTexto, styles.margen]}>
+                        <Text style={styles.titulo}>Reseña: </Text>
+                        <Text style={styles.descripcion}>
+                          {orden?.resena?.descripcion}
+                        </Text>
+                      </Text>
+                      <View style={{ alignItems: 'center', width: '100%' }}>
+                        <Image
+                          style={{ width: 200, height: 200, marginBottom: 15 }}
+                          source={{ uri: orden?.resena?.imagen?.secure_url }}
+                        />
+                        <AirbnbRating
+                          count={5}
+                          defaultRating={orden?.resena?.calificacion}
+                          showRating={false}
+                          isDisabled={true}
+                          size={30}
+                        />
+                      </View>
 
-                  {/* <Text>{orden?.resena.}</Text> */}
-                </View>
+                      {/* <Text>{orden?.resena.}</Text> */}
+                    </View>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontWeight: 'bold',
+                      marginBottom: 10,
+                      marginTop: 15,
+                    }}
+                  >
+                    Motivos Cancelación
+                  </Text>
+                  <Text style={styles.lineaTexto}>
+                    <Text style={styles.titulo}>{orden?.motivos}</Text>
+                  </Text>
+                </>
               )}
             </View>
           </View>
@@ -268,5 +310,13 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: 10,
     backgroundColor: COLORS.primary,
+  },
+  accionBoton3: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: 10,
+    backgroundColor: 'red',
   },
 })

@@ -41,10 +41,24 @@ const solicitudPrestador = async (solicitud) => {
   return response.data
 }
 
+const editarUsuario = async (id, usuario, telefono, email) => {
+  const response = await axios.post(
+    API_URL + `solicitudes/editarInfoUsuario/${id}`,
+    { usuario, telefono, email },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': true,
+      },
+    }
+  )
+  return response.data
+}
+
 const solicitudService = {
   solicitudEmpleador,
   solicitudPrestador,
   crearContactos,
+  editarUsuario,
 }
 
 export default solicitudService

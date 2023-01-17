@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   icono: {
     height: 60,
     width: 80,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',

@@ -8,7 +8,9 @@ export default {
   warning: '#f0d500',
   danger: '#FF0D0E',
   gray: '#666666',
-  grayLight: '#ccc',
+  grayLight: '#f6f6f6',
+  gray2: '#EEEEEE',
+
   black: '#0a0a0a',
   green: '#7cfc00',
   success: '#06e802',

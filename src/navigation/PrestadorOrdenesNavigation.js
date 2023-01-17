@@ -36,7 +36,7 @@ const PrestadorOrdenesNavigation = () => {
           name={routes.PRESTADOR_ORDENESERVICIO_ACTIVA_MODAL}
           component={PrestadorModalOrdenServicioActiva}
           options={{
-            title: 'Nombre Prestador',
+            title: 'Orden Activa',
             headerStyle: {
               backgroundColor: COLORS.primary,
               shadowColor: '#000',

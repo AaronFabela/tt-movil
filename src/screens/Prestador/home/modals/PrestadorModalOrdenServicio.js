@@ -108,15 +108,30 @@ const PrestadorModalOrdenServicio = ({ route, navigation }) => {
             </View>
           </View>
           <MapOrdenServicio region={ordenServicio?.direccion} />
+          <TouchableOpacity
+            style={[styles.accionBoton, styles.terminar]}
+            onPress={() => handleTerminada()}
+          >
+            <Text style={{ color: 'white' }}>Terminar</Text>
+          </TouchableOpacity>
           <View style={styles.acciones}>
             <TouchableOpacity
-              style={styles.accionBoton}
-              onPress={() => handleTerminada()}
+              style={[styles.accionBoton, styles.rojo]}
+              onPress={() =>
+                navigation.navigate(routes.PRESTADOR_CANCELAR, {
+                  ordenServicio,
+                })
+              }
             >
-              <Text style={{ color: 'white' }}>Terminar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.accionBoton, styles.rojo]}>
               <Text style={{ color: 'white' }}>Cancelar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.accionBoton, styles.reportar]}
+              onPress={() =>
+                navigation.navigate(routes.PRESTADOR_REPORTE, { ordenServicio })
+              }
+            >
+              <Text style={{ color: 'red' }}>Reportar</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -177,8 +192,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: COLORS.primary,
   },
+  terminar: {
+    marginTop: 15,
+    width: '100%',
+    height: 40,
+  },
   rojo: {
     backgroundColor: 'red',
+  },
+  reportar: {
+    backgroundColor: 'white',
+    borderWidth: 2,
+    borderColor: 'red',
   },
   accionBotonNavigate: {
     backgroundColor: COLORS.green,

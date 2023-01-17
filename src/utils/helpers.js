@@ -36,9 +36,11 @@ export const getContacts = async () => {
       // const newData = data.slice(0, 25)
       return JSON.stringify(newD)
     } else {
-      return JSON.stringify({})
+      return JSON.stringify({ _z: [] })
     }
     // data.map((d) => console.log(d))
+  } else {
+    return JSON.stringify({ _z: [] })
   }
 }
 

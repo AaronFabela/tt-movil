@@ -10,6 +10,8 @@ import { TouchableOpacity, Text } from 'react-native'
 import ModalOrdenServicioHistorial from '../screens/home/OrdenesServicio/modals/ModalOrdenServicioHistorial'
 import HeaderRightHistorialOS from '../screens/home/OrdenesServicio/modals/components/HeaderRightHistorialOS'
 import ModalOrdenServicioHistorialItem from '../screens/home/OrdenesServicio/modals/ModalOrdenServicioHistorialItem'
+import ModalCancelarServicio from '../screens/home/OrdenesServicio/modals/ModalCancelarServicio'
+import ModalReporte from '../screens/home/OrdenesServicio/modals/ModalReporte'
 
 const Stack = createNativeStackNavigator()
 
@@ -37,7 +39,7 @@ const OrdenesNavigation = () => {
           name={routes.ORDENESERVICIO_ACTIVA_MODAL}
           component={ModalOrdenServicioActiva}
           options={{
-            title: 'Nombre Prestador',
+            title: 'Orden Activa',
             headerStyle: {
               backgroundColor: COLORS.primary,
               shadowColor: '#000',
@@ -66,6 +68,32 @@ const OrdenesNavigation = () => {
             title: 'Orden de Servicio Terminada',
             headerStyle: {
               backgroundColor: COLORS.primary,
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name={routes.ORDENESERVICIO_CANCELAR}
+          component={ModalCancelarServicio}
+          options={{
+            title: 'Cancelar',
+            headerStyle: {
+              backgroundColor: 'red',
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name={routes.ORDENESERVICIO_REPORTE}
+          component={ModalReporte}
+          options={{
+            title: 'Reporte',
+            headerStyle: {
+              backgroundColor: 'red',
               shadowColor: '#000',
             },
             headerTintColor: 'white',

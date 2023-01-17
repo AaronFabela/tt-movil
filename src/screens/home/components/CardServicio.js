@@ -22,7 +22,7 @@ export default CardServicio
 const styles = StyleSheet.create({
   card: {
     height: '100%',
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     width: '100%',
     borderRadius: 15,
     padding: 15,

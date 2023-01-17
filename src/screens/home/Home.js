@@ -42,15 +42,11 @@ const Home = ({ navigation }) => {
   const firstLoad = () => {
     if (userInfo.direccionActual != null) {
       console.log('si tiene direccion', userInfo.direccionActual.latitude)
-      const data = new FormData()
-      data.append('lat', userInfo.direccionActual.latitude)
-      data.append('long', userInfo.direccionActual.longitude)
-      data.append('max', 5)
 
       prestadoresService
         .getPrestadoresByDistance(
-          userInfo.direccionActual.longitude,
           userInfo.direccionActual.latitude,
+          userInfo.direccionActual.longitude,
           5
         )
         .then(

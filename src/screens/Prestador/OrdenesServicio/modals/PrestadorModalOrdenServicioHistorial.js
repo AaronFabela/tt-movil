@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from 'react'
 import { ActivityIndicator } from 'react-native-paper'
 import ordenServicioService from '../../../../services/ordenServicio.service'
 import { AuthContext } from '../../../../context/AuthContext'
-import ItemOrdenServicioHistorial from './components/ItemOrdenServicioHistorial'
+import PrestadorItemOrdenServicioHistorial from './components/PrestadorItemOrdenServicioHistorial'
 import { COLORS } from '../../../../constants'
 
 const PrestadorModalOrdenServicioHistorial = ({ navigation }) => {
@@ -52,7 +52,7 @@ const PrestadorModalOrdenServicioHistorial = ({ navigation }) => {
         <View style={styles.container}>
           {ordenServicioHistorial.map((orden) => (
             <>
-              <ItemOrdenServicioHistorial
+              <PrestadorItemOrdenServicioHistorial
                 key={orden._id}
                 orden={orden}
                 navigation={navigation}

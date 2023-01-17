@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   contenido: {
     marginTop: 15,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     // backgroundColor: 'red',
     padding: 5,
     marginBottom: 5,

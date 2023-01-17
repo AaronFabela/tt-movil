@@ -10,6 +10,7 @@ import UploadFile from './components/UploadFile'
 import solicitudService from '../../../services/solicitud.service'
 import { cadenaAleatoria, getContacts } from '../../../utils/helpers'
 import { ActivityIndicator } from 'react-native-paper'
+import mime from 'mime'
 
 const RegisterEmpleador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
@@ -39,20 +40,6 @@ const RegisterEmpleador = ({ navigation }) => {
     setContactos(getContacts())
   }, [])
 
-  // const handleR = async () => {
-  //   try {
-  //     console.log('Holiwis')
-  //     const response = await usuarioService.buscarAmigos(
-  //       '6397e7e779ad99f86553b9be',
-  //       con
-  //     )
-  //     console.log(response)
-  //   } catch (error) {
-  //     console.log(error)
-  //     // setPassword(null)
-  //   }
-  // }
-
   const handleImagePerfil = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -63,9 +50,15 @@ const RegisterEmpleador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+
       setImages({
         ...images,
-        perfil: { uri: result.uri, type: result.type, name: cadenaAleatoria },
+        perfil: {
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
+        },
       })
     }
     console.log(images)
@@ -81,9 +74,15 @@ const RegisterEmpleador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+
       setImages({
         ...images,
-        ine: { uri: result.uri, type: result.type, name: cadenaAleatoria },
+        ine: {
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
+        },
       })
     }
     console.log(images)
@@ -99,15 +98,18 @@ const RegisterEmpleador = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+
       setImages({
         ...images,
         domicilio: {
-          uri: result.uri,
-          type: result.type,
-          name: cadenaAleatoria,
+          uri: newImageUri,
+          type: mime.getType(newImageUri),
+          name: newImageUri.split('/').pop(),
         },
       })
     }
+    console.log(images)
   }
 
   const validate = () => {
@@ -156,7 +158,8 @@ const RegisterEmpleador = ({ navigation }) => {
 
       if (response.code === 400) {
         const key = response.key.toUpperCase()
-        Toast.error(`${response.data.message}`, 'top')
+        // Toast.error(`${response.data.message}`, 'top')
+        console.log(error)
         setUsuario(null)
         setEmail(null)
         setPassword(null)

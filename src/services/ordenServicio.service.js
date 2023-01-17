@@ -1,32 +1,10 @@
 import axios from 'axios'
 import { API_URL } from '../api'
 
-const crearOrdenServicio = (
-  servicio,
-  prestador,
-  empleador,
-  descripcion,
-  notas,
-  direccion,
-  fecha,
-  hora
-) => {
-  return axios.post(
-    API_URL + 'ordenesServicio/crearOrdenServicio',
-    {
-      servicio,
-      prestador,
-      empleador,
-      descripcion,
-      notas,
-      direccion,
-      fecha,
-      hora,
-    },
-    {
-      headers: { 'Content-Type': 'application/json' },
-    }
-  )
+const crearOrdenServicio = (orden) => {
+  return axios.post(API_URL + 'ordenesServicio/crearOrdenServicio', orden, {
+    headers: { 'Content-Type': 'application/json' },
+  })
 }
 
 const getOrdenServicioByPrestador = async (id) => {
@@ -65,6 +43,24 @@ const getOrdenesServicioByTerminadas = async (id) => {
   })
 }
 
+const getOrdenesServicioByCanceladas = async (id) => {
+  return axios.get(API_URL + 'ordenesServicio/obtenerOrdenesCanceladas/' + id, {
+    headers: {
+      'Access-Control-Allow-Origin': true,
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
+const getOrdenesServicioByDate = async (id) => {
+  return axios.get(API_URL + 'ordenesServicio/obtenerOrdenByDate/' + id, {
+    headers: {
+      'Access-Control-Allow-Origin': true,
+      'Content-Type': 'application/json',
+    },
+  })
+}
+
 const terminarOrdenServicio = async (id) => {
   console.log(id)
   return axios.put(API_URL + 'ordenesServicio/terminarOrdenServicio/' + id, {
@@ -74,13 +70,17 @@ const terminarOrdenServicio = async (id) => {
   })
 }
 
-const cancelarOrdenServicio = async (id) => {
-  console.log(id)
-  return axios.put(API_URL + 'ordenesServicio/cancelarOrdenServicio/' + id, {
-    headers: {
-      'Access-Control-Allow-Origin': true,
-    },
-  })
+const cancelarOrdenServicio = async (id, motivos) => {
+  console.log(id, motivos)
+  return axios.put(
+    API_URL + 'ordenesServicio/cancelarOrdenServicio/' + id,
+    { motivos },
+    {
+      headers: {
+        'Access-Control-Allow-Origin': true,
+      },
+    }
+  )
 }
 
 const getServicios = async () => {
@@ -101,6 +101,8 @@ const ordenServicioService = {
   terminarOrdenServicio,
   getServicios,
   cancelarOrdenServicio,
+  getOrdenesServicioByCanceladas,
+  getOrdenesServicioByDate,
 }
 
 export default ordenServicioService

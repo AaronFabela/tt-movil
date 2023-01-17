@@ -10,6 +10,7 @@ export default {
   HOME_TAB: 'HomeTab',
   PERFIL_NAVIGATION: 'PerfilNavigation',
   PERFIL: 'Perfil',
+  PERFIL_EDITAR: 'PERFIL_EDITAR',
   PERFILPRESTADORHOME: 'PerfilPrestadorHome',
   ORDENSERVICIOMODAL: 'OrdenServicioModal',
   CREARORDENSERVICIOMODAL: 'CrearOrdenServicioModal',
@@ -20,6 +21,8 @@ export default {
   ORDENESERVICIO_ACTIVA_MODAL: 'OrdenServicioActivaModal',
   ORDENESERVICIO_HISTORIAL_MODAL: 'OrdenServicioHistorialModal',
   ORDENESERVICIO_HISTORIAL_ITEM_MODAL: 'OrdenServicioHistorialItemModal',
+  ORDENESERVICIO_CANCELAR: 'OrdenServicioCancelar',
+  ORDENESERVICIO_REPORTE: 'OrdenServicioReporte',
 
   MAPMODAL: 'MapModal',
   FirstDirection: 'FirstDirection',
@@ -42,6 +45,9 @@ export default {
   PRESTADOR_PERFIL_NAVIGATION: 'PerfilPrestadorNavigation',
   PRESTADOR_PERFIL: 'PrestadorPerfil',
   PRESTADOR_MODALORDENSERVICIOMODAL: 'PrestadorModalOrdenServicioModal',
+  PRESTADOR_CALENDARIO: 'CALENDARIO',
+  PRESTADOR_REPORTE: 'PrestadorReporte',
+  PRESTADOR_CANCELAR: 'PrestadorCancelar',
 
   PRESTADOR_ORDENESTERMINADAS: 'PrestadorOrdenesTerminadas',
   PRESTADOR_ORDENESSERVICIOACTIVAS: 'OrdenesServicioActivas',

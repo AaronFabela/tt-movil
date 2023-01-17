@@ -43,7 +43,7 @@ const PerfilPrestador = ({ route }) => {
         }
       )
       .then(
-        ordenServicioService.getOrdenServicioByPrestador(id).then(
+        ordenServicioService.getOrdenesServicioByTerminadas(id).then(
           (response) => {
             console.log(response.data)
             setOrdenesServicio(response.data)

@@ -15,6 +15,8 @@ import mime from 'mime'
 const RegisterPrestador = ({ navigation }) => {
   const [usuario, setUsuario] = useState('')
   const [password, setPassword] = useState('')
+  const [telefono, setTelefono] = useState('')
+
   const [isSending, setIsSending] = useState(false)
   const [email, setEmail] = useState('')
   const [rol, setRol] = useState('prestador')
@@ -130,7 +132,8 @@ const RegisterPrestador = ({ navigation }) => {
     if (
       usuario.trim().length !== 0 &&
       password.trim().length !== 0 &&
-      email.trim().length !== 0
+      email.trim().length !== 0 &&
+      telefono.trim().length !== 0
     ) {
       setError({ ...error, form: false })
     } else {
@@ -145,6 +148,7 @@ const RegisterPrestador = ({ navigation }) => {
       data.append('usuario', usuario)
       data.append('email', email)
       data.append('password', password)
+      data.append('telefono', telefono)
       data.append('rol', rol)
       data.append('perfil', images.perfil)
       data.append('INE', images.ine)
@@ -154,6 +158,7 @@ const RegisterPrestador = ({ navigation }) => {
       console.log(data)
       const response = await solicitudService.solicitudPrestador(data)
       console.log(response)
+      navigation.pop(1)
       if (response.code === 400) {
         const key = response.key.toUpperCase()
         Toast.error(`${response.data.message}`, 'top')
@@ -247,6 +252,8 @@ const RegisterPrestador = ({ navigation }) => {
                       setUsuario={setUsuario}
                       password={password}
                       setPassword={setPassword}
+                      telefono={telefono}
+                      setTelefono={setTelefono}
                       styles={styles}
                     />
                   </View>
@@ -311,7 +318,7 @@ const RegisterPrestador = ({ navigation }) => {
                       style={{ marginBottom: 10 }}
                       onPress={() => (
                         setSCarpintero(!sCarpintero),
-                        handleServicios('carpintero')
+                        handleServicios('Carpintería')
                       )}
                       showSelectedOverlay={true}
                       selected={sCarpintero}
@@ -322,7 +329,7 @@ const RegisterPrestador = ({ navigation }) => {
                       style={{ marginBottom: 10 }}
                       onPress={() => (
                         setSCerrajeria(!sCerrajeria),
-                        handleServicios('cerrajeria')
+                        handleServicios('Cerrajería')
                       )}
                       showSelectedOverlay={true}
                       selected={sCerrajeria}
@@ -332,7 +339,7 @@ const RegisterPrestador = ({ navigation }) => {
                     <Chip
                       style={{ marginBottom: 10 }}
                       onPress={() => (
-                        setSPlomeria(!sPlomeria), handleServicios('plomeria')
+                        setSPlomeria(!sPlomeria), handleServicios('Plomería')
                       )}
                       showSelectedOverlay={true}
                       selected={sPlomeria}
@@ -343,7 +350,7 @@ const RegisterPrestador = ({ navigation }) => {
                       style={{ marginBottom: 10 }}
                       onPress={() => (
                         setSElectricista(!sElectricista),
-                        handleServicios('electricista')
+                        handleServicios('Electricista')
                       )}
                       showSelectedOverlay={true}
                       selected={sElectricista}

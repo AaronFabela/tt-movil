@@ -8,6 +8,7 @@ import PrestadorHomeNavigation from './PrestadorHomeNavigation'
 import PrestadorChatNavigation from './PrestadorChatNavigation'
 import PrestadorPerfilNavigation from './PrestadorPerfilNavigation'
 import PrestadorOrdenesNavigation from '../PrestadorOrdenesNavigation'
+import Calendario from '../../screens/Prestador/Calendario/Calendario'
 
 const Tab = createBottomTabNavigator()
 
@@ -52,6 +53,22 @@ const PrestadorTabNavigator = () => {
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Feather name='message-circle' color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={routes.PRESTADOR_CALENDARIO}
+        component={Calendario}
+        options={{
+          title: 'Calendario',
+          headerStyle: {
+            backgroundColor: COLORS.primary,
+            shadowColor: '#000',
+          },
+          headerTintColor: 'white',
+          headerBackTitle: '',
+          tabBarIcon: ({ color, size }) => (
+            <Feather name='calendar' color={color} size={size} />
           ),
         }}
       />

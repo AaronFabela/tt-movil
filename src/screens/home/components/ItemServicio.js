@@ -96,7 +96,7 @@ export default ItemServicio
 //     height: '35%',
 //     width: '100%',
 //     paddingVertical: 5,
-//     backgroundColor: '#fafafa',
+//     backgroundColor: '#f6f6f6',
 //     // backgroundColor: 'red',
 //   },
 //   servicios: {

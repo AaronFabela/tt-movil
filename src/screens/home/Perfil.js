@@ -5,8 +5,9 @@ import { AuthContext } from '../../context/AuthContext'
 import { COLORS } from '../../constants'
 import { TouchableOpacity } from 'react-native'
 import authService from '../../services/auth.service.'
+import routes from '../../constants/routes'
 
-const PerfilPrestador = () => {
+const PerfilPrestador = ({ navigation }) => {
   const { userInfo, setUserInfo } = useContext(AuthContext)
 
   const handleLogout = async () => {
@@ -41,6 +42,10 @@ const PerfilPrestador = () => {
             <Text style={styles.titulo}>Email: </Text>
             <Text style={styles.texto}>{userInfo.email}</Text>
           </View>
+          <View style={styles.linea}>
+            <Text style={styles.titulo}>Telefono: </Text>
+            <Text style={styles.texto}>{userInfo?.telefono}</Text>
+          </View>
           <Text style={styles.titulo}>Direccion </Text>
           <View style={styles.linea}>
             <Text style={styles.titulo}>Ubicacion: </Text>
@@ -61,9 +66,26 @@ const PerfilPrestador = () => {
             </Text>
           </View>
         </View>
-        <TouchableOpacity style={styles.cerrar} onPress={() => handleLogout()}>
-          <Text style={{ color: 'white' }}>Cerrar Sesión</Text>
+        <TouchableOpacity
+          style={styles.editar}
+          onPress={() => navigation.navigate(routes.PERFIL_EDITAR)}
+        >
+          <Text style={{ color: 'white' }}>Editar Perfil</Text>
         </TouchableOpacity>
+        <View style={styles.botones}>
+          <TouchableOpacity
+            style={[styles.btn, styles.cerrar]}
+            onPress={() => handleLogout()}
+          >
+            <Text style={{ color: 'white' }}>Cerrar Sesión</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.btn, styles.borrar]}
+            onPress={() => handleBorrar()}
+          >
+            <Text style={{ color: 'red' }}>Borrar Cuenta</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )
@@ -90,7 +112,7 @@ const styles = StyleSheet.create({
   },
   contenido: {
     marginTop: 15,
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     // backgroundColor: 'red',
     padding: 5,
     marginBottom: 5,
@@ -119,12 +141,33 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cerrar: {
-    marginTop: 30,
-    width: '100%',
     backgroundColor: 'red',
+  },
+  borrar: {
+    borderWidth: 1,
+    borderColor: 'red',
+  },
+  botones: {
+    marginTop: 10,
+    width: '100%',
     height: 40,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  btn: {
+    height: '100%',
+    borderRadius: 10,
+    width: '45%',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  editar: {
+    backgroundColor: COLORS.primary,
     borderRadius: 10,
+    height: 40,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

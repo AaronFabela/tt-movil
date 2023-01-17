@@ -15,8 +15,11 @@ import { ActivityIndicator, RadioButton, TextInput } from 'react-native-paper'
 import ordenServicioService from '../../../../services/ordenServicio.service'
 import { Alert } from 'react-native'
 import ToastManager, { Toast } from 'toastify-react-native'
+import * as ImagePicker from 'expo-image-picker'
 import ItemServicioDisponible from '../components/ItemServicioDisponible'
 import ModalItemServicioDisponible from '../components/ModalItemServicioDisponible'
+import mime from 'mime'
+import UploadFile from '../../../auth/RegisterPrestador/components/UploadFile'
 
 const ModalCrearOrdenServicio = ({ route, navigation }) => {
   const { userInfo } = useContext(AuthContext)
@@ -30,6 +33,11 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
   const [notas, setNotas] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [imagen, setImagen] = useState({
+    uri: null,
+    type: null,
+    name: null,
+  })
   const [servicionew, setServicionew] = useState(null)
 
   useEffect(() => {
@@ -58,26 +66,59 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
     setOpenTime(false)
   }
 
-  const handleEnviar = async () => {
-    console.log('hola', servicioActivo)
+  const handleImagen = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    })
 
-    try {
-      await ordenServicioService.crearOrdenServicio(
-        servicioActivo._id,
-        prestador._id,
-        userInfo.id,
-        descripcion,
-        notas,
-        userInfo.direccionActual._id,
-        date,
-        time
-      )
+    if (!result.cancelled) {
+      const newImageUri = 'file:///' + result.uri.split('file:/').join('')
+      setImagen({
+        uri: newImageUri,
+        type: mime.getType(newImageUri),
+        name: newImageUri.split('/').pop(),
+      })
+    }
+  }
+
+  const handleEnviar = async () => {
+    setIsLoading(true)
+    if (
+      (servicioActivo !== undefined) &
+      (descripcion.trim().length > 0) &
+      (imagen.uri !== null)
+    ) {
+      console.log('hola', servicioActivo)
+
+      try {
+        const data = new FormData()
+        data.append('servicio', servicioActivo._id)
+        data.append('prestador', prestador._id)
+        data.append('empleador', userInfo.id)
+        data.append('descripcion', descripcion)
+        data.append('direccion', userInfo.direccionActual._id)
+        data.append('fecha', date.toLocaleDateString())
+        data.append('hora', time.toLocaleTimeString())
+        data.append('image', imagen)
+
+        console.log(data)
+        console.log('enviando')
+        await ordenServicioService.crearOrdenServicio(data)
+        setIsLoading(false)
+        Alert.alert('Orden creada con exito')
+        navigation.pop(1)
+      } catch (error) {
+        setIsLoading(false)
+        console.log(error)
+        Toast.error(error, 'top')
+      }
+    } else {
+      Toast.error('Existen datos faltantes', 'top')
       setIsLoading(false)
-      Alert.alert('Orden creada con exito')
-      navigation.pop(1)
-    } catch (error) {
-      console.log(error)
-      Toast.error(error.response.data.errors[0].msg, 'top')
     }
   }
   return (
@@ -195,17 +236,10 @@ const ModalCrearOrdenServicio = ({ route, navigation }) => {
               activeOutlineColor={COLORS.primary}
               style={{ width: '100%', marginBottom: 15 }}
             />
-            <Text>Min 10 caracteres</Text>
-            <TextInput
-              value={notas}
-              onChangeText={(text) => setNotas(text)}
-              label='Notas'
-              mode='outlined'
-              outlineColor={COLORS.primary}
-              selectionColor={COLORS.turques}
-              textColor={COLORS.primary}
-              activeOutlineColor={COLORS.primary}
-              style={{ width: '100%', marginBottom: 15 }}
+            <UploadFile
+              handleUpload={handleImagen}
+              uriType={imagen}
+              styles={styles}
             />
             <TouchableOpacity style={styles.enviar}>
               <Text
@@ -246,7 +280,7 @@ const styles = StyleSheet.create({
   empleador: {
     width: '45%',
     height: '100%',
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -254,7 +288,7 @@ const styles = StyleSheet.create({
   prestador: {
     width: '45%',
     height: '100%',
-    backgroundColor: '#fafafa',
+    backgroundColor: '#f6f6f6',
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -306,5 +340,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  botonesImagen: {
+    width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    // flexDirection: 'row',
   },
 })

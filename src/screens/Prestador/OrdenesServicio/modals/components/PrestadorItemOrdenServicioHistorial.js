@@ -5,7 +5,7 @@ import { COLORS } from '../../../../../constants'
 import routes from '../../../../../constants/routes'
 import { AirbnbRating } from '@rneui/themed'
 
-const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
+const PrestadorItemOrdenServicioHistorial = ({ orden, navigation }) => {
   return (
     <View style={styles.item}>
       <View style={styles.imagen}>
@@ -29,7 +29,7 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
           {orden.servicio?.nombre}
         </Text>
         <Text style={{ marginBottom: 5 }}>
-          {`${orden.descripcion?.substring(0, 30)}...`}
+          {`${orden.descripcion?.substring(0, 20)}...`}
         </Text>
         {orden?.resena?.calificacion != null ? (
           <AirbnbRating
@@ -60,7 +60,7 @@ const ItemOrdenServicioHistorial = ({ orden, navigation }) => {
   )
 }
 
-export default ItemOrdenServicioHistorial
+export default PrestadorItemOrdenServicioHistorial
 
 const styles = StyleSheet.create({
   item: {

@@ -31,52 +31,6 @@ const PrestadorModalOrdenServicioHistorialItem = ({ route, navigation }) => {
     name: null,
   })
 
-  const handleImagen = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    })
-
-    if (!result.cancelled) {
-      setImagen({ uri: result.uri, type: result.type, name: result.fileName })
-    }
-  }
-
-  const handleResena = async () => {
-    try {
-      const data = new FormData()
-      const fecha = new Date()
-      // const response = await authService.signup(usuario, email, password, rol)
-      data.append('calificacion', calificacion)
-      data.append('descripcion', descripcion)
-      data.append('fecha', '05/01/2023')
-      data.append('idOrdenServicio', orden._id)
-      data.append('imagen', imagen)
-      // console.log(servicios)
-      console.log(data)
-      const response = await resenaService.crearResena(data)
-      // const response = await solicitudService.solicitudPrestador(data)
-
-      if (response.code === 400) {
-        const key = response.key.toUpperCase()
-        setIsSending(false)
-        console.log(response)
-        Toast.error(`${response.data.message}`, 'top')
-      } else {
-        setIsSending(false)
-        Alert.alert('Reseña creada Correctamente')
-        navigation.goBack()
-      }
-    } catch (error) {
-      setIsSending(false)
-      console.log(error)
-      // Toast.error(error.response.data.errors[0].msg, 'top')
-    }
-  }
-
   return (
     <ScrollView
       style={{ width: '100%', flex: 1, backgroundColor: 'white' }}
@@ -90,7 +44,7 @@ const PrestadorModalOrdenServicioHistorialItem = ({ route, navigation }) => {
           <View style={styles.contenido}>
             <View style={styles.cajita}>
               <Text style={{ fontSize: 40, fontWeight: 'bold' }}>
-                {orden?.prestador?.usuario}
+                {orden?.empleador?.usuario}
               </Text>
               <Text style={styles.lineaTexto}>
                 <Text style={{ color: COLORS.gray }}>
@@ -127,51 +81,9 @@ const PrestadorModalOrdenServicioHistorialItem = ({ route, navigation }) => {
                 Calificacion
               </Text>
               {orden?.resena === null || orden?.resena === undefined ? (
-                sendResena ? (
-                  <View style={{ width: '100%' }}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
-                      Reseña
-                    </Text>
-                    <TextInput
-                      style={{ width: '100%', marginBottom: 10 }}
-                      placeholder='Descripcion'
-                      mode='outlined'
-                      value={descripcion}
-                      onChangeText={(text) => setDescripcion(text)}
-                    />
-                    <Rating
-                      initialValue={3}
-                      onChangeValue={(value) => setCalificacion(value)}
-                    />
-                    <UploadFileGeneral
-                      handleUpload={handleImagen}
-                      uriType={imagen}
-                    />
-                    <View style={styles.acciones}>
-                      <TouchableOpacity
-                        style={styles.accionBoton}
-                        onPress={() => (setIsSending(true), handleResena())}
-                      >
-                        <Text style={{ color: 'white' }}>Enviar</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity
-                        style={styles.accionBoton}
-                        onPress={() => setSendResena(false)}
-                      >
-                        <Text style={{ color: 'white' }}>Cancelar</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                ) : (
-                  <View style={styles.acciones}>
-                    <TouchableOpacity
-                      style={styles.accionBoton2}
-                      onPress={() => setSendResena(true)}
-                    >
-                      <Text style={{ color: 'white' }}>Calificar</Text>
-                    </TouchableOpacity>
-                  </View>
-                )
+                <View style={styles.acciones}>
+                  <Text>Orden sin calificación</Text>
+                </View>
               ) : (
                 <View style={{ alignItems: 'flex-start' }}>
                   <Text style={[styles.lineaTexto, styles.margen]}>

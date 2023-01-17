@@ -10,6 +10,7 @@ import React from 'react'
 import { COLORS } from '../../../../constants'
 import ordenServicioService from '../../../../services/ordenServicio.service'
 import { Alert } from 'react-native'
+import routes from '../../../../constants/routes'
 
 const ModalOrdenServicioActiva = ({ route }) => {
   const { orden, navigation } = route.params
@@ -74,19 +75,28 @@ const ModalOrdenServicioActiva = ({ route }) => {
                 <Text style={styles.titulo}>Descripcion: </Text>
                 <Text style={styles.descripcion}>{orden?.descripcion}</Text>
               </Text>
-              <Text style={[styles.lineaTexto, styles.margen]}>
-                <Text style={styles.titulo}>Notas: </Text>
-                <Text style={styles.descripcion}>{orden?.notas}</Text>
-              </Text>
+              <View
+                style={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Image
+                  source={{ uri: orden?.imagen?.secure_url }}
+                  style={{ width: 200, height: 200 }}
+                />
+              </View>
             </View>
           </View>
           <View style={styles.acciones}>
-            {/* <TouchableOpacity style={styles.accionBoton}>
-              <Text style={{ color: 'white' }}>Mensaje</Text>
-            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.accionBoton}
-              onPress={() => handleCancelar()}
+              onPress={() =>
+                navigation.navigate(routes.ORDENESERVICIO_CANCELAR, {
+                  ordenServicio: orden,
+                })
+              }
             >
               <Text style={{ color: 'white' }}>Cancelar</Text>
             </TouchableOpacity>
@@ -147,6 +157,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     borderRadius: 10,
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'red',
   },
 })

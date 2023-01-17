@@ -7,6 +7,8 @@ const DatosGenerales = ({
   usuario,
   setUsuario,
   password,
+  telefono,
+  setTelefono,
   setPassword,
   styles,
 }) => {
@@ -23,6 +25,12 @@ const DatosGenerales = ({
         placeholder='Nuevo Usuario'
         value={usuario}
         onChangeText={(text) => setUsuario(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder='Telefono'
+        value={telefono}
+        onChangeText={(text) => setTelefono(text)}
       />
 
       <TextInput

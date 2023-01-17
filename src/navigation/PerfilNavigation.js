@@ -5,6 +5,7 @@ import Feather from 'react-native-vector-icons/Feather'
 import { AuthContext } from '../context/AuthContext'
 import { COLORS } from '../constants'
 import Perfil from '../screens/home/Perfil'
+import ModalEditarPerfil from '../modals/ModalEditarPerfil'
 
 const Stack = createNativeStackNavigator()
 
@@ -63,12 +64,12 @@ const PerfilNavigation = () => {
             headerTintColor: 'white',
             headerBackTitle: '',
           }}
-        />
+        />*/}
         <Stack.Screen
-          name={routes.CREARORDENSERVICIOMODAL}
-          component={ModalCrearOrdenServicio}
+          name={routes.PERFIL_EDITAR}
+          component={ModalEditarPerfil}
           options={{
-            title: 'Crear Orden Servicio',
+            title: 'Editar Perfil',
             headerStyle: {
               backgroundColor: COLORS.primary,
               shadowColor: '#000',
@@ -76,7 +77,7 @@ const PerfilNavigation = () => {
             headerTintColor: 'white',
             headerBackTitle: '',
           }}
-        /> */}
+        />
       </Stack.Group>
     </Stack.Navigator>
   )

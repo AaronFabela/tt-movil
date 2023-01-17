@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, RefreshControl } from 'react-native'
 import React from 'react'
 import { useContext } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
@@ -16,8 +16,13 @@ const PrestadorHome = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext)
   const [isLoading, setIsLoading] = useState(false)
   const [ordenesServicio, setOrdenesServicio] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
   useEffect(() => {
+    firstLoad()
+  }, [])
+
+  const firstLoad = () => {
     ordenServicioService.getOrdenesServicioByActivas(userInfo.id).then(
       (response) => {
         setOrdenesServicio(response.data)
@@ -27,17 +32,20 @@ const PrestadorHome = ({ navigation }) => {
         console.log(error)
       }
     )
-  }, [])
+    setRefreshing(false)
+  }
 
-  useEffect(() => {
-    const focusHandler = navigation.addListener('focus', () => {
-      console.log('Refreshhhhhh')
-    })
-    return focusHandler
-  }, [navigation])
-
+  const onRefresh = () => {
+    setRefreshing(true)
+    firstLoad()
+  }
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
+    <ScrollView
+      style={{ backgroundColor: 'white' }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View style={styles.container}>
         {(userInfo?.direccionActual === undefined) |
         (userInfo?.direccionActual === null) ? (

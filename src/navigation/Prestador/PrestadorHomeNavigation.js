@@ -7,6 +7,8 @@ import { COLORS } from '../../constants'
 import PrestadorHome from '../../screens/Prestador/home/PrestadorHome'
 import PrestadorMapModal from '../../screens/Prestador/home/modals/PrestadorMapModal'
 import PrestadorModalOrdenServicio from '../../screens/Prestador/home/modals/PrestadorModalOrdenServicio'
+import PrestadorModalReporte from '../../screens/Prestador/home/modals/PrestadorModalReporte'
+import PrestadorModalCancelar from '../../screens/Prestador/home/modals/PrestadorModalCancelar'
 
 const Stack = createNativeStackNavigator()
 
@@ -69,19 +71,32 @@ const PrestadorHomeNavigation = () => {
             headerBackTitle: '',
           }}
         />
-        {/* <Stack.Screen
-          name={routes.CREARORDENSERVICIOMODAL}
-          component={ModalCrearOrdenServicio}
+        <Stack.Screen
+          name={routes.PRESTADOR_REPORTE}
+          component={PrestadorModalReporte}
           options={{
-            title: 'Crear Orden Servicio',
+            title: 'Reporte',
             headerStyle: {
-              backgroundColor: COLORS.primary,
+              backgroundColor: 'red',
               shadowColor: '#000',
             },
             headerTintColor: 'white',
             headerBackTitle: '',
           }}
-        /> */}
+        />
+        <Stack.Screen
+          name={routes.PRESTADOR_CANCELAR}
+          component={PrestadorModalCancelar}
+          options={{
+            title: 'Cancelar Orden Servicio',
+            headerStyle: {
+              backgroundColor: 'red',
+              shadowColor: '#000',
+            },
+            headerTintColor: 'white',
+            headerBackTitle: '',
+          }}
+        />
       </Stack.Group>
     </Stack.Navigator>
   )

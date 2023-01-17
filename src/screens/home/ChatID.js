@@ -5,6 +5,7 @@ import {
   View,
   ScrollView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native'
 import React, { useContext, useState, useRef } from 'react'
 import { AuthContext } from '../../context/AuthContext'
@@ -13,6 +14,8 @@ import { useEffect } from 'react'
 import Mensaje from '../../components/Chat/Mensaje'
 import { io } from 'socket.io-client'
 import socket from '../../utils/socket'
+import Feather from 'react-native-vector-icons/Feather'
+import { COLORS } from '../../constants'
 
 const ChatID = ({ route }) => {
   const { currentChat, userInfo } = useContext(AuthContext)
@@ -105,7 +108,11 @@ const ChatID = ({ route }) => {
           onChangeText={(text) => setNuevoMensaje(text)}
           value={nuevoMensaje}
         />
-        <Button title='Enviar' onPress={(e) => handleSubmit(e)}></Button>
+        <TouchableOpacity style={styles.enviar} onPress={() => handleSubmit()}>
+          <Text>
+            <Feather name='send' color={COLORS.primary} size={30} />
+          </Text>
+        </TouchableOpacity>
       </View>
     </>
   )
@@ -124,8 +131,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   mensajeBox: {
-    // alignItems: 'center',
-    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingBottom: 15,
   },
@@ -134,5 +142,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: '80%',
     borderRadius: 15,
+  },
+  enviar: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    width: '15%',
   },
 })
